@@ -1,0 +1,203 @@
+\documentclass[]{politex}
+
+% ========== Packages ==========
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amsthm,amsfonts,amssymb}
+\usepackage{graphicx,cite,enumerate}
+
+% ========== Language options ==========
+\usepackage[brazil]{babel}
+%\usepackage[english]{babel}
+
+
+% ========== ABNT (requer ABNTeX 2) ==========
+%	http://www.ctan.org/tex-archive/macros/latex/contrib/abntex2
+%\usepackage[num]{abntex2cite}
+
+% Forçar o abntex2 a usar [ ] nas referências ao invés de ( )
+%\citebrackets{[}{]}
+
+
+% ========== Lorem ipsum ==========
+\usepackage{blindtext}
+
+% ========== Opções do documento ==========
+% Título
+\titulo{Desenvolvimento de dispositivos eletrônicos para monitoramento de qualidade e conforto em ambientes empresariais}
+
+% Autor
+\autor{Isabella Bologna Salomão\\%
+		Renato de Oliveira Freitas}
+
+
+% Orientador / Coorientador
+\orientador{Prof. Dr. Gustavo P. Rehder\\%
+			Prof.ª Dra. Cíntia Borges Margi}
+%\coorientador{Eng. Conrado Leite de Vitor (empresa PullUp)}
+
+% Tipo de documento
+\tcc{Eletricista com ênfase em Eletrônica e Sistemas}
+%\dissertacao{Engenharia Elétrica}
+%\teseDOC{Engenharia Elétrica}
+%\teseLD
+%\memorialLD
+
+% Departamento e área de concentração
+\departamento{PSI - Eletrônica e Sistemas}
+%\areaConcentracao{Área de concentração}
+
+% Local
+\local{São Paulo}
+
+% Ano
+\data{2020}
+
+
+\begin{document}
+% ========== Capa e folhas de rosto ==========
+\capa
+%\falsafolhaderosto
+\folhaderosto
+
+
+% ========== Resumo ==========
+\begin{resumo}
+Resumo...
+%
+\\[3\baselineskip]
+%
+\textbf{Palavras-Chave} -- Internet of Things, Conforto Térmico, Conforto Acústico, Conforto Luminoso, Wireless Sensor Network, Green Buildings, Smart Office.
+\end{resumo}
+
+
+% ========== Sumário ==========
+\sumario
+
+
+% ========== Elementos textuais ==========
+
+\part{Introdução}
+
+IoT blablabla monitorar conforto balbla ambientes empresariais
+
+\chapter{Declaração da Necessidade}
+% Contexto, PCC
+
+Com o aumento do tempo que as pessoas passam em ambientes fechados, como escritórios, há também nos últimos anos um crescente interesse por monitorar esses ambientes, garantindo não só saúde e conforto para as pessoas, mas também podendo atuar de maneira energeticamente sustentável. Esses espaços são comumente chamados de prédios inteligentes (\textit{smart buildings}, do inglês) ou \textit{green buildings} (em português, construção sustentável) \cite{GreenBuildings} \cite{EnergyBuildings}. 
+
+Não apenas o monitoramento dos ambientes, mas torna-se necessário, no desenvolvimento de construções sustentáveis, que seja pensado na automação dos edifícios desde o projeto e sua concepção, ocorrendo de forma integrada à construção civil. Isto ocorre pois com uma pesquisa mais aprofundada no conforto dos ambientes pode interferir no projeto, sendo repensados materiais utilizados, além de aquecimento, ventilação, iluminação, dentre outros. 
+
+Foi com essa necessidade e a proposta de desenvolver um dispositivo eletrônico, que o professor Vanderley Moacyr, do departamento de Construção Civil da Poli (PCC) entrou em contato. A ideia é que seja desenvolvido um dispositivo capaz de fazer medições de parâmetros relacionados ao conforto nos ambientes internos de uma construção e também coletar dados das pessoas ali presentes, para assim saber o real impacto dos indicadores de conforto. Além disso, é importante que os dispositivos possam estar integrados a uma central de controle, que possa monitorar todo o ambiente. 
+
+Assim, a construção de uma rede de dispositivos sensoreados tem, além de uma aplicação prática monitorando a qualidade para as pessoas, também grande utilidade em pesquisas de construção civil e arquitetura, com medições mais precisas e incluindo um elemento muitas vezes deixado de lado: o fator humano. 
+
+Em edifícios, escritórios são hoje os que ocupam a maior área física e tem o maior consumo de energia, sendo sistemas de iluminação, aquecimento e resfriamento (como ar condicionados) os principais causadores do alto consumo\cite{EnergyBuildings}. Por isso, escritórios são o nicho escolhido para o desenvolvimento dessa rede de dispositivos, podendo ser testada nas salas do departamento de Construção Civil. 
+
+
+% Dificuldade em estudar elementos relacionados a conforto ?
+% Falar do que já existe? 
+
+\chapter{Descrição do Problema}
+% O que monitorar?
+
+% Apesar de a maioria das soluções existentes focar em conforto térmico \cite{}, ou em qualidade do ar\cite{}, 
+
+%% Aqui ou na pesquisa do tema?
+O conforto e a qualidade em ambientes internos é determinado através de quatro principais indicadores: térmico, acústico, luminoso e olfativo\cite{ComfortBox}. 
+
+A fim de conseguirmos monitorar esses indicadores, é necessário medirmos diversos dados a respeito do ambiente a ser estudado: %%% ??  essa frase
+\begin{itemize}
+\item Térmico: temperatura ambiente e umidade relativa
+\item Acústico: ruído ambiente
+\item Luminoso: intensidade e temperatura da luz incidente
+\item Olfativo: VOC
+\end{itemize}
+
+Além da medição de VOC, para uma boa qualidade do ar é também importante medirmos a concentração de CO2 \cite{}
+
+Não apenas esses elementos são importantes, mas também a combinação deles afeta a percepção de conforto pelas pessoas \cite{ComfortOffice}. Assim, faz-se mais necessário que haja uma medição completa dos elementos presentes no ambiente a ser estudado. 
+
+
+
+\chapter{Objetivos} 
+% arvore de objetivos
+
+\part{Conforto em Ambientes Internos} % Tema? ~Estado da Arte~
+
+\chapter{Indicadores de Conforto} %?
+
+Ainda que conforto seja um termo qualitativo e subjetivo, existem regulamentações e normas, além de estudos, que podem nos dar critérios quantitativos para analisar os dados medidos, que serão usados como % margem inicial? warnings de qualidade sendo afetada?
+
+A legislação brasileira determina os valores máximos e mínimos dos indicadores de conforto no ambiente para que haja boas condições de trabalho: 
+
+\begin{citacaoLonga}
+\textbf{NR17 do Ministério do Trabalho} \cite{NR17}
+
+17.5. Condições ambientais de trabalho.
+
+17.5.2. Nos locais de trabalho onde são executadas atividades que exijam solicitação intelectual e atenção constantes, tais como: salas de controle, laboratórios, escritórios, salas de desenvolvimento ou análise de projetos, dentre outros, são recomendadas as seguintes condições de conforto:
+
+a) níveis de ruído de acordo com o estabelecido na NBR 10152, norma brasileira registrada no INMETRO;
+
+b) índice de temperatura efetiva entre 20oC (vinte) e 23oC (vinte e três graus centígrados);
+
+[...]
+
+d) umidade relativa do ar não inferior a 40 (quarenta) por cento.
+
+17.5.2.1. Para as atividades que possuam as características definidas no subitem 17.5.2, mas não apresentam equivalência ou correlação com aquelas relacionadas na NBR 10152, o nível de ruído aceitável para efeito de conforto será de até 65 dB (A)
+
+[...]
+
+17.5.3.3. Os níveis mínimos de iluminamento a serem observados nos locais de trabalho são os valores de iluminâncias estabelecidos na NBR 5413, norma brasileira registrada no INMETRO.
+\end{citacaoLonga}
+
+\begin{citacaoLonga}
+\textbf{NBR 10152} \cite{NBR10152} para Escritórios
+
+Salas de reunião: 30 - 40 dB(A)
+
+Salas de gerência, Salas de projetos e de administração: 35 - 45 dB(A)
+
+Salas de computadores: 45 - 65 dB(A)
+
+Salas de mecanografia: 50 - 60 dB(A)
+
+\textbf{NBR 5413} \cite{NBR5413}
+
+Para escritórios: 500 - 750 - 1000 lux
+\end{citacaoLonga}
+
+Alguns outros índices, como VOC e CO2 não são descritos na legislação. 
+
+Conforto Visual
+
+Além da intensidade da luz incidente, cujos níveis são estabelecida na legislação, a temperatura da cor da luz incidente também influencia tanto na saúde quanto no conforto e na atenção das pessoas, como visto em \cite{VisualComfort}: 
+\begin{itemize}
+\item Conforto, luz natural: 3000K - 6000K
+\item Concentração: acima de 5300K 
+\end{itemize}
+A temperatura também relaciona-se com a qualidade do ambiente. A muitos anos sabe-se que a luz azul emitida, de maior temperatura, causa danos à retina \cite{BlueLight}. 
+% CO2 e VOC
+
+\chapter{Benchmark} % ?? 
+
+
+
+
+% ========== Referências ==========
+% --- IEEE ---
+%	http://www.ctan.org/tex-archive/macros/latex/contrib/IEEEtran
+%\bibliographystyle{IEEEbib}
+
+% --- ABNT (requer ABNTeX 2) ---
+%	http://www.ctan.org/tex-archive/macros/latex/contrib/abntex2
+%\bibliographystyle{abntex2-num}
+\bibliographystyle{plain}
+
+\bibliography{reference_p1}
+
+%L. Ciabattoni, F. Ferracuti, G. Ippoliti, S. Longhi and G. Turri, "IoT based indoor personal comfort levels monitoring," 2016 IEEE International Conference on Consumer Electronics (ICCE), Las Vegas, NV, 2016, pp. 125-126, doi: 10.1109/ICCE.2016.7430548.
+
+
+\end{document}
