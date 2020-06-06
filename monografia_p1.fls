@@ -115,19 +115,15 @@ INPUT C:\Users\isabologna\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\ams
 INPUT C:\Users\isabologna\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\amsfonts\symbols\msbm10.tfm
 INPUT C:\Users\isabologna\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\amsfonts\symbols\msbm7.tfm
 INPUT C:\Users\isabologna\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\cm\cmbx12.tfm
-INPUT c:\Users\isabologna\Documents\poli\projeto_formatura\monografia\monografia_p1.toc
-INPUT c:\Users\isabologna\Documents\poli\projeto_formatura\monografia\monografia_p1.toc
 OUTPUT c:\Users\isabologna\Documents\poli\projeto_formatura\monografia\monografia_p1.toc
 INPUT C:\Users\isabologna\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\cm\cmbx12.tfm
 INPUT C:\Users\isabologna\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\cm\cmr10.tfm
-INPUT C:\Users\isabologna\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\cm\cmbx10.tfm
-INPUT C:\Users\isabologna\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\jknappen\ec\tcrm1095.tfm
-INPUT c:\Users\isabologna\Documents\poli\projeto_formatura\monografia\monografia_p1.bbl
-INPUT c:\Users\isabologna\Documents\poli\projeto_formatura\monografia\monografia_p1.bbl
 INPUT C:\Users\isabologna\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\cm\cmti12.tfm
+INPUT C:\Users\isabologna\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\jknappen\ec\tcrm1200.tfm
+INPUT C:\Users\isabologna\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\cm\cmbx10.tfm
 INPUT c:\Users\isabologna\Documents\poli\projeto_formatura\monografia\monografia_p1.aux
-INPUT C:\Users\isabologna\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\tcrm1095.pk
-INPUT C:\Users\isabologna\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\tcrm1095.pk
+INPUT C:\Users\isabologna\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\tcrm1200.pk
+INPUT C:\Users\isabologna\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\tcrm1200.pk
 INPUT C:\Users\isabologna\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\tcrm1440.pk
 INPUT C:\Users\isabologna\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\tcrm1440.pk
 INPUT C:\Users\isabologna\AppData\Local\Programs\MiKTeX 2.9\fonts\type1\public\amsfonts\cm\cmbx10.pfb
