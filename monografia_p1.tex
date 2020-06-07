@@ -4,6 +4,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath,amsthm,amsfonts,amssymb}
 \usepackage{graphicx,cite,enumerate}
+\graphicspath{ {./images/} }
 
 % ========== Language options ==========
 \usepackage[brazil]{babel}
@@ -104,7 +105,7 @@ A fim de conseguirmos monitorar esses indicadores, é necessário medirmos diver
 \item Térmico: temperatura ambiente e umidade relativa
 \item Acústico: ruído ambiente
 \item Luminoso: intensidade e temperatura da luz incidente
-\item Qualidade do ar (e Olfativo): CO2 e VOC
+\item Qualidade do ar (e Olfativo): CO2 e VOC (\textit{volatile organic compounds})
 \end{itemize}
 
 Não apenas esses elementos são importantes, mas também a combinação deles afeta a percepção de conforto pelas pessoas \cite{ComfortOffice}. Assim, faz-se mais necessário que haja uma medição completa dos elementos presentes no ambiente a ser estudado. Mas também que essas medições estejam atreladas a opinião das pessoas a respeito do ambiente, sabendo se estão confortáveis, sendo necessário um sistema que possa coletar um \textit{feedback} das pessoas no escritório. 
@@ -114,6 +115,11 @@ Todos os dados coletados, tanto das variáveis do ambiente quanto a opinião das
 
 \chapter{Árvore de Objetivos} 
 % arvore de objetivos
+
+\begin{figure}[h]
+%\includegraphics[scale=0.65]{objective_tree}
+\includegraphics[width=\textwidth]{objective_tree}
+\end{figure}
 
 \part{Conforto em Ambientes Internos} % Tema? ~Estado da Arte~
 
@@ -127,7 +133,7 @@ Como qualidade e conforto são termos subjetivos, vamos tratar aqui como "qualid
 Já o conforto será atrelado à percepção do usuário quanto ao ambiente. Apesar de o ambiente ser considerado saudável ou de qualidade, existem muitos fatores que afetam a sensação das pessoas, de forma que apenas a definição de uma faixa de operação não implica em bem-estar. 
 % citações ??
 
-\section{Regulamentações e Normas}
+\section{Regulamentações e Normas} %check
 
 A legislação brasileira determina os valores máximos e mínimos dos indicadores de conforto no ambiente para que haja boas condições de trabalho: 
 
@@ -169,7 +175,7 @@ Salas de mecanografia: 50 - 60 dB(A)
 Para escritórios: 500 - 750 - 1000 lux
 \end{citacaoLonga}
 
-\section{Conforto Visual}
+\section{Conforto Visual} %check
 Além da \textbf{intensidade da luz incidente}, cujos níveis são estabelecida na legislação, a \textbf{temperatura da cor} da luz incidente também tem grande relevância. A muitos anos sabe-se que a luz azul emitida, de maior temperatura, causa danos à retina \cite{BlueLight}. \par
 Assim, temperatura é um parâmetro importante para a qualidade do ambiente, muitas vezes deixado de lado, e assim como na saúde, afeta diretamente o conforto e a atenção das pessoas, como visto em \cite{VisualComfort}: 
 \begin{itemize}
@@ -180,16 +186,27 @@ Assim, temperatura é um parâmetro importante para a qualidade do ambiente, mui
 \section{Qualidade do Ar}
 % Pesquisa CO2 e VOC
 Alguns outros índices, como VOC e CO2 não são descritos na legislação. 
-CO2:
-- Usually between 700 and 2000 ppm 
 
+CO2, além de ser um gás asfixiante, perigoso em altas concentrações, também pode afetar quando em níveis moderados, na faixa de XX a XX
+
+Segundo \cite{AirQuality}: 
+- Afeta a respiração acima de 15000 ppm
+- Em ambientes fechados, espera-se: 700 - 2000 ppm 
+
+Compostos orgânicos voláteis, ou VOC (do inglês,\textit{Volatile organic compounds}, são partículas que ficam suspensas no ar, podendo vir de produtos (sintéticos ou naturais) utilizados no ambiente, como tintas, solventes, produtos de limpeza, perfumes que podem causar odor perceptível pelo ser humano\cite{AirQuality}.
+Apesar de nem todos os compostos presentes no ar serem nocivos à saúde, por precaução é recomendado que eles estejam abaixo de XX \cite{}. 
+Segundo \cite{AirQuality}: 
+- Mean concentration  200 – 500 ug / m3
+- 
 
 \chapter{Benchmark} % ?? 
 % Falar de ser Open Source
 
-As soluções existentes hoje no mercado focam principalmente no conforto térmico e na qualidade do ar, atendendo até dois ou três dos indicadores apresentados. A nossa proposta é 
+As soluções existentes hoje no mercado focam principalmente no conforto térmico ou na qualidade do ar, em sua maioria atendendo apenas dois dos indicadores de conforto apresentados. A nossa proposta é desenvolver um dispositivo que monitore de forma completa a qualidade e o conforto do ambiente, atendendo tanto aos requisitos mais comuns quanto os que não existem tanto
 
+A conectividade do dispositivo também é um diferencial na proposta, apesar de a maioria dos dispositivos existentes hoje possuir alguma forma de conexão - no geral conexão com a internet por Wi-fi ou através de um aplicativo no smartphone, por bluetooh - os protocolos são fechados, o que dificulta a integração dos dispositivos existentes hoje entre si, com difícil escalabilidade para que seja possível ter uma integração no ambiente empresarial. 
 
+Com um projeto Open Source, será possível não só 
 
 % ========== Referências ==========
 % --- IEEE ---
@@ -202,8 +219,6 @@ As soluções existentes hoje no mercado focam principalmente no conforto térmi
 \bibliographystyle{plain}
 
 \bibliography{reference_p1}
-
-%L. Ciabattoni, F. Ferracuti, G. Ippoliti, S. Longhi and G. Turri, "IoT based indoor personal comfort levels monitoring," 2016 IEEE International Conference on Consumer Electronics (ICCE), Las Vegas, NV, 2016, pp. 125-126, doi: 10.1109/ICCE.2016.7430548.
 
 
 \end{document}
