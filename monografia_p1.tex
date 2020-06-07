@@ -5,6 +5,7 @@
 \usepackage{amsmath,amsthm,amsfonts,amssymb}
 \usepackage{graphicx,cite,enumerate}
 \graphicspath{ {./images/} }
+\usepackage{tabularx}
 
 % ========== Language options ==========
 \usepackage[brazil]{babel}
@@ -121,7 +122,7 @@ Todos os dados coletados, tanto das variáveis do ambiente quanto a opinião das
 \includegraphics[width=\textwidth]{objective_tree}
 \end{figure}
 
-\part{Conforto em Ambientes Internos} % Tema? ~Estado da Arte~
+\part{Conforto em Ambientes Fechados} % Tema? ~Estado da Arte~
 
 \chapter{Indicadores de Qualidade e Conforto} %?
 
@@ -160,6 +161,7 @@ d) umidade relativa do ar não inferior a 40 (quarenta) por cento.
 \end{citacaoLonga}
 
 \begin{citacaoLonga} %Normas ABNT
+
 \textbf{NBR 10152} \cite{NBR10152} para Escritórios
 
 Salas de reunião: 30 - 40 dB(A)
@@ -174,6 +176,10 @@ Salas de mecanografia: 50 - 60 dB(A)
 
 Para escritórios: 500 - 750 - 1000 lux
 \end{citacaoLonga}
+\textbf{ISO 16017-2:2003}
+
+is applicable to the measurement of airborne vapours of VOCs in a concentration range of approximately 0,002 mg/m3 to 100 mg/m3 individual organic for an exposure time of 8 h
+\end{citacaoLonga}
 
 \section{Conforto Visual} %check
 Além da \textbf{intensidade da luz incidente}, cujos níveis são estabelecida na legislação, a \textbf{temperatura da cor} da luz incidente também tem grande relevância. A muitos anos sabe-se que a luz azul emitida, de maior temperatura, causa danos à retina \cite{BlueLight}. \par
@@ -183,21 +189,61 @@ Assim, temperatura é um parâmetro importante para a qualidade do ambiente, mui
 \item Concentração: acima de 5300K 
 \end{itemize}
 
-\section{Qualidade do Ar}
-% Pesquisa CO2 e VOC
-Alguns outros índices, como VOC e CO2 não são descritos na legislação. 
+\section{Qualidade do Ar} % Pesquisa CO2 e VOC
 
-CO2, além de ser um gás asfixiante, perigoso em altas concentrações, também pode afetar quando em níveis moderados, na faixa de XX a XX
+% Colocar o que é IAQ, falar sobre?
+% Sindrome Predios doentes? -> Intro?
+Não há, na legislação brasileira, informações sobre a qualidade do ar. Isto é, concentrações de CO2 e VOC. 
 
-Segundo \cite{AirQuality}: 
-- Afeta a respiração acima de 15000 ppm
-- Em ambientes fechados, espera-se: 700 - 2000 ppm 
+A norma a seguir fala a margem esperada, mas também sem recomendações de operação. 
 
+\begin{citacaoLonga} % ISO IAQ
+
+Por conta disso, vamos nos basear em estudos que tentam relacionar as concentrações de CO2 e de VOC com efeitos na saúde e produtividade das pessoas. 
+
+\subsection{CO2}
+Segundo \cite{AirQuality}, o CO2 apresenta concentrações mais altas em ambientes fechados, esperando-se entre 700 e 2000 ppm, em comparação a cerca de 400ppm em ambientes abertos em áreas urbanas\cite{co2Earth}. 
+
+O CO2, além de ser um gás asfixiante e perigoso em altas concentrações (acima de 40000ppm), também pode afetar a saúde quando em níveis moderados (abaixo de 2000ppm). 
+De acordo com o \textit{Winsconsin Department of Health Services}\cite{Winsconsin}, são os efeitos causados na saúde: 
+\begin{itemize}
+\item 250-400ppm: Normal, concentração ambientes abertos
+\item 400-1,000ppm: concentração típica em lugares fechados com pessoas, com boa circulação de ar
+\item 1,000-2,000ppm: pode causar cansaço e falta de ar
+\item 2,000-5,000 ppm: dores de cabeça, sonolência, e falta de ar mais intensa. Baixa concentração, perda de atenção, aumento da frequência cardíaca, e náusea
+\item 40,000 ppm: Pode causar séria insuficiência respiratória, danos permanentes ao cérebro, coma e até a morte
+\end{itemize}
+
+\subsection{VOC}
 Compostos orgânicos voláteis, ou VOC (do inglês,\textit{Volatile organic compounds}, são partículas que ficam suspensas no ar, podendo vir de produtos (sintéticos ou naturais) utilizados no ambiente, como tintas, solventes, produtos de limpeza, perfumes que podem causar odor perceptível pelo ser humano\cite{AirQuality}.
-Apesar de nem todos os compostos presentes no ar serem nocivos à saúde, por precaução é recomendado que eles estejam abaixo de XX \cite{}. 
-Segundo \cite{AirQuality}: 
-- Mean concentration  200 – 500 ug / m3
-- 
+
+A concentração esperada é entre 0.2 e 0.5 mg/m3, e mesmo que nem todos os compostos presentes no ar sejam nocivos à saúde, por precaução é recomendado que estes sigam: \cite{tecam}
+
+\begin{tabular}{ |c|c| }
+\hline
+TVOC Level [mg/m3]	&   Level of Concern \\
+\hline
+Less than 0.3 mg/m3	 &  Low \\
+0.3 to 0.5 mg/m3	&   Acceptable \\
+0.5 to 1 mg/m3	 &  Marginal \\
+1 to 3 mg/m3	 &  High \\
+\hline
+\end{tabular}
+
+%A tabela feita por \cite{sensirion} mostra os níveis de TVOC aceitáveis (em ppb)
+%\begin{tabular}{ |c|c| } 
+%\hline
+%TVOC [ppb] & Hygienic Rating\\ 
+%\hline
+%2200 to 5500 & Unhealty \\ 
+%660 to 2200 & Poor \\ 
+%200 to 660 & Moderate \\
+%65 to 220 & Good \\
+%0 to 65 & Excellent \\
+%\hline
+%\end{tabular}
+%1 ppb = 1 mg/m3
+
 
 \chapter{Benchmark} % ?? 
 % Falar de ser Open Source
