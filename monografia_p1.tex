@@ -58,13 +58,13 @@
 \begin{document}
 % ========== Capa e folhas de rosto ==========
 \capa
-%\falsafolhaderosto
+\falsafolhaderosto
 \folhaderosto
 
 
 % ========== Resumo ==========
 \begin{resumo}
-Resumo...
+Soluções para o monitoramento de parâmetros que remetem à qualidade e conforto de ambientes internos vêm se tornando interessantes, dado o aumento no tempo que pessoas passam nesse tipo de ambiente, como escritórios. A partir da coleta desses dados, é possível adotar medidas para tornar o local estudado mais saudável e confortável para as pessoas ali presentes. O objetivo desse trabalho é desenvolver uma rede de dispositivos eletrônicos \textit{Open Source} capaz de monitorar escritórios fechados, realizando a medição através de sensores de dados referentes à qualidade do ar, temperatura, luminosidade e ruído, e coletando a opinião das pessoas sobre sua sensação de conforto no ambiente, para apresentar relatórios sobre o local em uma plataforma a fim de tomar ações para garantir o conforto de seus ocupantes. 
 %
 \\[3\baselineskip]
 %
@@ -82,15 +82,15 @@ Resumo...
 \chapter{Declaração da Necessidade}
 % Contexto, PCC
 
-Com o aumento do tempo que as pessoas passam em ambientes fechados, como escritórios, há também nos últimos anos um crescente interesse por monitorar esses ambientes, garantindo não só saúde e conforto para as pessoas, mas também sua produtividade, podendo até mesmo atuar de maneira energeticamente sustentável. Esses espaços são comumente chamados de prédios inteligentes (\textit{smart buildings}, do inglês), e dentro do contexto sustentável, essa automação é importante para os \textit{green buildings} (em português, construções sustentáveis) \cite{GreenBuildings} \cite{EnergyBuildings}. 
+Com o aumento do tempo que as pessoas passam em ambientes fechados, como escritórios, há também, nos últimos anos, um crescente interesse em monitorar e controlar esses ambientes, garantindo não só uma melhora na saúde e conforto para as pessoas, mas também um aumento na sua produtividade, sendo possível até mesmo um controle que atue de maneira energeticamente sustentável. Espaços que implementam essas soluções são comumente chamados de prédios inteligentes (\textit{smart buildings}, do inglês), e dentro do contexto sustentável, essa automação é importante para os \textit{green buildings} (em português, construções sustentáveis) \cite{GreenBuildings} \cite{EnergyBuildings}. 
 
-Não apenas o monitoramento dos ambientes, mas torna-se necessário, no desenvolvimento de construções sustentáveis, que seja pensado na automação dos edifícios desde o projeto e sua concepção, ocorrendo de forma integrada à construção civil. Isto ocorre pois com uma pesquisa mais aprofundada no conforto dos ambientes pode interferir no projeto, sendo repensados materiais utilizados, assim como sistemas de aquecimento, ventilação, iluminação, dentre outros. 
+Não apenas o monitoramento dos ambientes, mas torna-se necessário, no desenvolvimento de construções sustentáveis, que seja pensado na automação dos edifícios desde o projeto e sua concepção, ocorrendo de forma integrada à construção civil, já que uma pesquisa mais aprofundada no conforto dos ambientes pode interferir no projeto, sendo repensados materiais utilizados, assim como sistemas de aquecimento, ventilação, iluminação, dentre outros. 
 
-Foi com essa necessidade e a proposta de desenvolver um dispositivo eletrônico, que o professor Vanderley M. John, do departamento de Construção Civil da Poli (PCC) e coordenador do CICS (Centro de Inovação em Construção Sustentável da USP)\cite{CICS}, entrou em contato. A ideia é que seja desenvolvido um dispositivo capaz de fazer medições de parâmetros relacionados ao conforto nos ambientes internos de uma construção, coletando também a opinião das pessoas ali presentes, para assim saber o real impacto dos indicadores de conforto. Além disso, é importante que os dispositivos possam estar integrados a uma central, que possa analisar e monitorar todo o ambiente. 
+Foi com essa necessidade e a proposta de desenvolver um dispositivo eletrônico que o professor Vanderley M. John, do departamento de Construção Civil da Poli (PCC) e coordenador do CICS (Centro de Inovação em Construção Sustentável da USP)\cite{CICS}, entrou em contato. A ideia é que seja desenvolvido um dispositivo capaz de fazer medições de parâmetros relacionados ao conforto nos ambientes internos de uma construção, coletando também a opinião das pessoas ali presentes acerca de seu bem-estar, para assim saber o real impacto dos indicadores de conforto. Além disso, é importante que os dispositivos possam estar integrados a uma central, que possa analisar e monitorar todo o ambiente. 
 
 Assim, a construção de uma rede de dispositivos sensoreados tem, além de uma aplicação prática monitorando a qualidade para as pessoas, também grande utilidade em pesquisas de construção civil e arquitetura, com medições mais precisas e incluindo um elemento muitas vezes deixado de lado: o fator humano. 
 
-Em edifícios, escritórios são hoje os que ocupam a maior área física e tem o maior consumo de energia, sendo sistemas de iluminação, aquecimento e resfriamento (como ar condicionados) os principais causadores do alto consumo\cite{EnergyBuildings}. Por isso, escritórios são o nicho escolhido para o desenvolvimento dessa rede de dispositivos, podendo ser testada nas salas do departamento de Construção Civil ou do CICS. 
+Em edifícios, escritórios são hoje os que ocupam a maior área física e tem o maior consumo de energia, sendo sistemas de iluminação, aquecimento e resfriamento (como ar condicionados) os principais causadores do alto consumo\cite{EnergyBuildings}. Por isso, escritórios são o nicho escolhido para a implementação dessa rede de dispositivos, podendo ser testada nas salas do departamento de Construção Civil ou do CICS. 
 
 
 % Dificuldade em estudar elementos relacionados a conforto ?
@@ -98,9 +98,9 @@ Em edifícios, escritórios são hoje os que ocupam a maior área física e tem 
 
 \chapter{Descrição do Problema} % Requisitos
 
-O conforto e a qualidade em ambientes internos é determinado através de quatro principais indicadores: \textbf{térmico, acústico, luminoso e olfativo/qualidade do ar}\cite{ComfortBox}. 
+O conforto e a qualidade em ambientes internos são determinados através de quatro principais indicadores: \textbf{térmico, acústico, luminoso e olfativo/qualidade do ar}\cite{ComfortBox}. 
 
-A fim de conseguirmos monitorar esses indicadores, é necessário medirmos diversos dados a respeito do ambiente a ser estudado: %%% ??  essa frase
+Para que seja possível monitorar esses indicadores, é necessário medirmos diversos dados a respeito do ambiente em questão: %%% ??  essa frase
 \begin{itemize}
 \item Térmico: temperatura ambiente e umidade relativa
 \item Acústico: ruído ambiente
@@ -108,17 +108,20 @@ A fim de conseguirmos monitorar esses indicadores, é necessário medirmos diver
 \item Qualidade do ar (e Olfativo): CO2 e VOC (\textit{volatile organic compounds})
 \end{itemize}
 
-Não apenas esses elementos são importantes, mas também a combinação deles afeta a percepção de conforto pelas pessoas \cite{ComfortOffice}. Assim, faz-se mais necessário que haja uma medição completa dos elementos presentes no ambiente a ser estudado. Mas também que essas medições estejam atreladas a opinião das pessoas a respeito do ambiente, sabendo se estão confortáveis, sendo necessário um sistema que possa coletar um \textit{feedback} das pessoas no escritório. 
+Não apenas esses elementos são importantes, mas também a combinação deles afeta a percepção de conforto pelas pessoas \cite{ComfortOffice}. Assim, faz-se mais necessário que haja uma medição completa dos elementos presentes no ambiente a ser estudado. Além disso, é interessante que essas medições estejam atreladas a opinião das pessoas a respeito do ambiente, sabendo se estão confortáveis, sendo necessário um sistema que possa coletar um \textit{feedback} das pessoas no escritório. 
 
 %Conectividade
-Todos os dados coletados, tanto das variáveis do ambiente quanto a opinião das pessoas, precisam ser salvos e disponibilizados para análise. Assim, será necessária a existência de conectividade nos dispositivos, e uma plataforma na nuvem com um banco de dados e uma interface visual para que seja feita essa análise. 
+Todos os dados coletados, tanto das variáveis do ambiente quanto a opinião das pessoas, precisam ser salvos e disponibilizados para análise. Assim, será necessária a existência de conectividade nos dispositivos, junto de uma plataforma em nuvem com um banco de dados e uma interface visual para que seja feita essa análise. 
 
 \chapter{Árvore de Objetivos} 
 % arvore de objetivos
+A árvore de objetivos é uma representação gráfica dos meios necessários, chamados objetivos específicos, para alcançar o objetivo geral do projeto. Para atingir o objetivo geral do projeto, que é a realização de uma rede de dispositivos para monitorar ambientes, foram enunciados três objetivos específicos, mostrados na figura \ref{fig:objective-tree}, com a porcentagem de dedicação ao lado de cada um.
 
-\begin{figure}[h]
+\begin{figure}[h!]
 %\includegraphics[scale=0.65]{objective_tree}
-\includegraphics[width=\textwidth]{objective_tree}
+\includegraphics[width=\textwidth]{objective-tree-2}
+\caption{Árvore de objetivos do projeto}
+\label{fig:objective-tree}
 \end{figure}
 
 \part{Conforto em Ambientes Fechados} % Tema? ~Estado da Arte~
