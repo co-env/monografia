@@ -75,7 +75,6 @@ Resumo...
 % ========== Sumário ==========
 \sumario
 
-
 % ========== Elementos textuais ==========
 
 \part{Introdução}
@@ -176,10 +175,6 @@ Salas de mecanografia: 50 - 60 dB(A)
 
 Para escritórios: 500 - 750 - 1000 lux
 \end{citacaoLonga}
-\textbf{ISO 16017-2:2003}
-
-is applicable to the measurement of airborne vapours of VOCs in a concentration range of approximately 0,002 mg/m3 to 100 mg/m3 individual organic for an exposure time of 8 h
-\end{citacaoLonga}
 
 \section{Conforto Visual} %check
 Além da \textbf{intensidade da luz incidente}, cujos níveis são estabelecida na legislação, a \textbf{temperatura da cor} da luz incidente também tem grande relevância. A muitos anos sabe-se que a luz azul emitida, de maior temperatura, causa danos à retina \cite{BlueLight}. \par
@@ -198,6 +193,10 @@ Não há, na legislação brasileira, informações sobre a qualidade do ar. Ist
 A norma a seguir fala a margem esperada, mas também sem recomendações de operação. 
 
 \begin{citacaoLonga} % ISO IAQ
+\textbf{ISO 16017-2:2003}
+
+is applicable to the measurement of airborne vapours of VOCs in a concentration range of approximately 0,002 mg/m3 to 100 mg/m3 individual organic for an exposure time of 8 h
+\end{citacaoLonga}
 
 Por conta disso, vamos nos basear em estudos que tentam relacionar as concentrações de CO2 e de VOC com efeitos na saúde e produtividade das pessoas. 
 
@@ -248,11 +247,42 @@ Less than 0.3 mg/m3	 &  Low \\
 \chapter{Benchmark} % ?? 
 % Falar de ser Open Source
 
-As soluções existentes hoje no mercado focam principalmente no conforto térmico ou na qualidade do ar, em sua maioria atendendo apenas dois dos indicadores de conforto apresentados. A nossa proposta é desenvolver um dispositivo que monitore de forma completa a qualidade e o conforto do ambiente, atendendo tanto aos requisitos mais comuns quanto os que não existem tanto
+A tabela a seguir mostra algumas das principais soluções encontradas no mercado para monitoramento de ambientes fechados: 
 
-A conectividade do dispositivo também é um diferencial na proposta, apesar de a maioria dos dispositivos existentes hoje possuir alguma forma de conexão - no geral conexão com a internet por Wi-fi ou através de um aplicativo no smartphone, por bluetooh - os protocolos são fechados, o que dificulta a integração dos dispositivos existentes hoje entre si, com difícil escalabilidade para que seja possível ter uma integração no ambiente empresarial. 
+\begin{center}
+\begin{tabular}{ | m{2.5cm} | m{2.4cm}| m{2.2cm} |m{2cm} |m{2.2cm} |m{2.5cm} | } 
+\hline
+Projeto & Térmico & Luminoso & Acústico & Ar & Conectividade \\ 
+\hline
+Metriful Sense\cite{metriful} & Temperatura, Umidade, Pressão & Intensidade & Nível, Frequência & VOC &  \\ \hline
+CoMoS\cite{CoMoS} & Temperatura, Umidade, Veloc Ar & Intensidade & & & Wifi, SW Web \\ \hline
+HC tech\cite{HCTech} & Temperatura, Umidade & Intensidade & & & Sigfox, SW Web \\ \hline
+ECOMLITE\cite{ECOMLITE} & Temperatura, Umidade, Pressão & & Nível & CO2, VOC, CO, NO2 & Wi-fi, Zigbee, Ethernet, SW Web \\ \hline
+Netatmo\cite{netatmo} & Temperatura, Umidade, & & Nível & CO2 & Wi-fi, App \\ \hline
+Senlab O\cite{Senlab} & Temperatura, Umidade & Intensidade & & & LoRa \\ \hline
+Comfort Click\cite{comfortclick} & Temperatura, Umidade & & Nível & & Wi-fi, App  \\ \hline
+Multi Comfort\cite{multicomfort} & Sim* & Sim* & Sim* & Sim* & Sim* \\ \hline
+MC350\cite{mc350} & Sim* & Sim* & Sim* & & Bluetooth, App \\
+\hline
+\end{tabular}
+\end{center}
 
-Com um projeto Open Source, será possível não só 
+\begin{flushright}
+(*) Solução não detalhada pela construtora, integrado
+\end{flushright}
+
+
+% Análise  - Finalizar
+Como pode ser visto na tabela, as soluções focam principalmente no conforto térmico, atendendo em sua maioria apenas dois ou três dos indicadores de conforto e qualidade. 
+
+Conforto luminoso é apenas medida a intensidade da luz e não a temperatura 
+
+ A nossa proposta é desenvolver um dispositivo que monitore de forma completa a qualidade e o conforto do ambiente, atendendo a todos os indicadores, e 
+ 
+
+A conectividade do dispositivo também é um diferencial na proposta, apesar de a maioria dos dispositivos existentes hoje possuir alguma forma de conexão - no geral conexão com a internet por Wi-fi ou através de um aplicativo no smartphone, por bluetooh - os protocolos são fechados, o que dificulta a integração com outros dispositivos. 
+
+projeto Open Source
 
 % ========== Referências ==========
 % --- IEEE ---
