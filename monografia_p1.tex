@@ -14,10 +14,10 @@
 
 % ========== ABNT (requer ABNTeX 2) ==========
 %	http://www.ctan.org/tex-archive/macros/latex/contrib/abntex2
-%\usepackage[num]{abntex2cite}
+\usepackage[num]{abntex2cite}
 
 % Forçar o abntex2 a usar [ ] nas referências ao invés de ( )
-%\citebrackets{[}{]}
+\citebrackets{[}{]}
 
 
 % ========== Lorem ipsum ==========
@@ -58,7 +58,7 @@
 \begin{document}
 % ========== Capa e folhas de rosto ==========
 \capa
-\falsafolhaderosto
+%\falsafolhaderosto
 \folhaderosto
 
 
@@ -77,18 +77,18 @@ Soluções para o monitoramento de parâmetros que remetem à qualidade e confor
 
 % ========== Elementos textuais ==========
 
-\part{Introdução}
+\chapter{Introdução}
 
-\chapter{Declaração da Necessidade}
+\section{Declaração da Necessidade}
 % Contexto, PCC
 
-Com o aumento do tempo que as pessoas passam em ambientes fechados, como escritórios, há também, nos últimos anos, um crescente interesse em monitorar e controlar esses ambientes, garantindo não só uma melhora na saúde e conforto para as pessoas, mas também um aumento na sua produtividade, sendo possível até mesmo um controle que atue de maneira energeticamente sustentável. Espaços que implementam essas soluções são comumente chamados de prédios inteligentes (\textit{smart buildings}, do inglês), e dentro do contexto sustentável, essa automação é importante para os \textit{green buildings} (em português, construções sustentáveis) \cite{GreenBuildings} \cite{EnergyBuildings}. 
+Com o aumento do tempo que as pessoas passam em ambientes fechados, como escritórios, há também, nos últimos anos, um crescente interesse em monitorar e controlar tais ambientes, visando uma melhora na saúde e conforto das pessoas, e também um aumento na sua produtividade. Espaços que implementam essas soluções são comumente chamados de prédios inteligentes (\textit{smart buildings}, do inglês). É possível até mesmo que esse controle seja utilizado para uma atuação de maneira energeticamente sustentável e, dentro desse conntexto, surgem os \textit{green buildings} (em português, construções sustentáveis) \cite{GreenBuildings} \cite{EnergyBuildings}.
 
-Não apenas o monitoramento dos ambientes, mas torna-se necessário, no desenvolvimento de construções sustentáveis, que seja pensado na automação dos edifícios desde o projeto e sua concepção, ocorrendo de forma integrada à construção civil, já que uma pesquisa mais aprofundada no conforto dos ambientes pode interferir no projeto, sendo repensados materiais utilizados, assim como sistemas de aquecimento, ventilação, iluminação, dentre outros. 
+No desenvolvimento de construções civis sustentáveis, torna-se necessário que seja pensada a implementação automatizada deste monitoramento dos ambientes desde o projeto da edificação e sua concepção, ocorrendo de forma integrada à construção, já que uma pesquisa mais aprofundada sobre o conforto dos ambientes pode interferir no projeto, de modo que sejam repensados materiais utilizados e sistemas de aquecimento, ventilação, iluminação, dentre outros.
 
 Foi com essa necessidade e a proposta de desenvolver um dispositivo eletrônico que o professor Vanderley M. John, do departamento de Construção Civil da Poli (PCC) e coordenador do CICS (Centro de Inovação em Construção Sustentável da USP)\cite{CICS}, entrou em contato. A ideia é que seja desenvolvido um dispositivo capaz de fazer medições de parâmetros relacionados ao conforto nos ambientes internos de uma construção, coletando também a opinião das pessoas ali presentes acerca de seu bem-estar, para assim saber o real impacto dos indicadores de conforto. Além disso, é importante que os dispositivos possam estar integrados a uma central, que possa analisar e monitorar todo o ambiente. 
 
-Assim, a construção de uma rede de dispositivos sensoreados tem, além de uma aplicação prática monitorando a qualidade para as pessoas, também grande utilidade em pesquisas de construção civil e arquitetura, com medições mais precisas e incluindo um elemento muitas vezes deixado de lado: o fator humano. 
+Assim, a construção de uma rede de dispositivos sensoreados tem, além de uma aplicação prática monitorando a qualidade para as pessoas, também grande utilidade em pesquisas de construção civil e arquitetura, com medições mais precisas e incluindo um elemento muitas vezes deixado de lado: o fator humano.
 
 Em edifícios, escritórios são hoje os que ocupam a maior área física e tem o maior consumo de energia, sendo sistemas de iluminação, aquecimento e resfriamento (como ar condicionados) os principais causadores do alto consumo\cite{EnergyBuildings}. Por isso, escritórios são o nicho escolhido para a implementação dessa rede de dispositivos, podendo ser testada nas salas do departamento de Construção Civil ou do CICS. 
 
@@ -96,7 +96,7 @@ Em edifícios, escritórios são hoje os que ocupam a maior área física e tem 
 % Dificuldade em estudar elementos relacionados a conforto ?
 % Falar do que já existe? 
 
-\chapter{Descrição do Problema} % Requisitos
+\section{Descrição do Problema} % Requisitos
 
 O conforto e a qualidade em ambientes internos são determinados através de quatro principais indicadores: \textbf{térmico, acústico, luminoso e olfativo/qualidade do ar}\cite{ComfortBox}. 
 
@@ -113,7 +113,7 @@ Não apenas esses elementos são importantes, mas também a combinação deles a
 %Conectividade
 Todos os dados coletados, tanto das variáveis do ambiente quanto a opinião das pessoas, precisam ser salvos e disponibilizados para análise. Assim, será necessária a existência de conectividade nos dispositivos, junto de uma plataforma em nuvem com um banco de dados e uma interface visual para que seja feita essa análise. 
 
-\chapter{Árvore de Objetivos} 
+\section{Árvore de Objetivos} 
 % arvore de objetivos
 A árvore de objetivos é uma representação gráfica dos meios necessários, chamados objetivos específicos, para alcançar o objetivo geral do projeto. Para atingir o objetivo geral do projeto, que é a realização de uma rede de dispositivos para monitorar ambientes, foram enunciados três objetivos específicos, mostrados na figura \ref{fig:objective-tree}, com a porcentagem de dedicação ao lado de cada um.
 
@@ -124,9 +124,9 @@ A árvore de objetivos é uma representação gráfica dos meios necessários, c
 \label{fig:objective-tree}
 \end{figure}
 
-\part{Conforto em Ambientes Fechados} % Tema? ~Estado da Arte~
+\chapter{Conforto em Ambientes Fechados} % Tema? ~Estado da Arte~
 
-\chapter{Indicadores de Qualidade e Conforto} %?
+\section{Indicadores de Qualidade e Conforto} %?
 
 % Separar qualidade e conforto
 
@@ -136,7 +136,7 @@ Como qualidade e conforto são termos subjetivos, vamos tratar aqui como "qualid
 Já o conforto será atrelado à percepção do usuário quanto ao ambiente. Apesar de o ambiente ser considerado saudável ou de qualidade, existem muitos fatores que afetam a sensação das pessoas, de forma que apenas a definição de uma faixa de operação não implica em bem-estar. 
 % citações ??
 
-\section{Regulamentações e Normas} %check
+\subsection{Regulamentações e Normas} %check
 
 A legislação brasileira determina os valores máximos e mínimos dos indicadores de conforto no ambiente para que haja boas condições de trabalho: 
 
@@ -179,7 +179,7 @@ Salas de mecanografia: 50 - 60 dB(A)
 Para escritórios: 500 - 750 - 1000 lux
 \end{citacaoLonga}
 
-\section{Conforto Visual} %check
+\subsection{Conforto Visual} %check
 Além da \textbf{intensidade da luz incidente}, cujos níveis são estabelecida na legislação, a \textbf{temperatura da cor} da luz incidente também tem grande relevância. A muitos anos sabe-se que a luz azul emitida, de maior temperatura, causa danos à retina \cite{BlueLight}. \par
 Assim, temperatura é um parâmetro importante para a qualidade do ambiente, muitas vezes deixado de lado, e assim como na saúde, afeta diretamente o conforto e a atenção das pessoas, como visto em \cite{VisualComfort}: 
 \begin{itemize}
@@ -187,7 +187,7 @@ Assim, temperatura é um parâmetro importante para a qualidade do ambiente, mui
 \item Concentração: acima de 5300K 
 \end{itemize}
 
-\section{Qualidade do Ar} % Pesquisa CO2 e VOC
+\subsection{Qualidade do Ar} % Pesquisa CO2 e VOC
 
 % Colocar o que é IAQ, falar sobre?
 % Sindrome Predios doentes? -> Intro?
@@ -203,7 +203,7 @@ is applicable to the measurement of airborne vapours of VOCs in a concentration 
 
 Por conta disso, vamos nos basear em estudos que tentam relacionar as concentrações de CO2 e de VOC com efeitos na saúde e produtividade das pessoas. 
 
-\subsection{CO2}
+\subsubsection{CO2}
 Segundo \cite{AirQuality}, o CO2 apresenta concentrações mais altas em ambientes fechados, esperando-se entre 700 e 2000 ppm, em comparação a cerca de 400ppm em ambientes abertos em áreas urbanas\cite{co2Earth}. 
 
 O CO2, além de ser um gás asfixiante e perigoso em altas concentrações (acima de 40000ppm), também pode afetar a saúde quando em níveis moderados (abaixo de 2000ppm). 
@@ -216,7 +216,7 @@ De acordo com o \textit{Winsconsin Department of Health Services}\cite{Winsconsi
 \item 40,000 ppm: Pode causar séria insuficiência respiratória, danos permanentes ao cérebro, coma e até a morte
 \end{itemize}
 
-\subsection{VOC}
+\subsubsection{VOC}
 Compostos orgânicos voláteis, ou VOC (do inglês,\textit{Volatile organic compounds}, são partículas que ficam suspensas no ar, podendo vir de produtos (sintéticos ou naturais) utilizados no ambiente, como tintas, solventes, produtos de limpeza, perfumes que podem causar odor perceptível pelo ser humano\cite{AirQuality}.
 
 A concentração esperada é entre 0.2 e 0.5 mg/m3, e mesmo que nem todos os compostos presentes no ar sejam nocivos à saúde, por precaução é recomendado que estes sigam: \cite{tecam}
@@ -247,7 +247,7 @@ Less than 0.3 mg/m3	 &  Low \\
 %1 ppb = 1 mg/m3
 
 
-\chapter{Benchmark} % ?? 
+\section{Benchmark} % ?? 
 % Falar de ser Open Source
 
 A tabela a seguir mostra algumas das principais soluções encontradas no mercado para monitoramento de ambientes fechados: 
@@ -294,8 +294,8 @@ projeto Open Source
 
 % --- ABNT (requer ABNTeX 2) ---
 %	http://www.ctan.org/tex-archive/macros/latex/contrib/abntex2
-%\bibliographystyle{abntex2-num}
-\bibliographystyle{plain}
+\bibliographystyle{abntex2-num}
+%\bibliographystyle{plain}
 
 \bibliography{reference_p1}
 
