@@ -58,7 +58,6 @@
 \begin{document}
 % ========== Capa e folhas de rosto ==========
 \capa
-%\falsafolhaderosto
 \folhaderosto
 
 
@@ -253,39 +252,44 @@ Less than 0.3 mg/m3	 &  Low \\
 A tabela a seguir mostra algumas das principais soluções encontradas no mercado para monitoramento de ambientes fechados: 
 
 \begin{center}
-\begin{tabular}{ | m{2.5cm} | m{2.4cm}| m{2.2cm} |m{2cm} |m{2.2cm} |m{2.5cm} | } 
+\begin{tabular}{ | m{2.5cm} | m{2.4cm}| m{2.2cm} |m{2cm} |m{2.1cm} |m{2.8cm} | } 
 \hline
-Projeto & Térmico & Luminoso & Acústico & Ar & Conectividade \\ 
+\textbf{Projeto} & \textbf{Térmico} & \textbf{Luminoso} & \textbf{Acústico} & \textbf{Ar} & \textbf{Conectividade} \\ 
 \hline
-Metriful Sense\cite{metriful} & Temperatura, Umidade, Pressão & Intensidade & Nível, Frequência & VOC &  \\ \hline
-CoMoS\cite{CoMoS} & Temperatura, Umidade, Veloc Ar & Intensidade & & & Wifi, SW Web \\ \hline
-HC tech\cite{HCTech} & Temperatura, Umidade & Intensidade & & & Sigfox, SW Web \\ \hline
-ECOMLITE\cite{ECOMLITE} & Temperatura, Umidade, Pressão & & Nível & CO2, VOC, CO, NO2 & Wi-fi, Zigbee, Ethernet, SW Web \\ \hline
-Netatmo\cite{netatmo} & Temperatura, Umidade, & & Nível & CO2 & Wi-fi, App \\ \hline
-Senlab O\cite{Senlab} & Temperatura, Umidade & Intensidade & & & LoRa \\ \hline
-Comfort Click\cite{comfortclick} & Temperatura, Umidade & & Nível & & Wi-fi, App  \\ \hline
-Multi Comfort\cite{multicomfort} & Sim* & Sim* & Sim* & Sim* & Sim* \\ \hline
+Multi comfort \cite{multicomfort} & Sim* & Sim* & Sim* & Sim* & Sim* \\ \hline
 MC350\cite{mc350} & Sim* & Sim* & Sim* & & Bluetooth, App \\
 \hline
+Metriful Sense\cite{metriful} & Temperatura, Umidade, Pressão & Intensidade & Volume, Frequência & VOC &  \\ \hline
+CoMoS\cite{CoMoS} & Temperatura, Umidade, Veloc Ar & Intensidade & & & Wifi, SW Web \\ \hline
+HC tech\cite{HCTech} & Temperatura, Umidade & Intensidade & & & Sigfox, SW Web \\ \hline
+ECOMLITE \cite{ECOMLITE} & Temperatura, Umidade, Pressão & & Volume & CO2, VOC, CO, NO2 & Wi-fi, Zigbee, Ethernet, SW Web \\ \hline
+Netatmo\cite{netatmo} & Temperatura, Umidade, & & Volume & CO2 & Wi-fi, App \\ \hline
+Senlab O\cite{Senlab} & Temperatura, Umidade & Intensidade & & & LoRa \\ \hline
+Comfort Click\cite{comfortclick} & Temperatura, Umidade & & Volume & & Wi-fi, App  \\ \hline
 \end{tabular}
 \end{center}
 
 \begin{flushright}
-(*) Solução não detalhada pela construtora, integrado
+(*) Solução não detalhada pela construtora
 \end{flushright}
 
 
 % Análise  - Finalizar
-Como pode ser visto na tabela, as soluções focam principalmente no conforto térmico, atendendo em sua maioria apenas dois ou três dos indicadores de conforto e qualidade. 
+Ao observar as soluções existentes no mercado, é possível ver que a maioria atende a apenas alguns dos indicadores. 
 
-Conforto luminoso é apenas medida a intensidade da luz e não a temperatura 
+Multi Comfort \cite{multicomfort}, a solução mais completa encontrada, trata-se de uma sistema desenvolvido pela construtora Saint-Gobain de forma integrada à construção do edifício. Como apresentado pelo prof. Vanderley (PCC), o monitoramento e automação na construção civil vem crescendo nos últimos anos, de forma que soluções desse tipo tendem a tornar-se mais comuns. 
+Apesar de atender aos 4 indicadores de qualidade e conforto, essa solução não apresenta detalhes sobre as medições que são feitas, quais os elementos medidos ou a precisão dessas medições, assim como sobre a sua conectividade. Também apresenta grande dificuldade para integração em um ambiente já construído. Nesse contexto, é introduzido o equipamento MC350\cite{mc350} - da mesma empresa -, mas que não atende mais a todos os indicadores. 
 
- A nossa proposta é desenvolver um dispositivo que monitore de forma completa a qualidade e o conforto do ambiente, atendendo a todos os indicadores, e 
- 
+Em seguida, temos o Metriful Sense \cite{metriful}, que também atende a todos os indicadores de conforto, que é um produto novo em \textit{crowdfunding}. Diferentemente das demais, esse não é um dispositivo completo, mas uma plataforma de sensores projetada para o monitoramento de ambientes, que necessita de uma interface com outro processador e possivelmente com um módulo \textit{wireless} para que haja conexão com uma plataforma de análise. 
 
-A conectividade do dispositivo também é um diferencial na proposta, apesar de a maioria dos dispositivos existentes hoje possuir alguma forma de conexão - no geral conexão com a internet por Wi-fi ou através de um aplicativo no smartphone, por bluetooh - os protocolos são fechados, o que dificulta a integração com outros dispositivos. 
+Os demais produtos atendem em média apenas dois dos indicadores de conforto, sendo apenas o conforto térmico presente em todos. O conforto luminoso, quando presente, é atendido de forma superficial, sendo medida apenas a intensidade da luz e não a temperatura, que é um elemento importante na sensação de conforto \cite{VisualComfort}. Já no monitoramento da qualidade do ar, apenas uma das soluções \cite{ECOMLITE} (cuja especificação está disponível) mede ao menos os dois principais elementos indicadores \cite{AirQuality}. 
 
-projeto Open Source
+Vemos, assim, que nenhum dos produtos existentes no mercado atende a todos os requisitos levantados para a nossa aplicação. A proposta aqui é o desenvolvimento de um dispositivo que monitore a qualidade e o conforto do ambiente atendendo a todos os indicadores apresentados de forma completa, e com uma medição mais aprofundada em conforto luminoso e qualidade do ar que os projetos comparados. 
+
+Além disso, nenhuma das soluções encontradas envolve diretamente a opinião das pessoas frequentando o ambiente na análise dos seus dados, apenas no controle do ambiente quando esse não atende os requisitos de qualidade ou de conforto. 
+
+Vale destacar, por fim, que na maioria dos casos essas soluções são fechadas, com protocolos que dificultam a integração dos dispositivos com outros que possam complementá-los em seu funcionamento, ou de forma que seja possível uma centralização da análise dos dados coletados. Desenvolvendo um projeto \textit{open-source} e com protocolos padrão de comunicação sem fio, isso deixa de ser um problema. 
+
 
 % ========== Referências ==========
 % --- IEEE ---
