@@ -25,7 +25,7 @@
 
 % ========== Opções do documento ==========
 % Título
-\titulo{Monitoramento de qualidade e conforto em escritórios}
+\titulo{Rede de Dipositivos para Monitoramento de qualidade e conforto em escritórios}
 
 % Autor
 \autor{Isabella Bologna Salomão\\%
@@ -47,7 +47,7 @@
 %\memorialLD
 
 % Departamento e área de concentração
-\departamento{PSI - Eletrônica e Sistemas}
+\departamento{PCS - Computação e Sistemas Digitais}
 %\areaConcentracao{Área de concentração}
 
 % Local
@@ -292,6 +292,86 @@ Além disso, nenhuma das soluções encontradas envolve diretamente a opinião d
 
 Vale destacar, por fim, que na maioria dos casos essas soluções são fechadas, com protocolos que dificultam a integração dos dispositivos com outros que possam complementá-los em seu funcionamento, ou de forma que seja possível uma centralização da análise dos dados coletados. Desenvolvendo um projeto \textit{open-source} e com protocolos padrão de comunicação sem fio, isso deixa de ser um problema. 
 
+
+\chapter{Especificação Técnica}
+
+\section{Arquitetura do Dispositivo} % Como atingir os objetivos (requisitos) e apronfunda specs da descrição do problema (especificação inicial)
+
+\begin{figure}[h!]
+    \includegraphics[width=\textwidth]{block_diagram}
+    \caption{Diagrama de Blocos do Hardware do Dispositivo}
+    \label{fig:Diagrama de Blocos}
+\end{figure}
+
+\subsection{\textit{System-on-a-Chip}}
+
+\textit{System-on-a-Chip}, ou SoC, é o nome dado a um circuito integrado que engloba processador, periféricos, memória e outros módulos. Geralmente é desenvolvido em torno de um microcontrolador (ou um processador) integrando mais blocos, como de radiofrequência nesse caso, para comunicação sem fio.
+
+Analisando as principais opções existentes no mercado de microcontroladores, para atuar como processador central do dispositivo, optamos por usar um ESP32. 
+
+ESP32\cite{ESP32} é uma família de \textit{SoC}s da Espressif que possui um microcontrolador integrado às tecnologias Wi-Fi e Bluetooth. Por ter um bom suporte e ferramentas de desenvolvimento focadas em BLE e Wi-Fi, além de ter um dos menores preços, foi nossa escolha como melhor custo-benefício. 
+
+ 
+
+\textbf{Especificações do ESP32:} \cite{ESP-datasheet}
+\begin{itemize}
+\item \textbf{Processador}: Xtensa 32-bits, dual core
+\item \textbf{Wi-Fi}: 802.11 b/g/n
+\item \textbf{Bluetooth}: v4.2 BR/EDR e BLE
+\end{itemize}
+
+
+\subsection{Sensores}
+A fim de atender aos critérios apresentados para o monitoramento, foram escolhidos os seguintes sensores: 
+\begin{itemize}
+\item \textbf{AS7262}, da AMS: 
+
+Atende aos requisitos de medição de \textit{conforto luminoso}. 
+
+\textbf{Medidas}: Intensidade e cor da luz incidente.
+
+A cor da luz, nesse sensor, é medida através de 6 canais, correspondendo aos espectros de luz vermelha (650nm), laranja (600nm), amarela (570nm), verde (550nm), azul (500nm) e violeta (450nm), ao invés de simples RGB, com resolução de 16 bits.
+
+\textbf{Comunicação}: I²C, SPI ou UART (configurável)
+
+\item \textbf{BME680}, da Bosch: 
+
+Atende tanto aos requisitos de \textit{conforto térmico} quanto de \textit{qualidade do ar}.
+
+\textbf{Medidas}: Temperatura com precisão de ±1.0°C, umidade relativa com precisão de ±3\%, pressão, ±1 hPa, e VOC, através de um sensor MOX, que pode ser usado para estimar concentração de gases como Etanol, CO e Álcool. 
+
+\textbf{Comunicação}: SPI ou I²C
+
+\item \textbf{Microfone de Eletreto}:
+
+Em conjunto com um circuito amplificador, atende aos requisitos de \textit{conforto acústico}. 
+
+\textbf{Medida}: volume de ruído sonoro ambiente
+
+\textbf{Comunicação}: Analógica, com precisão a depender do conversor analógico digital escolhido (CI externo)
+\end{itemize}
+
+\section{Arquitetura da Rede}
+
+\subsection{Conexão de Dispositivos}
+Como citado anteriormente, as medições realizadas pelos dispositivos precisam ser salvas e enviadas para algum local de armazenamento, para posterior análise, exigindo que seja estabelecido um protocolo de conexão. Com o crescimento do conceito de Internet das Coisas, novas tecnologias para conexão rápida, segura e fácil de dispositivos surgem.
+
+Wi-Fi é uma família de tecnologias designadas para comunicação sem fio baseada no padrão IEEE 802.11, amplamente utilizada em redes de área local (em inglês \textit{local area network}, LAN) para prover acesso à internet. Essa tecnologia opera nas faixas de 2,4 e 5GHz, sendo que a primeira permite uma taxa de transmissão de até 600 Mbits/s e a segunda até 1 Gbit/s em casos mais extremos \cite{Wi-Fi-datarate}. Em contrapartida, possui a desvantagem de só funcionar bem em distâncias relativamente pequenas e possui um consumo de energia elevado.
+
+Uma outra tecnologia para comunicação sem fio amplamente utilizada hoje em dia é o Bluetooth, que surgiu com objetivo inicial substituir a conexão por fios entre dispositivos, porém já evoluiu muito e é encontrada em diversas aplicações. Em 2017, a \textit{Bluetooth Special Interest Group} (Bluetooth SIG, organização que gerencia o desenvolvimento do padrão Bluetooth) definiu uma arquitetura de rede em malha baseada na versão de baixo consumo de energia \textit{Bluetooth Low Energy} (BLE) --- \textit{Bluetooth Mesh} \cite{BLE-mesh}, uma rede de área pessoal sem fio (WPAN), que permite o estabelecimento de uma comunicação \textit{many-to-many} entre os dispositivos da rede. Essa arquitetura utiliza o conceito de rede por inundação, no qual os dados de um nó são enviados para vários outros nós, que atuam como retransmissores desses dados para outros dispositivos dentro do seu alcance, o que aumenta a área de cobertura da rede além do limite de comunicação 1 para 1, com limite de 32 mil nós em uma só rede. Os dispositivos da rede podem ser heterogêneos, possuindo diferentes funções. A tecnologia BLE foi desenvolvida exatamente para aplicações onde é necessário um baixo consumo de energia, o que impõe um limite na sua taxa de transmissão de dados.
+
+Dados os requisitos desse projeto, os dispositivos serão interconectados por meio de uma rede \textit{Bluetooth Mesh}, disponibilizando dados de medições dos sensores e \textit{feedback} ao longo do dia por toda a rede. Como estamos utilizando um dispositivo com conectividade tanto Bluetooth quanto Wi-Fi, um dos dispositivos da rede estará conectado também à internet via Wi-Fi, para que seja possível enviar os dados coletados pela rede para um banco de dados localizado em um servidor externo ao sistema, possibilitando o acesso remoto aos dados.
+
+\begin{figure}[h!]
+    \includegraphics[width=\textwidth]{arq_rede}
+    \caption{Arquitetura da rede de dispositivos}
+    \label{fig:Diagrama de Blocos}
+\end{figure}
+
+\subsection{Banco de Dados}
+Outro requisito comumente encontrado em dispositivos IoT focados em monitoramento é a alta disponibilidade de dados para que esse monitoramento em questão seja realizado de forma eficiente. Isso faz com que soluções de armazenamento em nuvem sejam boas alternativas, já que os dados estariam armazenados em um servidor externo ao sistema, possibilitando o seu acesso remotamente. Grandes empresas de tecnologia oferecem plataformas de desenvolvimento com interfaces de programação de aplicações (API, do inglês \textit{application programming interface}) que facilitam o desenvolvimento de bancos de dados conectados.
+
+Para esse projeto, usaremos a solução AWS da Amazon, especificamente o serviço \textbf{AWS IoT Core} \cite{aws-iot}, que é um serviço que permite conexão de dispositivos a aplicativos em nuvem. Ele será utilizado em conjunto com o banco de dados NoSQL DynamoDB da própria plataforma.
 
 % ========== Referências ==========
 % --- IEEE ---
