@@ -1,62 +1,6 @@
-\documentclass[monografia.tex]{subfiles}
+\documentclass[../monografia.tex]{subfiles}
 
 \begin{document}
-\section{Arquitetura do Dispositivo} % Como atingir os objetivos (requisitos) e apronfunda specs da descrição do problema (especificação inicial)
-
-\begin{figure}[h!]
-    \includegraphics[width=\textwidth]{block_diagram}
-    \caption{Diagrama de Blocos do Hardware do Dispositivo}
-    \label{fig:Diagrama de Blocos}
-\end{figure}
-
-\subsection{\textit{System-on-a-Chip}}
-
-\textit{System-on-a-Chip}, ou SoC, é o nome dado a um circuito integrado que engloba processador, periféricos, memória e outros módulos. Geralmente é desenvolvido em torno de um microcontrolador (ou um processador) integrando mais blocos, como de radiofrequência nesse caso, para comunicação sem fio.
-
-Analisando as principais opções existentes no mercado de microcontroladores, para atuar como processador central do dispositivo, optamos por usar um ESP32. 
-
-ESP32\cite{ESP32} é uma família de \textit{SoC}s da Espressif que possui um microcontrolador integrado às tecnologias Wi-Fi e Bluetooth. Por ter um bom suporte e ferramentas de desenvolvimento focadas em BLE e Wi-Fi, além de ter um dos menores preços, foi nossa escolha como melhor custo-benefício. 
-
- 
-
-\textbf{Especificações do ESP32:} \cite{ESP-datasheet}
-\begin{itemize}
-\item \textbf{Processador}: Xtensa 32-bits, dual core
-\item \textbf{Wi-Fi}: 802.11 b/g/n
-\item \textbf{Bluetooth}: v4.2 BR/EDR e BLE
-\end{itemize}
-
-
-\subsection{Sensores}
-A fim de atender aos critérios apresentados para o monitoramento, foram escolhidos os seguintes sensores: 
-\begin{itemize}
-\item \textbf{AS7262}, da AMS: 
-
-Atende aos requisitos de medição de \textit{conforto luminoso}. 
-
-\textbf{Medidas}: Intensidade e cor da luz incidente.
-
-A cor da luz, nesse sensor, é medida através de 6 canais, correspondendo aos espectros de luz vermelha (650nm), laranja (600nm), amarela (570nm), verde (550nm), azul (500nm) e violeta (450nm), ao invés de simples RGB, com resolução de 16 bits.
-
-\textbf{Comunicação}: I²C, SPI ou UART (configurável)
-
-\item \textbf{BME680}, da Bosch: 
-
-Atende tanto aos requisitos de \textit{conforto térmico} quanto de \textit{qualidade do ar}.
-
-\textbf{Medidas}: Temperatura com precisão de ±1.0°C, umidade relativa com precisão de ±3\%, pressão, ±1 hPa, e VOC, através de um sensor MOX, que pode ser usado para estimar concentração de gases como Etanol, CO e Álcool. 
-
-\textbf{Comunicação}: SPI ou I²C
-
-\item \textbf{Microfone de Eletreto}:
-
-Em conjunto com um circuito amplificador, atende aos requisitos de \textit{conforto acústico}. 
-
-\textbf{Medida}: volume de ruído sonoro ambiente
-
-\textbf{Comunicação}: Analógica, com precisão a depender do conversor analógico digital escolhido (CI externo)
-\end{itemize}
-
 \section{Arquitetura da Rede}
 
 \subsection{Conexão de Dispositivos}
@@ -78,5 +22,105 @@ Dados os requisitos desse projeto, os dispositivos serão interconectados por me
 Outro requisito comumente encontrado em dispositivos IoT focados em monitoramento é a alta disponibilidade de dados para que esse monitoramento em questão seja realizado de forma eficiente. Isso faz com que soluções de armazenamento em nuvem sejam boas alternativas, já que os dados estariam armazenados em um servidor externo ao sistema, possibilitando o seu acesso remotamente. Grandes empresas de tecnologia oferecem plataformas de desenvolvimento com interfaces de programação de aplicações (API, do inglês \textit{application programming interface}) que facilitam o desenvolvimento de bancos de dados conectados.
 
 Para esse projeto, usaremos a solução AWS da Amazon, especificamente o serviço \textbf{AWS IoT Core} \cite{aws-iot}, que é um serviço que permite conexão de dispositivos a aplicativos em nuvem. Ele será utilizado em conjunto com o banco de dados NoSQL DynamoDB da própria plataforma.
+
+
+\section{Arquitetura do Dispositivo} % Como atingir os objetivos (requisitos) e apronfunda specs da descrição do problema (especificação inicial)
+
+\begin{figure}[h!]
+    \includegraphics[width=\textwidth]{block_diagram}
+    \caption{Diagrama de Blocos do Hardware do Dispositivo}
+    \label{fig:Diagrama de Blocos}
+\end{figure}
+
+\subsection{\textit{Processador}}
+
+De acordo com a pesquisa de 2019 da Aspencore \cite{eetimes}, 61\% dos projetos de sistemas embarcados usam processadores de 32-bits, e 65\% utiliza algum tipo de sistema operacional. 
+
+Pensando nisso e listando os periféricos necessários para comunicação com os periféricos (descritos a seguir), selecionamos as principais opções existentes no mercado de microcontroladores, para atuar como processador central do dispositivo. 
+
+Como existem a comunicação dos dispositivos é uma funcionalidade crucial, juntamos também opções de \textit{System-on-a-Chip}, ou SoC, é o nome dado a um circuito integrado que engloba processador (ou geralmente microcontroladores, em dispositivos embarcados), periféricos, memória e outros módulos, como circuitos para comunicação sem fio.
+
+tabela
+ST
+ESP32
+NORDIC
+
+optamos por usar um ESP32. 
+
+Para decidir entre as três opções apresentadas, analisamos os ambientes de desenvolvimento disponíveis, a documentação disponível e o preço dos CIs e seus kits de desenvolvimento. 
+
+ESP32\cite{ESP32} é uma família de \textit{SoC}s da Espressif que possui um microcontrolador integrado às tecnologias Wi-Fi e Bluetooth. Por ter um bom suporte e ferramentas de desenvolvimento focadas em BLE e Wi-Fi, além de ter um dos menores preços, foi nossa escolha como melhor custo-benefício. 
+
+
+
+ 
+
+\textbf{Especificações do ESP32:} \cite{ESP-datasheet}
+\begin{itemize}
+\item \textbf{Processador}: Xtensa 32-bits, dual core
+\item \textbf{Wi-Fi}: 802.11 b/g/n
+\item \textbf{Bluetooth}: v4.2 BR/EDR e BLE
+\end{itemize}
+
+
+\subsection{Sensores}
+A fim de atender aos critérios apresentados para o monitoramento, foram escolhidos os seguintes sensores: 
+\begin{itemize}
+\item \textbf{AS7262}\cite{as7262}, da AMS: 
+
+Atende aos requisitos de medição de \textit{conforto luminoso}. 
+
+\textbf{Medidas}: Intensidade e cor da luz incidente.
+
+A cor da luz, nesse sensor, é medida através de 6 canais, correspondendo aos espectros de luz vermelha (650nm), laranja (600nm), amarela (570nm), verde (550nm), azul (500nm) e violeta (450nm), ao invés de simples RGB, com resolução de 16 bits.
+
+\textbf{Comunicação}: I²C, SPI ou UART (configurável)
+
+\item \textbf{BME280} \cite{bme280}, da Bosch: 
+
+Atende aos requisitos de \textit{conforto térmico}. 
+
+\textbf{Medidas}: 
+    \begin{itemize}
+    \item Temperatura entre -40 e 85ºC, com precisão de ±1.0°C
+    \item Umidade relativa com precisão de ±3\%
+    \item Pressão entre 300 e 1100hPa, com precisão ±1 hPa
+    \end{itemize}
+
+\textbf{Comunicação}: SPI ou I²C
+
+\item \textbf{SGP30} \cite{sgp30}:
+
+Sensor para medições de aplicação \textit{indoor}. 
+
+\textbf{Medidas}:
+    \begin{itemize}
+    \item TVOC entre 0 ppb e 60000 ppb, com resolução de 1ppb
+    \item $CO_{2}$ entre 400 ppm e 60000 ppm, com resolução de 1ppb
+    \end{itemize}
+
+\textbf{Comunicação}: I²C
+
+\item \textbf{Microfone de Eletreto}:
+
+Em conjunto com um circuito amplificador, atende aos requisitos de \textit{conforto acústico}. 
+
+\textbf{Medida}: volume de ruído sonoro ambiente
+
+\textbf{Comunicação}: Analógica, precisão de 12 bits (resolução do conversor analógico-digital do ESP32). 
+\end{itemize}
+
+\subsection{Sistema de coleta de Feedback}
+
+Para a coleta do \textit{feedback} nos dispositivos, optamos por utilizar um display e 2 botões. 
+
+\subsection{Alimentação}
+
+Para alimentar os dispositivos, foi pensado em utilizar uma bateria de Lítio-Polímero, de uma célula (1S), por ter a maior densidade energética dentre as baterias recarregáveis, permitindo que o dispositivo seja portátil e não dependente da rede elétrica. A capacidade da bateria será definida com base nos testes de consumo do equipamento nas etapas finais de desenvolvimento do protótipo. 
+
+A bateria LiPo tem tensões de operação entre 3.5 e 4.2 Volts. Para alimentar o circuito foi optado por elevar a tensão para 5V, através de um regulador chaveado boost, ainda não definido. 
+
+Para fazer a recarga da bateria de forma eficiente e segura, foi pensado em um circuito carregador utilizando o CI TP4056 \cite{tp4056}, alimentado por 5V através de um conector USB-micro. Com esse CI é possível também que o circuito opere enquanto a bateria está sendo recarregada. 
+
 
 \end{document}
