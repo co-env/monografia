@@ -60,3 +60,9 @@ Colocar { } para forçar que as letras mantenham-se como maiúsculas/minúsculas
 Supported entry types in [Bibliography - Overleaf](https://www.overleaf.com/learn/latex/Bibliography_management_in_LaTeX)
 
 Site mega aleatório do canadá que me ajudou a saber o tipo de referência https://www150.statcan.gc.ca/n1/pub/12-591-x/2009001/01-step-etape-eng.htm
+
+## Latex
+
+Símbolos pra deixar bonitinho: [The Great, Big List of LATEX Symbols](https://www.rpi.edu/dept/arc/training/latex/LaTeX_symbols.pdf)
+
+Buscar referência fácil e com exemplos: [Overleaf - Learn](https://www.overleaf.com/learn)
