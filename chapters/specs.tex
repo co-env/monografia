@@ -25,20 +25,23 @@ Para esse projeto, usaremos a solução AWS da Amazon, especificamente o serviç
 
 
 \section{Arquitetura do Dispositivo} % Como atingir os objetivos (requisitos) e apronfunda specs da descrição do problema (especificação inicial)
+Nos nós da rede existirá um um dispositivo com a seguinte arquitetura:
 
 \begin{figure}[h!]
-    \includegraphics[width=\textwidth]{block_diagram}
-    \caption{Diagrama de Blocos do Hardware do Dispositivo}
+    \centering
+    \includegraphics[width=10cm]{block_diagram}
+    \caption{Diagrama de Blocos simplificado do dispositivo}
     \label{fig:Diagrama de Blocos}
 \end{figure}
 
-\subsection{\textit{Processador}}
+\subsection{Processador}
 
 De acordo com a pesquisa de 2019 da Aspencore \cite{eetimes}, 61\% dos projetos de sistemas embarcados usam processadores de 32-bits, e 65\% utiliza algum tipo de sistema operacional. 
 
-A partir disso e listando os periféricos necessários para comunicação com os periféricos (descritos a seguir), selecionamos as principais opções existentes no mercado de microcontroladores para atuar como processador central do dispositivo. 
+A partir da escolha de protocolos de comunicação e listando os periféricos necessários para comunicação com os periféricos (descritos a seguir), buscamos as principais opções existentes no mercado de microcontroladores para atuar como processador central do dispositivo. 
 
-Como existem a comunicação dos dispositivos é uma funcionalidade crucial, juntamos opções de \textit{System-on-a-Chip} (SoC), ou Sistema em um chip, que trata-se de um circuito integrado que engloba processadores (ou microcontroladores, em dispositivos embarcados), memórias, dentre outros módulos, como circuitos para comunicação sem fio, personalizados para uma aplicação \cite{soc}. 
+Como a comunicação dos dispositivos é uma funcionalidade crucial, juntamos as principais opções de \textit{System-on-a-Chip} (SoCs), ou Sistema em um chip. Estes tratam-se de circuitos integrados que englobam processadores (ou microcontroladores, usualmente em dispositivos embarcados), memórias, dentre outros módulos, como circuitos para comunicação sem fio, personalizados para uma aplicação \cite{soc}. Assim, chegamos a três opções de SoCs com Bluetooth integrado. 
+
 
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|} 
@@ -52,9 +55,9 @@ STMicroelectronics & BlueNRG-2 & \$3.5 & BlueNRG-Tile & \$50 \\
 \end{tabular}
 \end{center}
 
-Para decidir entre as três opções apresentadas, analisamos principalmente os ambientes de desenvolvimento, a documentação disponível e o preço dos CIs e seus kits de desenvolvimento. 
+Analisando principalmente os ambientes de desenvolvimento, a documentação disponível e o preço dos CIs e de seus kits de desenvolvimento, optamos pela família ESP32 \cite{ESP32}. 
 
-Tendo isso em vista, escolhemos usar ESP32 \cite{ESP32}, que é uma família de \textit{SoC}s da fabricante Espressif que possui um microcontrolador integrado às tecnologias Wi-Fi e Bluetooth. Por ter um bom suporte e ferramentas de desenvolvimento focadas em BLE e Wi-Fi, além de ter um dos menores preços, foi nossa escolha como melhor custo-benefício. 
+Além do Wi-fi como diferencial no SoC, a Espressif possui um bom suporte e ferramentas de desenvolvimento focadas em BLE e Wi-Fi, em especial para o uso de BLE Mesh, e um dos menores preços, assim considerado o melhor custo-benefício. 
 
 \textbf{Especificações do ESP32:} \cite{ESP-datasheet}
 \begin{itemize}
