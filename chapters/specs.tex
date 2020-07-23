@@ -4,11 +4,59 @@
 \section{Arquitetura da Rede}
 
 \subsection{Conexão de Dispositivos}
-Como citado anteriormente, as medições realizadas pelos dispositivos precisam ser salvas e enviadas para algum local de armazenamento, para posterior análise, exigindo que seja estabelecido um protocolo de conexão. Com o crescimento do conceito de Internet das Coisas, novas tecnologias para conexão rápida, segura e fácil de dispositivos surgem.
+Como citado anteriormente, as medições realizadas pelos dispositivos precisam ser salvas e enviadas para algum local de armazenamento, para posterior análise, exigindo que seja estabelecido um protocolo de conexão. 
 
-Wi-Fi é uma família de tecnologias designadas para comunicação sem fio baseada no padrão IEEE 802.11, amplamente utilizada em redes de área local (em inglês \textit{local area network}, LAN) para prover acesso à internet. Essa tecnologia opera nas faixas de 2,4 e 5GHz, sendo que a primeira permite uma taxa de transmissão de até 600 Mbits/s e a segunda até 1 Gbit/s em casos mais extremos \cite{Wi-Fi-datarate}. Em contrapartida, possui a desvantagem de só funcionar bem em distâncias relativamente pequenas e possui um consumo de energia elevado.
+Com o crescimento do conceito de Internet das Coisas, novas tecnologias para conexão rápida, segura e fácil de dispositivos são criadas e utilizadas por desenvolvedores em inúmeras aplicações. Segundo a pesquisa \textit{Embedded Markets Study} realizada pela empresa Aspencore\cite{embedded-market-study} e apresentada pelos meios EETimes\cite{eetimes} e Embedded\cite{embedded} em 2019, as interfaces sem fio mais utilizadas por desenvolvedores em  projetos de sistemas embarcados são Wi-Fi, \textit{Bluetooth Low Energy (BLE)} e \textit{Bluetooth Classic}. Essa pesquisa também aponta os protocolos de comunicação sem fio mais utilizados, dentre eles \textit{BLE mesh}, Zigbee, 6LoWPAN e Thread. 
 
-Uma outra tecnologia para comunicação sem fio amplamente utilizada hoje em dia é o Bluetooth, que surgiu com objetivo inicial substituir a conexão por fios entre dispositivos, porém já evoluiu muito e é encontrada em diversas aplicações. Em 2017, a \textit{Bluetooth Special Interest Group} (Bluetooth SIG, organização que gerencia o desenvolvimento do padrão Bluetooth) definiu uma arquitetura de rede em malha baseada na versão de baixo consumo de energia \textit{Bluetooth Low Energy} (BLE) --- \textit{Bluetooth Mesh} \cite{BLE-mesh}, uma rede de área pessoal sem fio (WPAN), que permite o estabelecimento de uma comunicação \textit{many-to-many} entre os dispositivos da rede. Essa arquitetura utiliza o conceito de rede por inundação, no qual os dados de um nó são enviados para vários outros nós, que atuam como retransmissores desses dados para outros dispositivos dentro do seu alcance, o que aumenta a área de cobertura da rede além do limite de comunicação 1 para 1, com limite de 32 mil nós em uma só rede. Os dispositivos da rede podem ser heterogêneos, possuindo diferentes funções. A tecnologia BLE foi desenvolvida exatamente para aplicações onde é necessário um baixo consumo de energia, o que impõe um limite na sua taxa de transmissão de dados.
+Wi-Fi é uma família de tecnologias designadas para comunicação sem fio baseada no padrão IEEE 802.11\cite{802.11}, amplamente utilizada em redes de área local (em inglês \textit{local area network}, LAN) para prover acesso à internet como uma alternativa à tecnologia cabeada Ethernet. Essa tecnologia opera nas faixas de 2,4Ghz e 5GHz, sendo que a primeira permite uma taxa de transmissão de até 600 Mbits/s e a segunda até 1 Gbit/s em casos mais extremos\cite{Wi-Fi-datarate}. A topologia comum de uma rede Wi-Fi é dada por um  dispositivo que atua como ponto de acesso que disponibiliza o sinal sem fio para que dispositivos ao seu redor possam se conectar à rede, em uma topologia de rede em estrela. Deste modo, os dispositvos têm que estar a uma distância de poucos metros do ponto de acesso para que a comunicação não seja afetada, sendo essa distância cerca de 76m a 122m em ambientes internos\cite{wifi-range}, dependendo da antena utilizada.
+
+Outra norma comumente utilizada em redes sem fio é a IEE 802.15.4, que define especificações de camada física para redes de comunicação sem fio que operam com baixa taxa de transmissão de dados (em inglês, \textit{Lower Rate Wireless Personal Area Network,}, ou LR-WPAN), que também utiliza a banda de frequência de 2,4GHz\cite{802.15.4}. Os nós participantes da rede podem ser do tipo "função completa" (em inglês, \textit{full-function device} (FFD)), agindo como coordenador da rede, podendo retransmitir mensagens para outros nós, ou do tipo "função reduzida" (em inglês, \textit{reduced-function device} (RFD)), destinados a serem dispositivos simples e com poucos requisitos de comunicação, podendo apenas se comunicar com FFDs. As especificações Zigbee, 6LoWPAN e Thread são baseadas nessa norma.
+
+Por último, dentre as tecnlogias citadas anteriormente, o Bluetooth surgiu com objetivo inicial de substituir a conexão por fios entre dispositivos móveis comuns como celulares e fones de ouvido, porém já evoluiu muito e pode ser encontrada em diversas aplicações. Em 2009, a \textit{Bluetooth Special Interest Group} (Bluetooth SIG, organização que gerencia o desenvolvimento do padrão Bluetooth) definiu uma nova versão de baixo consumo energético, chamada de \textit{Bluetooth Low Energy} (BLE), visando aplicações em que não é necessária comunicação contínua como, por exemplo, sensores que coletam dados em intervalos de tempo espaçados. O BLE vem se tornando uma das principais tecnologias para aplicações IoT, principalmente por estar presente na maioria dos dispositivos mais comuns utilizados no dia-a-dia das pessoas, como computadores, \textit{smartphones} e \textit{tablets}, o que facilita a comunicação do usuário com outros dispositivos específicos. As aplicações BLE operam a 2,4GHz com taxas de transmissão entre 0,27 e 1,37 Mbps\cite{ble-datarate}.
+
+Os protocolos citados possuem, em geral, topologias de rede baseadas em estrela, com vários dispositivos periféricos conectados a um central, ou em árvore, que pode ser vista como várias redes em estrela interconectadas. No segundo caso, apenas os dispositivos centrais de cada rede em estrela poderia se comunicar com as outras, atuando como um dispositivo de borda. Desse modo, a conexão entre dispositivos periféricos e central da rede se dá de forma ponto-a-ponto, o que gera uma dependência forte do central e, caso ele apresente algum problema, pode afetar o funcionamento da rede inteira.
+
+
+\begin{figure}[h!]
+\centering
+\begin{minipage}{.5\textwidth}
+	\centering	
+	\includegraphics[width=.4\linewidth]{star-network}
+	\caption{Topologia de rede em estrela}
+	\label{fig:Rede em estrela}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+	\centering
+	\includegraphics[width=.4\linewidth]{tree-network}
+	\caption{Topologia de rede em árvore}
+	\label{fig:Rede em árvore}
+\end{minipage}
+
+\end{figure}
+
+
+O crescimento e evolução das aplicações IoT requer topologias mais novas e complexas, com a capacidade de se ajustarem dinamicamente caso ocorra alguma mudança na rede. Com isso em mente, soluções de redes em malha começam a surgir nos protocolos anteriormente citados. Nessa topologia, os nós ficam interligados de forma não-hierárquica, permitindo a comunicação \textit{many-to-many} entre os dispositivos da rede, possibilitando que dados de um ponto qualquer seja enviado a outro ponto qualquer da rede. 
+
+\begin{figure}[h!]
+\centering
+	\includegraphics[width=.4\linewidth]{mesh-network}
+	\caption{Topologia de rede em malha}
+	\label{fig:Rede em malha}
+\end{figure}
+
+Dada essa necessidade, FALAR QUE SURGIRAM SOLUÇÕES MESH PRAS TECNOLOGIAS ANTERIORES.
+
+CITAR ESTUDOS QUE COMPARAM ELAS, LIGANDO PRO GRÁFICO ABAIXO.
+
+
+\begin{figure}[h!]
+\centering
+	\includegraphics[width=\textwidth]{mesh-net-comparison}
+	\caption{
+		Comparação de performance entre 4 tecnologias de rede sem fio, em topologia de malha, de acordo com 9 parâmetros. Retirado de \cite{mesh-network-comparison} (traduzido).
+	}
+	\label{fig:Rede em malha}
+\end{figure}
 
 Dados os requisitos desse projeto, os dispositivos serão interconectados por meio de uma rede \textit{Bluetooth Mesh}, disponibilizando dados de medições dos sensores e \textit{feedback} ao longo do dia por toda a rede. Como estamos utilizando um dispositivo com conectividade tanto Bluetooth quanto Wi-Fi, um dos dispositivos da rede estará conectado também à internet via Wi-Fi, para que seja possível enviar os dados coletados pela rede para um banco de dados localizado em um servidor externo ao sistema, possibilitando o acesso remoto aos dados.
 
@@ -34,7 +82,7 @@ Para esse projeto, usaremos a solução AWS da Amazon, especificamente o serviç
 
 \subsection{\textit{Processador}}
 
-De acordo com a pesquisa de 2019 da Aspencore \cite{eetimes}, 61\% dos projetos de sistemas embarcados usam processadores de 32-bits, e 65\% utiliza algum tipo de sistema operacional. 
+De acordo com a mesma pesquisa da Aspencore citada anteriormente, 61\% dos projetos de sistemas embarcados usam processadores de 32-bits, e 65\% utiliza algum tipo de sistema operacional. 
 
 Pensando nisso e listando os periféricos necessários para comunicação com os periféricos (descritos a seguir), selecionamos as principais opções existentes no mercado de microcontroladores, para atuar como processador central do dispositivo. 
 
