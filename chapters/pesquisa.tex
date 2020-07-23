@@ -1,0 +1,226 @@
+\documentclass[../monografia.tex]{subfiles}
+
+\begin{document}
+\section{Indicadores de Qualidade e Conforto} 
+
+% Separar qualidade e conforto
+
+% Qualidade -> Limites pela legislação e pesquisas
+Como qualidade e conforto são termos subjetivos, vamos tratar aqui como "qualidade do ambiente" as condições recomendadas por normas e pesquisas, para os quatro indicadores. Isto é, será considerado um ambiente de boa qualidade o que atender às faixas de operação pré-determinadas, funcionando como um aviso para o ocupante caso as medidas indiquem que os parâmetros do ambiente estão fora do recomendado. 
+
+Já o conforto será atrelado à percepção do usuário quanto ao ambiente. Apesar de o ambiente ser considerado saudável ou de qualidade, existem muitos fatores que afetam a sensação das pessoas, de forma que apenas a definição de uma faixa de operação não implica em bem-estar. 
+% citações ??
+
+\subsection{Regulamentações e Normas} %check
+
+A legislação brasileira determina os valores máximos e mínimos dos indicadores de conforto no ambiente para que haja boas condições de trabalho: 
+
+\begin{citacaoLonga} %Normas ministerio
+\textbf{NR17 do Ministério do Trabalho} \cite{NR17}
+
+17.5. Condições ambientais de trabalho.
+
+17.5.2. Nos locais de trabalho onde são executadas atividades que exijam solicitação intelectual e atenção constantes, tais como: salas de controle, laboratórios, escritórios, salas de desenvolvimento ou análise de projetos, dentre outros, são recomendadas as seguintes condições de conforto:
+
+a) níveis de ruído de acordo com o estabelecido na NBR 10152, norma brasileira registrada no INMETRO;
+
+b) índice de temperatura efetiva entre 20oC (vinte) e 23oC (vinte e três graus centígrados);
+
+[...]
+
+d) umidade relativa do ar não inferior a 40 (quarenta) por cento.
+
+17.5.2.1. Para as atividades que possuam as características definidas no subitem 17.5.2, mas não apresentam equivalência ou correlação com aquelas relacionadas na NBR 10152, o nível de ruído aceitável para efeito de conforto será de até 65 dB (A)
+
+[...]
+
+17.5.3.3. Os níveis mínimos de iluminamento a serem observados nos locais de trabalho são os valores de iluminâncias estabelecidos na NBR 5413, norma brasileira registrada no INMETRO.
+\end{citacaoLonga}
+
+\begin{citacaoLonga} %Normas ABNT
+
+\textbf{NBR 10152} \cite{NBR10152} para Escritórios
+
+Salas de reunião: 30 - 40 dB(A)
+
+Salas de gerência, Salas de projetos e de administração: 35 - 45 dB(A)
+
+Salas de computadores: 45 - 65 dB(A)
+
+Salas de mecanografia: 50 - 60 dB(A)
+
+\textbf{NBR 5413} \cite{NBR5413}
+
+Para escritórios: 500 - 750 - 1000 lux
+\end{citacaoLonga}
+
+\subsection{Conforto Visual} %check
+Além da \textbf{intensidade da luz incidente}, cujos níveis são estabelecida na legislação, a \textbf{temperatura da cor} da luz incidente também tem grande relevância. A muitos anos sabe-se que a luz azul emitida, de maior temperatura, causa danos à retina \cite{BlueLight}. \par
+Assim, temperatura é um parâmetro importante para a qualidade do ambiente, muitas vezes deixado de lado, e assim como na saúde, afeta diretamente o conforto e a atenção das pessoas, como visto em \cite{VisualComfort}: 
+\begin{itemize}
+\item Conforto, luz natural: 3000K - 6000K
+\item Concentração: acima de 5300K 
+\end{itemize}
+
+\subsection{Qualidade do Ar} % Pesquisa CO2 e VOC
+
+% Colocar o que é IAQ, falar sobre?
+% Sindrome Predios doentes? -> Intro?
+Não há, na legislação brasileira, informações sobre a qualidade do ar. Isto é, concentrações de CO2 e VOC. 
+
+A norma a seguir fala a margem esperada, mas também sem recomendações de operação. 
+
+\begin{citacaoLonga} % ISO IAQ
+\textbf{ISO 16017-2:2003}
+
+is applicable to the measurement of airborne vapours of VOCs in a concentration range of approximately 0,002 mg/m3 to 100 mg/m3 individual organic for an exposure time of 8 h
+\end{citacaoLonga}
+
+Por conta disso, vamos nos basear em estudos que tentam relacionar as concentrações de CO2 e de VOC com efeitos na saúde e produtividade das pessoas. 
+
+\subsubsection{CO2}
+Segundo \cite{AirQuality}, o CO2 apresenta concentrações mais altas em ambientes fechados, esperando-se entre 700 e 2000 ppm, em comparação a cerca de 400ppm em ambientes abertos em áreas urbanas\cite{co2Earth}. 
+
+O CO2, além de ser um gás asfixiante e perigoso em altas concentrações (acima de 40000ppm), também pode afetar a saúde quando em níveis moderados (abaixo de 2000ppm). 
+De acordo com o \textit{Winsconsin Department of Health Services}\cite{Winsconsin}, são os efeitos causados na saúde: 
+\begin{itemize}
+\item 250-400ppm: Normal, concentração ambientes abertos
+\item 400-1,000ppm: concentração típica em lugares fechados com pessoas, com boa circulação de ar
+\item 1,000-2,000ppm: pode causar cansaço e falta de ar
+\item 2,000-5,000 ppm: dores de cabeça, sonolência, e falta de ar mais intensa. Baixa concentração, perda de atenção, aumento da frequência cardíaca, e náusea
+\item 40,000 ppm: Pode causar séria insuficiência respiratória, danos permanentes ao cérebro, coma e até a morte
+\end{itemize}
+
+\subsubsection{VOC}
+Compostos orgânicos voláteis, ou VOC (do inglês,\textit{Volatile organic compounds}, são partículas que ficam suspensas no ar, podendo vir de produtos (sintéticos ou naturais) utilizados no ambiente, como tintas, solventes, produtos de limpeza, perfumes que podem causar odor perceptível pelo ser humano\cite{AirQuality}.
+
+A concentração esperada é entre 0.2 e 0.5 mg/m3, e mesmo que nem todos os compostos presentes no ar sejam nocivos à saúde, por precaução é recomendado que estes sigam: \cite{tecam}
+
+\begin{tabular}{ |c|c| }
+\hline
+TVOC Level [mg/m3]	&   Level of Concern \\
+\hline
+Less than 0.3 mg/m3	 &  Low \\
+0.3 to 0.5 mg/m3	&   Acceptable \\
+0.5 to 1 mg/m3	 &  Marginal \\
+1 to 3 mg/m3	 &  High \\
+\hline
+\end{tabular}
+
+%A tabela feita por \cite{sensirion} mostra os níveis de TVOC aceitáveis (em ppb)
+%\begin{tabular}{ |c|c| } 
+%\hline
+%TVOC [ppb] & Hygienic Rating\\ 
+%\hline
+%2200 to 5500 & Unhealty \\ 
+%660 to 2200 & Poor \\ 
+%200 to 660 & Moderate \\
+%65 to 220 & Good \\
+%0 to 65 & Excellent \\
+%\hline
+%\end{tabular}
+%1 ppb = 1 mg/m3
+
+
+\section{Protocolos de Rede} 
+
+Com o crescimento do conceito de Internet das Coisas, novas tecnologias para conexão rápida, segura e fácil de dispositivos são criadas e utilizadas por desenvolvedores em inúmeras aplicações. Segundo a pesquisa \textit{Embedded Markets Study} realizada pela empresa Aspencore\cite{embedded-market-study} e apresentada pelos meios EETimes\cite{eetimes} e Embedded\cite{embedded} em 2019, as interfaces sem fio mais utilizadas por desenvolvedores em  projetos de sistemas embarcados são Wi-Fi, \textit{Bluetooth Low Energy (BLE)} e \textit{Bluetooth Classic}. Essa pesquisa também aponta os protocolos de comunicação sem fio mais utilizados, dentre eles \textit{BLE mesh}, Zigbee, 6LoWPAN e Thread. 
+
+Wi-Fi é uma família de tecnologias designadas para comunicação sem fio baseada no padrão IEEE 802.11\cite{802.11}, amplamente utilizada em redes de área local (em inglês \textit{local area network}, LAN) para prover acesso à internet como uma alternativa à tecnologia cabeada Ethernet. Essa tecnologia opera nas faixas de 2,4GHz e 5GHz, sendo que a primeira permite uma taxa de transmissão de até 600 Mbits/s e a segunda até 1 Gbit/s em casos mais extremos\cite{Wi-Fi-datarate}. A topologia comum de uma rede Wi-Fi é dada por um  dispositivo que atua como ponto de acesso que disponibiliza o sinal sem fio para que dispositivos ao seu redor possam se conectar à rede, em uma topologia de rede em estrela. Deste modo, os dispositvos têm que estar a uma distância de poucos metros do ponto de acesso para que a comunicação não seja afetada, sendo essa distância cerca de 76m a 122m em ambientes internos\cite{wifi-range}, dependendo da antena utilizada.
+
+Outra norma comumente utilizada em redes sem fio é a IEE 802.15.4, que define especificações de camada física para redes de comunicação sem fio que operam com baixa taxa de transmissão de dados (em inglês, \textit{Lower Rate Wireless Personal Area Network,}, ou LR-WPAN), que também utiliza a banda de frequência de 2,4GHz\cite{802.15.4}. Os nós participantes da rede podem ser do tipo "função completa" (em inglês, \textit{full-function device} (FFD)), agindo como coordenador da rede, podendo retransmitir mensagens para outros nós, ou do tipo "função reduzida" (em inglês, \textit{reduced-function device} (RFD)), destinados a serem dispositivos simples e com poucos requisitos de comunicação, podendo apenas se comunicar com FFDs. As especificações Zigbee e 6LoWPAN são baseadas nessa norma.
+
+Por último, dentre as tecnlogias citadas anteriormente, o Bluetooth surgiu com objetivo inicial de substituir a conexão por fios entre dispositivos móveis comuns como celulares e fones de ouvido, porém já evoluiu muito e pode ser encontrada em diversas aplicações. Em 2009, a \textit{Bluetooth Special Interest Group} (Bluetooth SIG, organização que gerencia o desenvolvimento do padrão Bluetooth) definiu uma nova versão de baixo consumo energético, chamada de \textit{Bluetooth Low Energy} (BLE), visando aplicações em que não é necessária comunicação contínua como, por exemplo, sensores que coletam dados em intervalos de tempo espaçados. O BLE vem se tornando uma das principais tecnologias para aplicações IoT, principalmente por estar presente na maioria dos dispositivos mais comuns utilizados no dia-a-dia das pessoas, como computadores, \textit{smartphones} e \textit{tablets}, o que facilita a comunicação do usuário com outros dispositivos específicos. As aplicações BLE operam a 2,4GHz com taxas de transmissão entre 0,27 e 1,37 Mbps\cite{ble-datarate}.
+
+Os protocolos citados possuem, em geral, topologias de rede baseadas em estrela, com vários dispositivos periféricos conectados a um central, ou em árvore, que pode ser vista como várias redes em estrela interconectadas. No segundo caso, apenas os dispositivos centrais de cada rede em estrela poderia se comunicar com as outras, atuando como um dispositivo de borda. Desse modo, a conexão entre dispositivos periféricos e central da rede se dá de forma ponto-a-ponto, o que gera uma dependência forte do central e, caso ele apresente algum problema, pode afetar o funcionamento da rede inteira.
+
+
+\begin{figure}[h!]
+\centering
+\begin{minipage}{.5\textwidth}
+	\centering	
+	\includegraphics[width=.4\linewidth]{star-network}
+	\caption{Topologia de rede em estrela}
+	\label{fig:Rede em estrela}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+	\centering
+	\includegraphics[width=.4\linewidth]{tree-network}
+	\caption{Topologia de rede em árvore}
+	\label{fig:Rede em árvore}
+\end{minipage}
+
+\end{figure}
+
+
+O crescimento e evolução das aplicações IoT requer topologias mais novas e complexas, com a capacidade de se ajustarem dinamicamente caso ocorra alguma mudança na rede. Com isso em mente, soluções de redes em malha começam a surgir nos protocolos anteriormente citados. Nessa topologia, os nós ficam interligados de forma não-hierárquica, permitindo a comunicação \textit{many-to-many} entre os dispositivos da rede, possibilitando que dados de um ponto qualquer seja enviado a outro ponto qualquer da rede. 
+
+\begin{figure}[h!]
+\centering
+	\includegraphics[width=.4\linewidth]{mesh-network}
+	\caption{Topologia de rede em malha}
+	\label{fig:Rede em malha}
+\end{figure}
+
+Dada essa necessidade, as epecificações dos protocos de comunicação começaram a adicionar soluções de rede em malha, como BLE Mesh, 802.11s (Wi-Fi mesh) e Thread, que é construída em cima da especificação 6LoWPAN. O protocolo Zigbee já possui suporte a redes em malha desde sua primeira concepção.
+
+O artigo \textit{Wireless Mesh Networking: An IoT-Oriented Perspective Survey on Relevant Technologies}, publicado pela \textit{Future Internet}\cite{mesh-net-comparison} faz uma análise comparativa entre diferentes tipos de protocolos de comunicação atuando na topologia de rede em malha: família IEEE 802.15.4 (Zigbee e Thread), IEEE 802.11 (em especial a IEEE 802.11s que define redes em malha), LoRa Mesh e IEEE 802.15.4 (BLE Mesh). O protocolo LoRa foge do escopo deste projeto, pois é destinado para comunicações entre distâncias quilométricas, possui baixa taxa de transmissão de dados e consumo de energia muito elevado, como mostrado na imagem \ref{fig:Comparação redes mesh}.
+
+CITAR ESTUDOS QUE COMPARAM ELAS, LIGANDO PRO GRÁFICO ABAIXO.
+
+
+\begin{figure}[h!]
+\centering
+	\includegraphics[width=\textwidth]{mesh-net-comparison}
+	\caption{
+		Comparação de performance entre 4 tecnologias de rede sem fio, em topologia de malha, de acordo com 9 parâmetros. Retirado de \cite{mesh-net-comparison} (traduzido).
+	}
+	\label{fig:Comparação redes mesh}
+\end{figure}
+
+\section{Soluções no Mercado} 
+% Falar de ser Open Source
+
+A tabela a seguir mostra algumas das principais soluções encontradas no mercado para monitoramento de ambientes fechados: 
+
+\begin{center}
+\begin{tabular}{ | m{2.5cm} | m{2.4cm}| m{2.2cm} |m{2cm} |m{2cm} |m{2.8cm} | } 
+\hline
+\textbf{Projeto} & \textbf{Térmico} & \textbf{Luminoso} & \textbf{Acústico} & \textbf{Ar} & \textbf{Conectividade} \\ 
+\hline
+Multi comfort \cite{multicomfort} & Sim* & Sim* & Sim* & Sim* & Sim* \\ \hline
+MC350\cite{mc350} & Sim* & Sim* & Sim* & & Bluetooth, App \\
+\hline
+Metriful Sense\cite{metriful} & Temperatura, Umidade, Pressão & Intensidade & Volume, Freq. & VOC &  \\ \hline
+CoMoS\cite{CoMoS} & Temperatura, Umidade, Veloc Ar & Intensidade & & & Wifi, SW Web \\ \hline
+HC tech\cite{HCTech} & Temperatura, Umidade & Intensidade & & & Sigfox, SW Web \\ \hline
+ECOMLITE \cite{ECOMLITE} & Temperatura, Umidade, Pressão & & Volume & $CO_{2}$, CO, VOC, $NO_{2}$ & Wi-fi, Zigbee, Ethernet, SW Web \\ \hline
+Netatmo\cite{netatmo} & Temperatura, Umidade, & & Volume & CO2 & Wi-fi, App \\ \hline
+Senlab O\cite{Senlab} & Temperatura, Umidade & Intensidade & & & LoRa \\ \hline
+Comfort Click\cite{comfortclick} & Temperatura, Umidade & & Volume & & Wi-fi, App  \\ \hline
+\end{tabular}
+\end{center}
+
+\begin{flushright}
+(*) Solução não detalhada pela construtora
+\end{flushright}
+
+
+% Análise  - Finalizar
+Ao observar as soluções existentes no mercado, é possível ver que a maioria atende a apenas alguns dos indicadores. 
+
+Multi Comfort \cite{multicomfort}, a solução mais completa encontrada, trata-se de uma sistema desenvolvido pela construtora Saint-Gobain de forma integrada à construção do edifício. Como apresentado pelo prof. Vanderley (PCC), o monitoramento e automação na construção civil vem crescendo nos últimos anos, de forma que soluções desse tipo tendem a tornar-se mais comuns. 
+Apesar de atender aos 4 indicadores de qualidade e conforto, essa solução não apresenta detalhes sobre as medições que são feitas, quais os elementos medidos ou a precisão dessas medições, assim como sobre a sua conectividade. Também apresenta grande dificuldade para integração em um ambiente já construído. Nesse contexto, é introduzido o equipamento MC350\cite{mc350} - da mesma empresa -, mas que não atende mais a todos os indicadores. 
+
+Em seguida, temos o Metriful Sense \cite{metriful}, que também atende a todos os indicadores de conforto, que é um produto novo em \textit{crowdfunding}. Diferentemente das demais, esse não é um dispositivo completo, mas uma plataforma de sensores projetada para o monitoramento de ambientes, que necessita de uma interface com outro processador e possivelmente com um módulo \textit{wireless} para que haja conexão com uma plataforma de análise. 
+
+Os demais produtos atendem em média apenas dois dos indicadores de conforto, sendo apenas o conforto térmico presente em todos. O conforto luminoso, quando presente, é atendido de forma superficial, sendo medida apenas a intensidade da luz e não a temperatura, que é um elemento importante na sensação de conforto \cite{VisualComfort}. Já no monitoramento da qualidade do ar, apenas uma das soluções \cite{ECOMLITE} (cuja especificação está disponível) mede ao menos os dois principais elementos indicadores \cite{AirQuality}. 
+
+Vemos, assim, que nenhum dos produtos existentes no mercado atende a todos os requisitos levantados para a nossa aplicação. A proposta aqui é o desenvolvimento de um dispositivo que monitore a qualidade e o conforto do ambiente atendendo a todos os indicadores apresentados de forma completa, e com uma medição mais aprofundada em conforto luminoso e qualidade do ar que os projetos comparados. 
+
+Além disso, nenhuma das soluções encontradas envolve diretamente a opinião das pessoas frequentando o ambiente na análise dos seus dados, apenas no controle do ambiente quando esse não atende os requisitos de qualidade ou de conforto. 
+
+Vale destacar, por fim, que na maioria dos casos essas soluções são fechadas, com protocolos que dificultam a integração dos dispositivos com outros que possam complementá-los em seu funcionamento, ou de forma que seja possível uma centralização da análise dos dados coletados. Desenvolvendo um projeto \textit{open-source} e com protocolos padrão de comunicação sem fio, isso deixa de ser um problema. 
+
+
+\end{document}
