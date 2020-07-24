@@ -41,7 +41,11 @@ A partir do diagrama de blocos, foi desenvolvido o esquema elétrico
 
 \subsection{PCB - \textit{Printed Circuit Board}}
 
+A partir do esquema elétrico foi feito um desenho de PCB (\textit{Printed Circuit Board}, ou Placa de Circuito Impresso). 
+
 A placa foi pensada como \textit{Single Layer}, para ser fabricada em fibra por uma fresadora CNC, com seus componentes e conectores soldados à mão. 
+
+
 
 \begin{figure}[h!]
 \centering
@@ -60,6 +64,13 @@ A placa foi pensada como \textit{Single Layer}, para ser fabricada em fibra por 
 \section{Validação da Rede Mesh}
 
 Visando validar a parte de comunicação sem fio utilizando BLE Mesh do ESP32 para o uso no projeto, uma rede simples com apenas 3 dispositivos foi desenvolvida. Dentre os dispositivos, 2 deles eram constituídos pelo microcontrolador escolhido conectados a de 3 LEDs cada um, e o terceiro um \textit{smartphone}. 
+
+\begin{figure}[h]
+	\centering
+		\includegraphics[width=.8\textwidth]{mesh_test}
+		\label{fig:test}
+		\caption{Montagem na Protoboard para o teste de Validação da Rede Mesh}
+\end{figure}
 
 Arquitetura da rede de testes criada:
 
