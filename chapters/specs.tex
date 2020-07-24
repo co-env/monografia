@@ -6,13 +6,42 @@
 
 \subsection{Parâmetros de Medição}
 
+Assim, definimos as métricas de qualidade do ambiente, pensando no que a literatura apresenta como saudável para as pessoas e no que diz a legislação brasileira e as normas técnicas. Estas servirão como forma de alerta. 
+
+E também os indicadores de conforto, que serão os relacionados à percepção do usuário ao ambiente considerado saudável. 
+
+Para cada um dos quatro indicadores, temos as faixas necessárias de medição do ambiente para o funcionamento dentro do escopo.
+
+\begin{itemize}
+	\item Indicador Térmico
+	\begin{itemize}
+		\item Temperatura: entre 0°C e 50°C
+		\item Umidade relativa: entre 10 e 100\%
+	\end{itemize} 
+	\item Indicador Acústico
+	\begin{itemize}
+		\item Volume do som ambiente: até 100 dB(A)
+	\end{itemize} 
+	\item Indicador do Ar
+	\begin{itemize}
+		\item $CO_{2}$: 100 a 40000ppm
+		\item VOC: 0 a 3 mg/$m^{3}$
+	\end{itemize} 
+	\item Indicador Luminoso
+	\begin{itemize}
+		\item Intensidade equivalente a iluminamento de 0 a 1500 lux
+		\item Temperatura da cor: 100 a 8000K
+	\end{itemize} 
+
+\end{itemize}
+
 % \subsection{Feedback}
 % \subsection{Banco de Dados}
 
 \subsection{Protocolos de Comunicação}
 
 % REDE
-Como citado anteriormente, as medições realizadas pelos dispositivos precisam ser salvas e enviadas para algum local de armazenamento, para posterior análise, exigindo que seja estabelecido um protocolo de conexão. 
+% Como citado anteriormente, as medições realizadas pelos dispositivos precisam ser salvas e enviadas para algum local de armazenamento, para posterior análise, exigindo que seja estabelecido um protocolo de conexão. 
 
 
 Com base na pesquisa sobre os protocolos de rede mais adequados ao escopo, os dispositivos serão interconectados por meio de uma rede \textit{Bluetooth Mesh}, disponibilizando dados de medições dos sensores e \textit{feedback} ao longo do dia por toda a rede. Um dos dispositivos da rede estará conectado também à internet via Wi-Fi, para que seja possível enviar os dados coletados pela rede para um banco de dados localizado em um servidor externo ao sistema, possibilitando o acesso remoto aos dados.
@@ -20,6 +49,7 @@ Com base na pesquisa sobre os protocolos de rede mais adequados ao escopo, os di
 \section{Especificação Técnica}
 
 \subsection{Arquitetura do Dispositivo} % Como atingir os objetivos (requisitos) e apronfunda specs da descrição do problema (especificação inicial)
+A partir da definição dos requisitos técnicos, chegamos a seguinte arquitetura do dispositivo:
 
 \begin{figure}[h]
     \centering
@@ -123,10 +153,17 @@ Para fazer a recarga da bateria de forma eficiente e segura, foi pensado em um c
 
 \subsection{Arquitetura da Rede}
 
+\begin{figure}[h]
+\centering
+    \includegraphics[width=.6\textwidth]{rede}
+    \caption{Arquitetura da Rede de Dispositivos}
+    \label{fig:rede}
+\end{figure}
+
 \subsection{Software}
 Outro requisito comumente encontrado em dispositivos IoT focados em monitoramento é a alta disponibilidade de dados para que esse monitoramento em questão seja realizado de forma eficiente. Isso faz com que soluções de armazenamento em nuvem sejam boas alternativas, já que os dados estariam armazenados em um servidor externo ao sistema, possibilitando o seu acesso remotamente. Grandes empresas de tecnologia oferecem plataformas de desenvolvimento com interfaces de programação de aplicações (API, do inglês \textit{application programming interface}) que facilitam o desenvolvimento de bancos de dados conectados.
 
-Para esse projeto, usaremos a solução AWS da Amazon, especificamente o serviço \textbf{AWS IoT Core} \cite{aws-iot}, que é um serviço que permite conexão de dispositivos a aplicativos em nuvem. Ele será utilizado em conjunto com o banco de dados NoSQL DynamoDB da própria plataforma.
+% Para esse projeto, usaremos a solução AWS da Amazon, especificamente o serviço \textbf{AWS IoT Core} \cite{aws-iot}, que é um serviço que permite conexão de dispositivos a aplicativos em nuvem. Ele será utilizado em conjunto com o banco de dados NoSQL DynamoDB da própria plataforma.
 
 
 
