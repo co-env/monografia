@@ -155,19 +155,17 @@ Os protocolos citados possuem, em geral, topologias de rede baseadas em estrela,
 
 O crescimento e evolução das aplicações IoT requer topologias mais novas e complexas, com a capacidade de se ajustarem dinamicamente caso ocorra alguma mudança na rede. Com isso em mente, soluções de redes em malha começam a surgir nos protocolos anteriormente citados. Nessa topologia, os nós ficam interligados de forma não-hierárquica, permitindo a comunicação \textit{many-to-many} entre os dispositivos da rede, possibilitando que dados de um ponto qualquer seja enviado a outro ponto qualquer da rede. 
 
+
 \begin{figure}[h!]
 \centering
-	\includegraphics[width=.4\linewidth]{mesh-network}
+	\includegraphics[scale=.2]{mesh-network}
 	\caption{Topologia de rede em malha}
 	\label{fig:Rede em malha}
 \end{figure}
 
 Dada essa necessidade, as epecificações dos protocos de comunicação começaram a adicionar soluções de rede em malha, como BLE Mesh, 802.11s (Wi-Fi mesh) e Thread, que é construída em cima da especificação 6LoWPAN. O protocolo Zigbee já possui suporte a redes em malha desde sua primeira concepção.
 
-O artigo \textit{Wireless Mesh Networking: An IoT-Oriented Perspective Survey on Relevant Technologies}, publicado pela \textit{Future Internet}\cite{mesh-net-comparison} faz uma análise comparativa entre diferentes tipos de protocolos de comunicação atuando na topologia de rede em malha: família IEEE 802.15.4 (Zigbee e Thread), IEEE 802.11 (em especial a IEEE 802.11s que define redes em malha), LoRa Mesh e IEEE 802.15.4 (BLE Mesh). O protocolo LoRa foge do escopo deste projeto, pois é destinado para comunicações entre distâncias quilométricas, possui baixa taxa de transmissão de dados e consumo de energia muito elevado, como mostrado na imagem \ref{fig:Comparação redes mesh}.
-
-CITAR ESTUDOS QUE COMPARAM ELAS, LIGANDO PRO GRÁFICO ABAIXO.
-
+O artigo \textit{Wireless Mesh Networking: An IoT-Oriented Perspective Survey on Relevant Technologies}, publicado pela \textit{Future Internet}\cite{mesh-net-comparison} faz uma análise comparativa entre diferentes tipos de protocolos de comunicação atuando na topologia de rede em malha: família IEEE 802.15.4 (Zigbee e Thread), IEEE 802.11 (em especial a IEEE 802.11s que define redes em malha), LoRa Mesh e IEEE 802.15.1 (BLE Mesh).
 
 \begin{figure}[h!]
 \centering
@@ -177,6 +175,15 @@ CITAR ESTUDOS QUE COMPARAM ELAS, LIGANDO PRO GRÁFICO ABAIXO.
 	}
 	\label{fig:Comparação redes mesh}
 \end{figure}
+
+O gráfico mostrado na figura \ref{fig:Comparação redes mesh}  pode ser utilizado para resumir de maneira completa a pesquisa realizada em \cite{mesh-net-comparison}. O protocolo LoRa foge do escopo deste projeto, pois é destinado para comunicações entre distâncias quilométricas e possui taxa de transmissão de dados muito baixa, por isso será desconsiderado como alternativa para a aplicação deste projeto. É possível observar os seguintes pontos:
+
+\begin{itemize}
+	\item A tecnologia Wi-Fi é claramente a que possui maior taxa de transmissão de dados, com área de cobertura e alcance razoáveis, mas com a desvantagem de possuir um consumo de energia elevado.
+	\item Redes BLE Mesh são as mais eficientes em termos de consumo de energia, mostrado também no artigo \cite{zigbee-ble-power}, possuem grande área de cobertura, já que uma rede pode possuir até 32 mil nós\cite{BLE-mesh}, e possuem uma taxa de trasmissão de dados alta, comparada com as soluções baseadas na IEEE 802.15.4.
+	\item Todas as soluções apresentadas possuem alta escalabilidade e níveis de latência comparáveis.
+\end{itemize}
+
 
 \section{Soluções no Mercado} 
 % Falar de ser Open Source

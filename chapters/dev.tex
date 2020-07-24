@@ -43,14 +43,14 @@ A partir do diagrama de blocos, foi desenvolvido o esquema elétrico
 
 A placa foi pensada como \textit{Single Layer}, para ser fabricada em fibra por uma fresadora CNC, com seus componentes e conectores soldados à mão. 
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \centering
 \includegraphics[width=8cm]{pcb_2}
 \caption{Visão 2D da Camada Top Layer da PCB}
 \label{fig:img3}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[h!]
 \centering
 \includegraphics[width=10cm]{pcb}
 \caption{Visão 3D da PCB}
@@ -58,6 +58,30 @@ A placa foi pensada como \textit{Single Layer}, para ser fabricada em fibra por 
 \end{figure}
 
 \section{Validação da Rede Mesh}
+
+Visando validar a parte de comunicação sem fio utilizando BLE Mesh do ESP32 para o uso no projeto, uma rede simples com apenas 3 dispositivos foi desenvolvida. Dentre os dispositivos, 2 deles eram constituídos pelo microcontrolador escolhido conectados a de 3 LEDs cada um, e o terceiro um \textit{smartphone}. 
+
+Arquitetura da rede de testes criada:
+
+\begin{itemize}
+	\item Nó com microcontrolador ESP32: 3 elementos, cada um com o \textit{OnOff Server Model} \cite{ble-mesh-models} implementado, visando controlar o ligamento e desligamento de um LED.
+	\item \textit{Smartphone}: utilizando o aplicativo nRF Mesh \cite{nrf-app}, usado para provisionar os outros nós e controlar a rede \textit{mesh}.
+\end{itemize}
+
+O teste completo aqui descrito pode ser visto em \cite{teste-ble-mesh}.
+
+A partir do aplicativo citado, os outros dois dispositivos foram provisionados, criando a rede \textit{mesh}. Depois, foram criados 3 grupos diferentes:
+
+\begin{itemize}
+	\item \textit{Red Lights}: grupo em que os \textit{models} que controlam os LEDs vermelhos nos nós foram inscritos;
+	\item \textit{Green Lights}: grupo em que apenas um dos \textit{models} que controlam LEDs verdes foi incrito;
+	\item \textit{Red and Blue}: grupo em que tanto os \textit{models} de LEDs vermelhas quanto os de LEDs azuis foram inscritos.
+\end{itemize}
+
+O funcionamento da rede pode ser validado quando mensagens de \textit{On} e \textit{Off} eram enviadas em cada grupo e apenas os LEDs que deveriam receber a mensagem do respectivo grupo era acionado ou desligado.
+
+Foi possível visualizar o a criação e o funcionamento de uma rede BLE Mesh na plataforma escolhida, bastando apenas modificar a lógica e parâmetros necessários para que as mensagens contenham os dados coletados pelos sensores do projeto e sejam enviadas para os dispositivos desejados.
+
 
 
 \end{document}
