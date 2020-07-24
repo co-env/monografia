@@ -41,10 +41,9 @@ Para cada um dos quatro indicadores, temos as faixas necessárias de medição d
 \subsection{Protocolos de Comunicação}
 
 % REDE
-% Como citado anteriormente, as medições realizadas pelos dispositivos precisam ser salvas e enviadas para algum local de armazenamento, para posterior análise, exigindo que seja estabelecido um protocolo de conexão. 
 
+Com base na pesquisa sobre os protocolos de rede mais adequados ao escopo, o protocolo BLE será utilizado para interconectar os dispositivos, dado seu baixo consumo de energia, alta escalabilidade e alta taxa de transmissão de dados, quando comparado com as outras tecnologias apresentadas. Como os dados coletados pelos dispositivos precisam ser analisados posteriormente, os dispositivos contarão também com a possibilidade de se conectarem via Wi-Fi à internet, tornando possível o acesso remoto aos dados.
 
-Com base na pesquisa sobre os protocolos de rede mais adequados ao escopo, os dispositivos serão interconectados por meio de uma rede \textit{Bluetooth Mesh}, disponibilizando dados de medições dos sensores e \textit{feedback} ao longo do dia por toda a rede. Um dos dispositivos da rede estará conectado também à internet via Wi-Fi, para que seja possível enviar os dados coletados pela rede para um banco de dados localizado em um servidor externo ao sistema, possibilitando o acesso remoto aos dados.
 
 \section{Especificação Técnica}
 
@@ -152,6 +151,10 @@ A bateria LiPo tem tensões de operação entre 3.5 e 4.2 Volts. Para alimentar 
 Para fazer a recarga da bateria de forma eficiente e segura, foi pensado em um circuito carregador utilizando o CI TP4056 \cite{tp4056}, alimentado por 5V através de um conector USB-micro. Com esse CI é possível também que o circuito opere enquanto a bateria está sendo recarregada. 
 
 \subsection{Arquitetura da Rede}
+
+Os dispositivos serão interconectados por meio de uma rede \textit{Bluetooth Mesh}, disponibilizando dados de medições dos sensores e \textit{feedback} ao longo do dia por toda a rede. Essa arquitetura utiliza o conceito de rede por inundação, no qual os dados de um nó são enviados para vários outros nós, que atuam como retransmissores desses dados para outros dispositivos dentro do seu alcance, o que aumenta a área de cobertura da rede e sua confiabilidade, já que se um dos dispositivos se desconectar, outras rotas estarão disponíveis para a propagação dos dados.
+
+Apenas um dos dispositivos da rede estará conectado também à internet via Wi-Fi, já que esse é um protocolo com alto consumo energético, sendo assim necessário que ele também esteja conectado a uma fonte fixa de energia. Essa conexão permitirá o envio dos dados coletados pela rede para um banco de dados localizado em um servidor externo ao sistema, possibilitando o acesso remoto aos dados.
 
 \begin{figure}[h]
 \centering
