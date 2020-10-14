@@ -61,6 +61,34 @@ A placa foi pensada como \textit{Single Layer}, para ser fabricada em fibra por 
 \label{fig:img4}
 \end{figure}
 
+
+\section{Firmware Sensores}
+\subsection{Funcionamento BME280}
+
+O BME280 possui 3 modos de operação: \cite{bme280}
+\begin{itemize}
+	\item \textit{sleep}: baixo consumo de energia, registradores podem ser lidos mas não realiza novas operações de medição.
+	\item \textit{forced}: realiza uma medição, salva os resultados, e volta ao modo \textit{sleep}.
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=12cm]{timing_bme280}
+		\caption{Diagrama de tempos do modo \textit{forced}}
+		\label{fig:time_bme280}
+	\end{figure}
+
+	\item normal: realiza medições periodicamente. O consumo durante o \textit{standby} entre medições é maior que o consumo no modo \textit{sleep}. 
+\end{itemize}
+
+O \textit{datasheet} recomenda que, para aplicações do tipo monitoramento climático, seja utilizado o modo \textit{forced}, com cerca de 1 medição por minuto. Assim, o sensor consumirá uma corrente de aproximadamente 0.16$\mu$A, sendo o modo de maior economia de energia. 
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=12cm]{teste_bme280}
+	\caption{Montagem na Protoboard do Teste com o sensor BME280}
+	\label{fig:time_bme280}
+\end{figure}
+
 \section{Validação da Rede Mesh}
 
 Visando validar a parte de comunicação sem fio utilizando BLE Mesh do ESP32 para o uso no projeto, uma rede simples com apenas 3 dispositivos foi desenvolvida. Dentre os dispositivos, 2 deles eram constituídos pelo microcontrolador escolhido conectados a de 3 LEDs cada um, e o terceiro um \textit{smartphone}. 

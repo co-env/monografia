@@ -36,14 +36,7 @@ Para cada um dos quatro indicadores, temos as faixas necessárias de medição d
 \end{itemize}
 
 % \subsection{Feedback}
-% \subsection{Banco de Dados}
-
-\subsection{Protocolos de Comunicação}
-
-% REDE
-
-Com base na pesquisa sobre os protocolos de rede mais adequados ao escopo, o protocolo BLE será utilizado para interconectar os dispositivos, dado seu baixo consumo de energia, alta escalabilidade e alta taxa de transmissão de dados, quando comparado com as outras tecnologias apresentadas. Como os dados coletados pelos dispositivos precisam ser analisados posteriormente, os dispositivos contarão também com a possibilidade de se conectarem via Wi-Fi à internet, tornando possível o acesso remoto aos dados.
-
+% \subsection{Banco de Dados} 
 
 \section{Especificação Técnica}
 
@@ -149,6 +142,12 @@ Para alimentar os dispositivos, foi pensado em utilizar uma bateria de Lítio-Po
 A bateria LiPo tem tensões de operação entre 3.5 e 4.2 Volts. Para alimentar o circuito foi optado por elevar a tensão para 5V, através de um regulador chaveado boost, ainda não definido. 
 
 Para fazer a recarga da bateria de forma eficiente e segura, foi pensado em um circuito carregador utilizando o CI TP4056 \cite{tp4056}, alimentado por 5V através de um conector USB-micro. Com esse CI é possível também que o circuito opere enquanto a bateria está sendo recarregada. 
+
+\subsection{Protocolos de Comunicação}
+
+% Corrigir
+
+Com base na pesquisa sobre os protocolos de rede mais adequados ao escopo, o protocolo BLE será utilizado para interconectar os dispositivos, dado seu baixo consumo de energia, alta escalabilidade e alta taxa de transmissão de dados, quando comparado com as outras tecnologias apresentadas. Como os dados coletados pelos dispositivos precisam ser analisados posteriormente, os dispositivos contarão também com a possibilidade de se conectarem via Wi-Fi à internet, tornando possível o acesso remoto aos dados.
 
 \subsection{Arquitetura da Rede}
 
