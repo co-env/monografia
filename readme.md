@@ -39,6 +39,8 @@ Não precisa colocar caminho para referências, as das imagens está na main.
 
 Apenas a main precisa ser compilada
 
+Recipe: pdflatex -> bibtex -> pdflatex x2
+
 ## Referências
 
 Usando BibTeX
