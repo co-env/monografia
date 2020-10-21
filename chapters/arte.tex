@@ -4,6 +4,89 @@
 
 \section{Revisão da Literatura} 
 
+\subsection{Qualidade em Ambientes Internos}
+
+% !
+O artigo "Development of low-cost indoor air quality monitoring devices:
+Recent advancements", da Universidade do Porto\cite{IAQ_Compare} traz uma comparação dos principais projetos focados no monitoramento de qualidade do ar. A seguir, mostramos os estudos que possuem uma maior abrangência, não se restringindo apenas à qualidade do ar, mas monitorando ao menos dois indicadores de qualidade em ambientes internos (IEQ - Indoor Environment Quality). 
+
+%!! Multipage table - include caption 
+
+% \multirow{3}{4em}{Multiple row}
+\begin{center}
+\begin{longtable}{ |c|c|c| } 
+\hline % Cabeçalho
+\textbf{Estudo} & \textbf{Parâmetros monitorados} & \textbf{Processador e comunicação} \\ 
+\hline %Parkinson 
+\multirow{4}{8em}{Parkinson et al.\cite{PARKINSON201915}-\cite{PARKINSON2019241}} & Temperatura, Umidade & ARM-Cortex \\
+& CO2, TVOC, CO, Vel. do Ar & On-board e cloud storage \\ 
+& Som & LTE \\ 
+& Intensidade Luminosa  &  \\ 
+\hline % Karami
+\multirow{4}{8em}{Karami et al.\cite{KARAMI2018412}} & Temperatura, Umidade & Arduino UNO \\ 
+& CO2, VOC & Cloud storage \\ 
+& Intensidade Luminosa & Zigbee \\ 
+& Ocupação (PIR)  & VOLTTRON Software \\ 
+\hline % Carre and Williamson
+\multirow{4}{8em}{Carre and Williamson\cite{CARRE20181751}} & Temperatura, Umidade & Arduino Mega 2560 \\ 
+& CO2, Vel. do Ar & On-board e cloud storage \\ 
+& Intensidade Luminosa & 3G \\ 
+& Som, Ocupação (PIR)  &  \\ 
+\hline % Tiele
+\multirow{3}{8em}{Tiele et al.\cite{Tiele2018}} & Temperatura, Umidade & Feather M0 \\ 
+& CO2, TVOC, CO & On-board storage \\ 
+& Intensidade Luminosa &  \\ 
+\hline % Chanthakit and Rattanapoka
+\multirow{3}{8em}{Chanthakit and Rattanapoka\cite{Chanthakit2018}} & Temperatura, Umidade & ESP8266 \\  %!! Colocar na tabela de comunicação
+& CO & MQTT Protocol \\ 
+&  & \multirow{2}{12em}{Dados não são salvos (projeto futuro)} \\ 
+& & \\
+\hline % Scarpa et al.
+\multirow{4}{8em}{Scarpa et al.\cite{SCARPA2017282}} & Temperatura, Umidade & Arduino \\ 
+& CO2 & Onboard e cloud storage \\ 
+& Intensidade Luminosa & Wifi (módulo ESP8266) \\ 
+& Movimento (IR)  &\\
+\hline % Jiang and Huacon
+\multirow{3}{8em}{Jiang and Huacon\cite{Jiang2017}} & Temperatura, Umidade & Raspberry Pi 3B \\ 
+& CO2 & Cloud storage \\ 
+& Som & Thingspeak platform \\ 
+\hline %Salamone et al.
+\multirow{4}{8em}{Salamone et al.\cite{SALAMONE2017351}-\cite{Salamone2017}} & Temperatura, Umidade & Arduino \\ %! 2 artigos (2017)
+& CO2, Vel. do Ar & On-board e cloud storage \\ 
+& Intensidade Luminosa & Wifi shield \\ 
+&  & BlueSmiRF (Bluetooth) \\ 
+\hline %Ali et el.
+\multirow{4}{8em}{Ali et al.\cite{ALI2016114}} & Temperatura, Umidade & Arduino PRO Mini \\
+& CO2 & On-board storage \\ 
+& Intensidade Luminosa & \multirow{2}{12em}{Sem comunicação wireless (projeto futuro)} \\ 
+& Ocupação (PIR) &  \\ 
+\hline %Brunelli
+\multirow{4}{8em}{Brunelli et al.\cite{Brunelli2014}} & Temperatura, Umidade & Jennic NXP JN5148 %?
+SoC \\
+& CO2 & Online storage \\ 
+& Intensidade Luminosa & IEEE802.15.4/ZigBee \\ 
+&  & PRO complaint module \\ 
+\hline %Tapashetti
+\multirow{3}{8em}{Tapashetti et al.\cite{Tapashetti2016}} & Temperatura, Umidade & (WiFi) Marvell 88 MW302 \\
+& CO2, Gas & Cloud storage (AWS) \\ 
+& Intensidade Luminosa &  \\ %?
+\hline %Marques and Pitarma
+\multirow{3}{8em}{Marques and Pitarma\cite{Marques2019}} & CO, CH4, Eth & ESP8266 (Wifi)\\
+&  & Cloud storage \\ 
+&  & Thingspeak platform \\ 
+\hline %Martín-Garín et al.
+\multirow{2}{8em}{Martín-Garín et al.\cite{MARTINGARIN2018201}} & Temperatura, Umidade & ESP8266 (Wifi)\\
+& CO2 & On-board e Cloud storage \\ 
+\hline 
+\caption{Tabela comparativa de estudos em dispositivos de monitoramento de ambientes}
+\label{table}
+\end{longtable}
+\end{center}
+
+\subsection{Redes de sensores sem fio}
+
+%todo 
+
 \section{Tecnologias Relevantes} 
 \subsection{Protocolos de Rede} 
 
@@ -118,7 +201,8 @@ A árvore de objetivos é uma representação gráfica dos meios necessários, c
 
 \begin{figure}[h!]
 %\includegraphics[scale=0.65]{objective_tree}
-\includegraphics[width=\textwidth]{objective-tree-2}
+\includegraphics[height=\textheight]{objective-tree-2}
+\centering
 \caption{Árvore de objetivos do projeto}
 \label{fig:objective-tree}
 \end{figure}
