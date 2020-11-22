@@ -12,7 +12,9 @@ No \textbf{hardware} estará concentrado todo o desenvolvimento da eletrônica d
 O \textbf{firmware} será todo o software embarcado no dispositivo, desde a comunicação com o hardware até a comunicação sem fio, entre os dispositivos da rede e do dispositivo \textit{gateway} com a plataforma. 
 O \textbf{software}, por fim, trata do desenvolvimento relacionado à plataforma onde os dados serão armazenados e apresentados. 
 
-\section{Protótipo}
+Por fim, foi desenvolvido um case mecânico simples, impresso em 3D, para proteger os componentes. 
+
+\section{Hardware}
 
 A partir das especificações técnicas, foi elaborado um novo diagrama de blocos. 
 
@@ -39,7 +41,7 @@ A partir do diagrama de blocos, foi desenvolvido o esquema elétrico
 \label{fig:img2}
 \end{figure}
 
-\subsection{PCB - \textit{Printed Circuit Board}}
+\subsection{PCB \textit{Printed Circuit Board}}
 
 A partir do esquema elétrico foi feito um desenho de PCB (\textit{Printed Circuit Board}, ou Placa de Circuito Impresso). 
 
@@ -62,8 +64,12 @@ A placa foi pensada como \textit{Single Layer}, para ser fabricada em fibra por 
 \end{figure}
 
 
-\section{Firmware Sensores}
-\subsection{Funcionamento BME280}
+\section{Firmware}
+\subsection{Sensores}
+
+Bibliotecas.
+
+\subsubsection{BME280}
 
 O BME280 possui 3 modos de operação: \cite{bme280}
 \begin{itemize}
@@ -89,7 +95,13 @@ O \textit{datasheet} recomenda que, para aplicações do tipo monitoramento clim
 	\label{fig:time_bme280}
 \end{figure}
 
-\section{Validação da Rede Mesh}
+\subsubsection{AS7262}
+\subsubsection{SGP30}
+\subsubsection{Microfone}
+\subsection{Feedback}
+\subsubsection{LCD OLED}
+\subsection{Bluetooth}
+\subsubsection{Validação da Rede Mesh}
 
 Visando validar a parte de comunicação sem fio utilizando BLE Mesh do ESP32 para o uso no projeto, uma rede simples com apenas 3 dispositivos foi desenvolvida. Dentre os dispositivos, 2 deles eram constituídos pelo microcontrolador escolhido conectados a de 3 LEDs cada um, e o terceiro um \textit{smartphone}. 
 
@@ -121,11 +133,9 @@ O funcionamento da rede pode ser validado quando mensagens de \textit{On} e \tex
 
 Foi possível visualizar o a criação e o funcionamento de uma rede BLE Mesh na plataforma escolhida, bastando apenas modificar a lógica e parâmetros necessários para que as mensagens contenham os dados coletados pelos sensores do projeto e sejam enviadas para os dispositivos desejados.
 
-\section{Próximos Passos}
+\subsection{Wifi}
+\section{Software}
+\section{Mecânica}
 
-As próximas tarefas a serem feitas no desenvolvimento do projeto foram separadas em blocos, correspondendo às fases do projeto: testes individuais de funcionamento, protótipo e dispositivo piloto. 
-As tarefas podem ser vistas no Apêndice B. 
-
-Cada tarefa, de acordo com a área de desenvolvimento (hardware, firmware e software) pode ser vista no Apêndice C. 
 
 \end{document}
