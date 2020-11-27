@@ -43,11 +43,7 @@ A partir do diagrama de blocos, foi desenvolvido o esquema elétrico
 
 \subsection{PCB \textit{Printed Circuit Board}}
 
-A partir do esquema elétrico foi feito um desenho de PCB (\textit{Printed Circuit Board}, ou Placa de Circuito Impresso). 
-
-A placa foi pensada como \textit{Single Layer}, para ser fabricada em fibra por uma fresadora CNC, com seus componentes e conectores soldados à mão. 
-
-
+A partir do esquema elétrico foi feito um desenho de PCB (\textit{Printed Circuit Board}, ou Placa de Circuito Impresso), \textit{Single Layer}, e dimensões finais 60x70mm. 
 
 \begin{figure}[h!]
 \centering
@@ -56,6 +52,7 @@ A placa foi pensada como \textit{Single Layer}, para ser fabricada em fibra por 
 \label{fig:img3}
 \end{figure}
 
+%! atualizar o 3D que ta a versão 1
 \begin{figure}[h!]
 \centering
 \includegraphics[width=10cm]{pcb}
@@ -63,15 +60,34 @@ A placa foi pensada como \textit{Single Layer}, para ser fabricada em fibra por 
 \label{fig:img4}
 \end{figure}
 
+As placas foram fabricadas em fibra por uma fresadora CNC.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=10cm]{pcb-fresada}
+\caption{PCB fresada}
+\label{fig:img5}
+\end{figure}
+
+%? Montagem final da placa
 
 \section{Firmware}
+
+%! Pensar em como posicionar/quebrar arvore
+\begin{figure}[h!]
+	\centering
+	\includegraphics[height=0.9\textheight]{fw-arch}
+	\caption{Arquitetura do Firmware dos dispositivos}
+	\label{fig:fw-arch}
+\end{figure}
+
 \subsection{Sensores}
 
-Bibliotecas.
+Para os sensores, desenvolvemos bibliotecas baseadas no ESP-IDF e validamos o funcionamento dos mesmos individualmente realizando algumas coletas de dados do ambiente. 
 
 \subsubsection{BME280}
 
-O BME280 possui 3 modos de operação: \cite{bme280}
+O BME280 é um sensor da Bosch que realiza medições de temperatura, umidade e pressão no ambiente. Possui 3 modos de operação: \cite{bme280}
 \begin{itemize}
 	\item \textit{sleep}: baixo consumo de energia, registradores podem ser lidos mas não realiza novas operações de medição.
 	\item \textit{forced}: realiza uma medição, salva os resultados, e volta ao modo \textit{sleep}.
@@ -86,20 +102,35 @@ O BME280 possui 3 modos de operação: \cite{bme280}
 	\item normal: realiza medições periodicamente. O consumo durante o \textit{standby} entre medições é maior que o consumo no modo \textit{sleep}. 
 \end{itemize}
 
-O \textit{datasheet} recomenda que, para aplicações do tipo monitoramento climático, seja utilizado o modo \textit{forced}, com cerca de 1 medição por minuto. Assim, o sensor consumirá uma corrente de aproximadamente 0.16$\mu$A, sendo o modo de maior economia de energia. 
+O \textit{datasheet} recomenda que, para aplicações do tipo \textbf{monitoramento climático}, seja utilizado o modo \textit{forced}, com cerca de 1 medição por minuto. Assim, o sensor consumirá uma corrente de aproximadamente 0.16$\mu$A, sendo o modo de maior economia de energia. 
 
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=12cm]{teste_bme280}
-	\caption{Montagem na Protoboard do Teste com o sensor BME280}
-	\label{fig:time_bme280}
-\end{figure}
+A Bosch Sensortech disponibiliza um driver para o BME280, com código fonte em C e disponibilizado abertamente\cite{bme280-driver}, que permite sua integração ao firmware em microcontroladores de qualquer fabricante. 
+Utilizando o driver como base, desenvolvemos uma biblioteca para a utilização do BME280 no ambiente ESP-IDF, utilizando comunicação I2C, disponível
+
+%todo: colocar estrutura da lib
+
+%* Teste de validação 
+%? manter?
+% \begin{figure}[h]
+% 	\centering
+% 	\includegraphics[width=12cm]{teste_bme280}
+% 	\caption{Montagem na Protoboard do Teste com o sensor BME280}
+% 	\label{fig:time_bme280}
+% \end{figure}
 
 \subsubsection{AS7262}
 \subsubsection{SGP30}
 \subsubsection{Microfone}
 \subsection{Feedback}
 \subsubsection{LCD OLED}
+\subsubsection{Máquina de Estados}
+
+Para a coleta do feedback, foi implementada a seguinte máquina de estados, seguindo um \textit{table-driven approach}.
+
+%Máquina de Estados
+
+%Estrutura do Código
+
 \subsection{Bluetooth}
 \subsubsection{Validação da Rede Mesh}
 
@@ -134,8 +165,28 @@ O funcionamento da rede pode ser validado quando mensagens de \textit{On} e \tex
 Foi possível visualizar o a criação e o funcionamento de uma rede BLE Mesh na plataforma escolhida, bastando apenas modificar a lógica e parâmetros necessários para que as mensagens contenham os dados coletados pelos sensores do projeto e sejam enviadas para os dispositivos desejados.
 
 \subsection{Wifi}
+\subsubsection{MQTT}
 \section{Software}
 \section{Mecânica}
 
+Foi projetado um case mecânico para proteger a eletrônica dos dispositivos, a ser impresso em 3D. 
+
+O case é composto por duas peças, uma base, onde fica fixada a placa, e uma tampa onde ficam fixados o display OLED e os botões. As laterais abertas permitem que sejam feitos ajustes dos módulos com sensores sem afetar o funcionamento destes. 
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.6\textwidth]{mec-base.jpeg}
+	\caption{Base do Case Mecânico}
+	\label{fig:mec1}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.6\textwidth]{mec-tampa.jpeg}
+	\caption{Tampa do Case Mecânico}
+	\label{fig:mec2}
+\end{figure}
+
+%* Montagem Final com Case
 
 \end{document}
