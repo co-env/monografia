@@ -1,9 +1,8 @@
 \documentclass[../monografia.tex]{subfiles}
 
-\graphicspath{ {images/}{../images/} } % deixei aqui pra parar de aparecer erro, tava me irritando, só comentar de volta
+\graphicspath{ {images/}{../images/} }
 
 \begin{document}
-
 
 
 Para o desenvolvimento do projeto, dividimos as tarefas entre 3 áreas: Hardware, Firmware e Software. 
@@ -36,9 +35,9 @@ Para o design do hardware, utilizamos o software de CAD de PCB \textit{Altium De
 A partir do diagrama de blocos, foi desenvolvido o esquema elétrico
 
 \begin{figure}[h]
-\includegraphics[width=\textwidth]{sch}
-\caption{Esquemático do Protótipo}
-\label{fig:img2}
+	\includegraphics[width=\textwidth]{sch}
+	\caption{Esquemático do Protótipo}
+	\label{fig:img2}
 \end{figure}
 
 \subsection{PCB \textit{Printed Circuit Board}}
@@ -55,7 +54,7 @@ A partir do esquema elétrico foi feito um desenho de PCB (\textit{Printed Circu
 %! atualizar o 3D que ta a versão 1
 \begin{figure}[h!]
 \centering
-\includegraphics[width=10cm]{pcb}
+\includegraphics[width=10cm]{hw-3d.JPG}
 \caption{Visão 3D da PCB}
 \label{fig:img4}
 \end{figure}
@@ -73,17 +72,38 @@ As placas foram fabricadas em fibra por uma fresadora CNC.
 
 \section{Firmware}
 
-%! Pensar em como posicionar/quebrar arvore
+O desenvolvimento do firmware se deu utilizando o \textbf{ESP-IDF} (\textit{Espressif IoT Development Framework}), disponível pela Espressif\cite{esp-idf} gratuitamente (sob \textit{Apache License}). 
+
+O ESP-IDF é composto por API, ferramentas, componentes e fluxos de trabalho (\textit{workflows}) que permitem o desenvolvimento de aplicações utilizando o ESP32. 
+
+Além disso, utiliza o FreeRTOS, que é o principal sistema operacional de tempo real (RTOS) para microcontroladores\cite{freertos}, de código aberto (\textit{MIT open source license}), e com suporte para diversas famílias de microcontroladores.
+
+Como o ESP32 possui 2 Cores, o freeRTOS usado no IDF é uma versão modificada do \textit{vanilla} FreeRTOS, permitindo que exista multiprocessamento simétrico (SMP, \textit{symmetric multiprocessing}).
+
+Outras bibliotecas, proprietárias ou disponíveis em código aberto, foram utilizadas para a integração de todos os periféricos. 
+
+A arquitetura completa do firmware está disposível no Anexo 2 
+%???
+
+Na camada mais alta do software nos dispositivos, separamos em três: sensores, feedback e rede; descritas a seguir. %??
+
 \begin{figure}[h!]
 	\centering
-	\includegraphics[height=0.9\textheight]{fw-arch}
-	\caption{Arquitetura do Firmware dos dispositivos}
+	\includegraphics[]{fw-arch-1}
+	\caption{Camada alto nível do firmware dos dispositivos}
 	\label{fig:fw-arch}
 \end{figure}
 
 \subsection{Sensores}
 
 Para os sensores, desenvolvemos bibliotecas baseadas no ESP-IDF e validamos o funcionamento dos mesmos individualmente realizando algumas coletas de dados do ambiente. 
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.9\textwidth]{sensors-arch}
+	\caption{Arquitetura dos Sensores}
+	\label{fig:sensors-arch}
+\end{figure}
 
 \subsubsection{BME280}
 
@@ -219,17 +239,57 @@ Para realizar a interação com esse sensor e obter os dados necessários para e
 Os valores retornados pelo comando \textit{Measure Air Quality} são salvos em duas variáveis de 16 bits, a serem manipulados posteriormente.
 
 \subsubsection{Microfone}
+
+adc 
+
 \subsection{Feedback}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[]{feedback-arch}
+	\caption{Arquitetura do Feedback}
+	\label{fig:feedback-arch}
+\end{figure}
+
+A task de feedback inicialmente espera por um evento de timer colocado na queue, identificando que deve ser realizada a coleta. 
+
+Executa o estado inicial, e volta a esperar por um novo evento, que pode ser causado por um timer ou um GPIO. 
+
+Caso seja um GPIO, um novo estado é executado, e de acordo com a resposta, isto é, de acordo com qual botão foi apertado, o futuro estado é definido. 
+Caso seja um timer, e o seu ID é o de Timeout, a coleta é encerrada, executando o estado FINAL. 
+
 \subsubsection{LCD OLED}
 \subsubsection{Máquina de Estados}
 
 Para a coleta do feedback, foi implementada a seguinte máquina de estados, seguindo um \textit{table-driven approach}.
 
+A mudança entre os estados acontece quando um dos botões laterais, correspondendo a respostas 'Não' e 'Sim', é apertado. Dependendo da resposta, segue-se para o próximo estado. 
+
 %Máquina de Estados
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.9\textwidth]{fsm-feedback.png}
+	\caption{Máquina de Estados da coleta de Feedback}
+	\label{fig:fsm-feedback}
+\end{figure}
+
+No estado INITIAL mostra-se a primeira pergunta no display, a estrutura com as respostas é zerada e um timer TIMEOUT é iniciado, a fim de desligar a tela e encerrar o feedback caso não haja resposta. 
+
+Em cada um dos estados intermediários, a resposta dos botões é armazenada, a tela do display é atualizada para uma nova pergunta, e o timer TIMEOUT é reiniciado. 
 
 %Estrutura do Código
+2 timers
+2 botões
 
 \subsection{Bluetooth}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[]{netw-arch}
+	\caption{Arquitetura do Conectividade} %nome feio kk
+	\label{fig:netw-arch}
+\end{figure}
+
 \subsubsection{Validação da Rede Mesh}
 
 Visando validar a parte de comunicação sem fio utilizando BLE Mesh do ESP32 para o uso no projeto, uma rede simples com apenas 3 dispositivos foi desenvolvida. Dentre os dispositivos, 2 deles eram constituídos pelo microcontrolador escolhido conectados a de 3 LEDs cada um, e o terceiro um \textit{smartphone}. 
