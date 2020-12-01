@@ -97,7 +97,7 @@ Outra norma comumente utilizada em redes sem fio é a IEEE 802.15.4, que define 
 
 Por último, dentre as tecnlogias citadas anteriormente, o Bluetooth surgiu com objetivo de substituir a conexão por fios entre dispositivos móveis comuns como celulares e fones de ouvido, porém já evoluiu muito e pode ser encontrada em diversas aplicações. O IEEE padronizou a tecnologia como IEEE 802.15.1, mas atualmente mantinda por outra organização, a \textit{Bluetooth Special Interest Group} (Bluetooth SIG), composta por mais de 35 mil empresas parceiras, que gerencia o desenvolvimento e define os padrões da tecnologia. Em 2009, a Bluetooth SIG definiu uma nova versão de baixo consumo energético, chamada de \textit{Bluetooth Low Energy} (BLE), visando aplicações em que não é necessária comunicação contínua como, por exemplo, sensores que coletam dados em intervalos de tempo espaçados. O BLE vem se tornando uma das principais tecnologias para aplicações IoT, principalmente por estar presente na maioria dos dispositivos mais comuns utilizados no dia-a-dia das pessoas, como computadores, \textit{smartphones} e \textit{tablets}, o que facilita a comunicação do usuário com outros dispositivos específicos. As aplicações BLE operam de 2,4 a 2,485GHz com taxas de transmissão entre 0,27 e 1,37 Mbps\cite{ble-datarate}. 
 
-\subsection{Protocolos de Aplicação}
+\subsection{Protocolos de Aplicação} \label{protocolos-aplicacao}
 
 O protocolo BLE possui uma especificação que engloba desde a camada física até a de aplicação, como mostrado na figura \ref{fig:ble-stack}, diferentemente dos outros dois protocolos apresentados. 
 
@@ -126,7 +126,7 @@ O artigo \cite{mqtt-coap-comparison} faz a uma comparação desses protocolos, a
 
 
  
-\subsection{Topologias de Rede}
+\subsection{Topologias de Rede} \label{topologias-rede}
 
 Os protocolos de rede citados possuem, em geral, topologias de rede baseadas em estrela, com vários dispositivos periféricos conectados a um central, ou em árvore, que pode ser vista como várias redes em estrela interconectadas. No segundo caso, apenas os dispositivos centrais de cada rede em estrela poderia se comunicar com as outras, atuando como um dispositivo de borda. Desse modo, a conexão entre dispositivos periféricos e central da rede se dá de forma ponto-a-ponto, o que gera uma dependência forte do central e, caso ele apresente algum problema, pode afetar o funcionamento da rede inteira.
 
