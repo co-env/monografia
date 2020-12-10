@@ -4,20 +4,24 @@
 
 \section{Requisitos Técnicos}
 
+\subsection{Rede de Sensores}
+%todo
+
 \subsection{Parâmetros de Medição}
 
-Assim, definimos as métricas de qualidade do ambiente, pensando no que a literatura apresenta como saudável para as pessoas e no que diz a legislação brasileira e as normas técnicas. Estas servirão como forma de alerta. 
+Definimos as métricas de \textbf{qualidade do ambiente} com base nos níveis considerados saudáveis pela literatura e no que diz a legislação brasileira e as normas técnicas.
 
-E também os indicadores de conforto, que serão os relacionados à percepção do usuário ao ambiente considerado saudável. 
+Os indicadores de \textbf{conforto} serão os relacionados à percepção do usuário ao ambiente considerado saudável. 
 
 Para cada um dos quatro indicadores, temos as faixas necessárias de medição do ambiente para o funcionamento dentro do escopo.
 
 \begin{itemize}
+%todo: corrigir os parametros? 
 	\item Indicador Térmico
 	\begin{itemize}
 		\item Temperatura: entre 0°C e 50°C
 		\item Umidade relativa: entre 10 e 100\%
-	\end{itemize} 
+	\end{itemize}
 	\item Indicador Acústico
 	\begin{itemize}
 		\item Volume do som ambiente: até 100 dB(A)
@@ -35,12 +39,18 @@ Para cada um dos quatro indicadores, temos as faixas necessárias de medição d
 
 \end{itemize}
 
-% \subsection{Feedback}
-% \subsection{Banco de Dados} 
+\subsection{Software}
 
-\section{Especificação Técnica}
+O uso do protocolo MQTT na rede de dipositivos torna necessária a implementação de um \textit{MQTT Broker} para a recepção dos dados coletados.
 
-\subsection{Arquitetura do Dispositivo} % Como atingir os objetivos (requisitos) e apronfunda specs da descrição do problema (especificação inicial)
+Estes serão então armazenados em um banco de dados, estando assim disponíveis para análise a longo prazo. Soluções com armazenamento em nuvem são boas alternativas pois possibilitam o acesso remotamente, além de garantir maior robustez.
+
+Por fim, as medições precisam ser apresentadas para que sua análise seja possível. Um painel de dados (\txtit{data dashboard}) será desenvolvido com esse propósito. 
+
+
+\section{Especificação Técnica}% Como atingir os objetivos (requisitos) e apronfunda specs da descrição do problema (especificação inicial)
+
+\subsection{Arquitetura do Dispositivo} 
 A partir da definição dos requisitos técnicos, chegamos a seguinte arquitetura do dispositivo:
 
 \begin{figure}[h]
@@ -69,7 +79,7 @@ Atende aos requisitos de \textit{conforto térmico}.
 
 \textbf{Medidas}: 
     \begin{itemize}
-    \item Temperatura entre -40 e 85ºC, com precisão de ±1.0°C
+    \item Temperatura entre -40 e 85°C, com precisão de ±1.0°C
     \item Umidade relativa com precisão de ±3\%
     \item Pressão entre 300 e 1100hPa, com precisão ±1 hPa
     \end{itemize}
@@ -162,16 +172,14 @@ Apenas um dos dispositivos da rede estará conectado também à Internet via Wi-
 
 \subsection{Software}
 
-O uso do protocolo MQTT na rede dipositivos torna necessária a implementação de um \textit{MQTT Broker} para a recepção dos dados coletados. Para isso, utilizamos o Eclipse Mosquitto \cite{mosquitto}, uma implementação de código aberto disponibilizada pela Eclipse Foundation, bastante utilizado em projetos que usam essa tecnologia. Visando a alta disponibilidade dos dados coletados para que o monitoramento seja realizado de forma eficiente, esse Broker será hospedado em um servidor externo em nuvem. 
+Como \textit{MQTT Broker}, utilizamos o Eclipse Mosquitto \cite{mosquitto}, uma implementação de código aberto disponibilizada pela Eclipse Foundation, bastante utilizado em projetos que usam essa tecnologia.  
 
-texto sobre servidores, banco de dados e plataformas de visualização
+- Telegraf 
+- InfluxDB
+- Grafana
+- AWS
 
-
-%Outro requisito comumente encontrado em dispositivos IoT focados em monitoramento é a alta disponibilidade de dados para que esse monitoramento em questão seja realizado de forma eficiente. Isso faz com que soluções de armazenamento em nuvem sejam boas alternativas, já que os dados estariam armazenados em um servidor externo ao sistema, possibilitando o seu acesso remotamente. Grandes empresas de tecnologia oferecem plataformas de desenvolvimento com interfaces de programação de aplicações (API, do inglês \textit{application programming interface}) que facilitam o desenvolvimento de bancos de dados conectados.
-
-
-
-
+%* Falar de nuvem no final, reforçando a ideia que foi passada nos requisitos, e linkar o geral com a imagem final
 
 
 \end{document}
