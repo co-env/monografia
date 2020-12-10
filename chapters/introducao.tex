@@ -1,42 +1,31 @@
 \documentclass[../monografia.tex]{subfiles}
 
 \begin{document}
-\section{Declaração da Necessidade}
-% Contexto, PCC
+\section{Motivação}
 
+%Batata
 Com o aumento do tempo que as pessoas passam em ambientes fechados, como escritórios, há também, nos últimos anos, um crescente interesse em monitorar e controlar tais ambientes, visando uma melhora na saúde e conforto das pessoas, e também um aumento na sua produtividade. Espaços que implementam essas soluções são comumente chamados de prédios inteligentes (\textit{smart buildings}, do inglês). É possível até mesmo que esse controle seja utilizado para uma atuação de maneira energeticamente sustentável e, dentro desse conntexto, surgem os \textit{green buildings} (em português, construções sustentáveis) \cite{GreenBuildings} \cite{EnergyBuildings}.
 
 No desenvolvimento de construções civis sustentáveis, torna-se necessário que seja pensada a implementação automatizada deste monitoramento dos ambientes desde o projeto da edificação e sua concepção, ocorrendo de forma integrada à construção. Uma pesquisa mais aprofundada sobre o conforto dos ambientes pode interferir no projeto, de modo que sejam repensados materiais utilizados e sistemas de aquecimento, ventilação, iluminação, dentre outros. Assim como a sua implementação, pesquisas na área de conforto têm ser tornado cada vez mais importantes. 
 
-Foi com essa necessidade e a proposta de desenvolver um dispositivo eletrônico que o professor Vanderley M. John, do departamento de Construção Civil da Poli (PCC) e coordenador do CICS (Centro de Inovação em Construção Sustentável da USP)\cite{CICS}, entrou em contato. A ideia é que seja desenvolvido um dispositivo capaz de fazer medições de parâmetros relacionados ao conforto nos ambientes internos de uma construção, coletando também a opinião das pessoas ali presentes acerca de seu bem-estar, para assim saber o real impacto dos indicadores de conforto. Para analisar todo o ambiente, é importante que existam diversos dispositivos espalhados para maior cobertura. A fim de analisar ambos os dados (medições do ambiente e opiniões), é interessante que esses dispositivos estejam conectados e integrados a uma central. 
+%Proposta
+Foi com essa necessidade e a proposta de desenvolver um dispositivo eletrônico que o professor Vanderley M. John, do departamento de Construção Civil da Poli (PCC) e coordenador do CICS (Centro de Inovação em Construção Sustentável da USP)\cite{CICS}, entrou em contato conosco. Afim de viabilizar o estudo de qualidade e conforto em ambientes internos (ou IEQ, do inglês \textit{Indoor Environmental Quality}), faz-se necessária a medição de diversos indicadores no ambiente e também uma coleta periódica da opinião das pessoas, atrelada às medições quantitativas, e assim encontrar como uma afeta a outra. 
 
-Assim, a construção de uma rede de dispositivos sensoreados tem, além de uma aplicação prática monitorando a qualidade para as pessoas, também grande utilidade em pesquisas de construção civil e arquitetura, com medições mais precisas e incluindo um elemento muitas vezes deixado de lado: o fator humano.
+Assim, o desenvolvimento de um dispositivo embarcado tem, além de uma aplicação prática monitorando a qualidade para as pessoas, também grande utilidade em pesquisas de construção civil e arquitetura, com medições mais precisas e incluindo um elemento muitas vezes deixado de lado: o fator humano.
 
-Em edifícios, escritórios são hoje os que ocupam a maior área física e tem o maior consumo de energia, sendo sistemas de iluminação, aquecimento e resfriamento (como ar condicionados) os principais causadores do alto consumo\cite{EnergyBuildings}. Por isso, escritórios são o nicho escolhido para a implementação dessa rede de dispositivos, podendo ser testada nas salas do departamento de Construção Civil ou do CICS. 
-
-
-% Dificuldade em estudar elementos relacionados a conforto ?
-% Falar do que já existe? 
-
-\section{Descrição do Problema} % Requisitos
-
-O conforto e a qualidade em ambientes internos são determinados através de quatro principais indicadores: \textbf{térmico, acústico, luminoso e olfativo/qualidade do ar}\cite{ComfortBox}. 
-
-Para que seja possível monitorar esses indicadores, é necessário medirmos diversos dados a respeito do ambiente em questão: %%% ??  essa frase
-\begin{itemize}
-\item Térmico: temperatura ambiente e umidade relativa
-\item Acústico: ruído ambiente
-\item Luminoso: intensidade e temperatura da luz incidente
-\item Qualidade do ar (e Olfativo): CO2 e VOC (\textit{volatile organic compounds})
-\end{itemize}
-
-Não apenas esses elementos são importantes, mas também a combinação deles afeta a percepção de conforto pelas pessoas \cite{ComfortOffice}. Assim, faz-se mais necessário que haja uma medição completa dos elementos presentes no ambiente a ser estudado. Além disso, é interessante que essas medições estejam atreladas a opinião das pessoas a respeito do ambiente, sabendo se estão confortáveis, sendo necessário um sistema que possa coletar um \textit{feedback} das pessoas no escritório. 
-
-%Conectividade
-Todos os dados coletados, tanto das variáveis do ambiente quanto a opinião das pessoas, precisam ser salvos e disponibilizados para análise. Assim, será necessária a existência de conectividade nos dispositivos, junto de uma plataforma em nuvem com um banco de dados e uma interface visual para que seja feita essa análise. 
+Em edifícios, escritórios são hoje os que ocupam a maior área física e tem o maior consumo de energia, sendo sistemas de iluminação, aquecimento e resfriamento (como ar condicionados) os principais causadores do alto consumo\cite{EnergyBuildings}. Por isso, escritórios são o nicho escolhido para o estudo de conforto pelo departamento PCC e, consequentemente, para a implementação dessa rede de dispositivos. 
 
 \section{Objetivos}
-(copiei de outra seção pra cá) A proposta aqui é o desenvolvimento de um dispositivo que monitore a qualidade e o conforto do ambiente atendendo a todos os indicadores apresentados de forma completa, e com uma medição mais aprofundada em conforto luminoso e qualidade do ar que os projetos comparados. 
+
+O objetivo deste trabalho é o projeto de uma rede de dispositivos sensoreados que viabiliza o estudo de qualidade e conforto em escritórios. Como esse estudo ainda não tem parâmetros muito claros para, assim, definirmos os requisitos do projeto, a proposta é que sejam feitas coletas de ao menos uma informação relativa a cada indicador do ambiente. 
+
+%rede e 
+Para uma cobertura completa de grandes escritórios é importante que existam diversos dispositivos espalhados, que estarão conectados em rede. Esse grande volume de dados coletados será salvo em um banco de dados e apresentado de forma gráfica em uma plataforma para facilitar a interpretação e análise durante sua aplicação, como ferramenta de estudo. 
+
+%dispositivos
+Cada dispositivo será capaz de fazer coletas de dados do ambiente, através de sensores, e a coleta do \textit{feedback} de uma pessoa, através de uma interface no próprio dispositivo. Para que essas medidas sejam mais fiéis à realidade, é necessário que os dispositivos estejam próximos á pessoa da qual serão coletadas as opiniões relativas ao conforto. 
+
+Viabilizando o estudo, estes parâmetros a serem coletados podem ser iterados, aumentando ou alterando as informações, conforme a pesquisa avança. Com um projeto \textit{open source} é possível fazer alterações neste ou integrá-lo a outros dispositivos disponíveis no mercado para esse fim. 
 
 \section{Árvore de Objetivos} 
 % arvore de objetivos
