@@ -323,7 +323,7 @@ O crescimento e evolução das aplicações IoT requer topologias mais novas e c
 	\label{fig:Rede em malha}
 \end{figure}
 
-Dada essa necessidade, as epecificações dos protocos de comunicação começaram a adicionar soluções de rede em malha, como BLE Mesh, 802.11s (Wi-Fi mesh) e Thread, que é construída em cima da especificação 6LoWPAN. O protocolo Zigbee já possui suporte a redes em malha desde sua primeira concepção.
+Dada essa necessidade, as epecificações dos protocos de comunicação começaram a adicionar soluções de rede em malha, como BLE Mesh, 802.11s (Wi-Fi mesh) e Thread, que é construída em cima da especificação 6LoWPAN. O protocolo Zigbee já possui suporte a redes em malha desde sua primeira concepção. Essas definições são feitas a nível da camada de rede, se utilizando das especificações das respectivas tecnologias para implementar novas maneiras de roteamento de dados entre os dispositivos.
 
 O artigo \textit{Wireless Mesh Networking: An IoT-Oriented Perspective Survey on Relevant Technologies}, publicado pela \textit{Future Internet}\cite{mesh-net-comparison} faz uma análise comparativa entre diferentes tipos de protocolos de comunicação atuando na topologia de rede em malha: família IEEE 802.15.4 (Zigbee e Thread), IEEE 802.11 (em especial a IEEE 802.11s que define redes em malha), LoRa Mesh e IEEE 802.15.1 (BLE Mesh).
 
@@ -343,6 +343,47 @@ O gráfico mostrado na figura \ref{fig:Comparação redes mesh}  pode ser utiliz
 	\item Redes BLE Mesh são as mais eficientes em termos de consumo de energia, mostrado também no artigo \cite{zigbee-ble-power}, possuem grande área de cobertura, já que uma rede pode possuir até 32 mil nós\cite{BLE-mesh}, e possuem uma taxa de trasmissão de dados alta, comparada com as soluções baseadas na IEEE 802.15.4.
 	\item Todas as soluções apresentadas possuem alta escalabilidade e níveis de latência comparáveis.
 \end{itemize}
+
+
+\subsection{Redes Bluetooth Mesh}
+
+Como citado anteriormente, \textit{Bluetooth Mesh} é um padrão de rede em malha baseado no protocolo \textit{Bluetooth Low Energy} (BLE) com a finalidade de permitir a comunicação do tipo \textit{many-to-many} entre os dispositivos de uma mesma rede. Essa tecnologia se baseia nos seguintes princípios:
+
+\begin{itemize}
+	\item \textit{milti-hop}: mensagens enviadas são reencaminhadas por vários outros dispositivos até que atingam seu destino, permitindo que os dispositivos de orgigem e destino não estejam diretamente interconectados, o que possibilita criação de redes extensas.
+	\item \textit{multi-path}: cópias de uma mensagem são enviadas por diversos caminhos diferentes até chegar ao destino, sendo a primeira a chegar processada e as outras cópias descartadas, provendo redundância de dados no nível de rede.
+	\item \textit{milticast}: dispositivos usualmente enviam uma mesma mensagen para vários destinos diferentes.
+\end{itemize}
+
+O padrão foi idealizado visando possibilitar e encorajar interoperabilidade de dispositivos totalmente diferentes, desenvolvidos por diferentes fabricantes, como, tomando como exemplo um prédio inteligente, sensores que medem o estado atual do ambiente e enviam mensagens para controlar equipamentos de ar condicionado, cortinas e luzes inteligentes, bastando seguir as normas especificadas pela Bluetooth SIG de comunicação. Uma dessas padronizações é a definição de mensagens que serão compartilhadas entre os nós da rede. Cada nó possui estados que definem sua condição condição atual --- ligada ou desligada, no caso de uma lâmpada --- e, para que outro nó possa interagir com este, ele pode enviar mensagens que vão altererar ou ler o valor atual de tal estado. São elas:
+
+\begin{itemize}
+	\item \textbf{SET}: mensagens desse tipo servem para alterar o valor do estado
+	\item \textbf{GET}: enviada por um nó para ler o valor de um estado de outro nó
+	\item \textbf{STATUS}: utilizada por um nó para notificar outros nós o valor do seu estado atual
+\end{itemize}
+
+Cada elemento de uma rede possui um endereço específico que o identifica, utilizado por outros nós para o envio de mensagens. Porém, a especificação também define o modelo de comunicação \textit{Publish/Subscribe}, onde são definidos grupos com endereços fixos em que os nós podem publicar mensagens ou se inscrever para receber todas as mensagens publicadas nesse endereço. Isso faz com que, em redes grandes, não seja necessário saber o endereço de cada nó especificiamente pra o envio de mensagens, apenas os endereços dos grupos que cada nó deve publicar suas mensagens ou se increver, permitindo trocar dispositivos da rede em caso de problemas sem que a funcionalidade da rede seja afetada, bastando apenas manter os endereços dos grupos pré-definidos.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.85]{ble-mesh-node-composition.png}
+	\caption{Composição lógica de um nó BLE Mesh. Retirado de \cite{ble-mesh-models}}
+	\label{fig:ble-mesh-node-composition}
+\end{figure}
+
+A estrutura lógica de um nó da rede está representada na figura \ref{fig:ble-mesh-node-composition}. Podemos dizer que um nó na rede equivale a um conjunto de um ou mais \textbf{elementos} (ou \textit{elements}, em inglês), que é a estrutura logica endereçável na rede, sendo que cada elemento em si é constituido por um ou mais \textbf{modelos} (ou \textit{models}). Dessa forma, um nó (dispositivo físico) pode conter vários elementos que definem diferentes funcionabilidades lógicas para esse dispositivo. Modelos são estruturas padronizadas que realizam um tipo especifico de tarefa, constituídos por estados que o definem e mensagens pré-estabelecidas utilizadas para a interação com outros Modelos.
+
+Seguindo a especificação, os Modelos podem ser do tipo \textbf{Cliente}, que não possuem estados e servem apenas para interagir com os Modelos do tipo \textbf{Servidor}, os quais possuem estados. O exemplo mais comum dessa definição é o caso de um interruptor interagindo com uma lâmpada: o interruptor implementaria o \textit{Generic OnOff \textbf{Client}} e a lâmpada o \textit{Generic OnOff \textbf{Server}}, dado que quem possui o estado de ligada ou desligada é a lâmpada (servidor), alterado ou lido pelo interruptor (cliente).
+
+Para que um dispositivo faça parte de uma rede e possa se comunicar dentro desta, ele necessita de uma chave específica, utilizada para criptografar todas as mensagens enviadas dentro de tal rede, chamada de Chave de Rede (\textit{Network Key}, em inglês, ou NetKey). Esta chave é única e serve para definir uma rede específica. Todos os dispositivos que possuirem essa chave conseguem se comunicar entre si. Um mesmo dispostivo pode fazer parte de mais de uma rede, possuindo assim mais de uma NetKey. Além disso, os Modelos precisam de uma outra chave para interagir com os outros, chamada de Chave de Aplicação (\text{Application Key}, em inglês, ou AppKey), de forma que apenas os Modelos que possuírem a mesma AppKey conseguem se comunicar. Esse conceito torna possível a criação de suberedes dentro de uma mesma rede BLE Mesh para diferentes aplicações, como separar dispositivos em cômodos de uma casa, diferentes salas em um prédio etc.
+
+O processo de definição de quais redes o dispositivo fará parte (atribuindo-o as chaves necessárias) e quais os endereços que ele deve se inscrever e publicar mensagens é chamado de \textbf{Provisionamento}, realizado por um dispositivo especial com o papel de \textbf{provisionador}, sendo este o definidor incial de uma rede e suas chaves. Normalmente, esse dispositivo é um \textit{smartphone} que permite um controle mais interativo pelo usuário, mas pode ser também qualquer outro dispositivo que esteja equipado com essa função. Como mencionado, o processo de provisionamento consiste em atribuir a NetKey que define a rede ao dispositivo, assim como quais Modelos possuirão determinadas AppKeys.
+
+O Bluetooth SIG define 52 Modelos padrões, listados e especificados em \cite{BLE-mesh}, divididos em quatro grandes grupos: modelos genéricos, modelos para sensores, modelos específicos para aplicações de iluminação e modelos relacionados a controle de tempo. Também podemos notar que todo Modelo Servidor possui um Modelo Cliente correspondente e vice-versa. Além desses modelos padrões, desenvolvedores podem projetar seus próprios modelos customizados, chamados de Modelos de Fornecedores (\textit{Vendor Models}, em inglês), sendo necessário definir tanto o formato de dados que eles possuirão (Estados) e as mensagens que devem ser utilizadas para interagir com esse modelo.
+
+Exitem bilhões de dispositivos que implementam o protocolo Bluetooth sendo produzidos todo ano \cite{ble-market-update}, porém muitos deles não são capazes de fazer parte de uma rede BLE Mesh nativamente, seja por não possuírem as camadas necessárias por escolha dos desenvolvedores, ou por simplesmente terem sido produzidos antes da especificação ser concluída. Para aproveitar essa grande quantidade de dispostivos presentes no mercado e tornar possível a interação deles com redes BLE Mesh, existe um tipo especial de dispositivo que pode estar presente na rede, chamado \textit{\textbf{Proxy}}, capaz de se comunicar através da especificação do BLE Mesh e pelos perfis GATT \cite{BLE-GATT} ao mesmo tempo, "traduzindo" mensagens presentes na rede mesh para que esses dispositivos BLE possam também fazer parte da rede. Essa implementação é a que torna possível que um \textit{smartphone} atue como um dispositivo provisionador, como citado anteriormente, que faça o papel de Cliente para acender luzes inteligentes em uma casa ou faça requisições para obter dados dispositivos com sensores, facilitando a interação de um usuário comum com diversas implementações de redes. O fato de que quase toda pessoa que possui um \textit{smartphone} é capaz de interagir com qualquer rede BLE Mesh de forma nativa é um dos fatores que tornam essa tecnologia muito promissora para aplicações voltadas diretamente aos usuários, como dispositivos conectados em \textit{smart homes} e \textit{smart buildings}.
+
 
 
 \end{document}
