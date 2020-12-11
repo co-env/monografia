@@ -72,11 +72,11 @@ O ESP-IDF é composto por API, ferramentas, componentes e fluxos de trabalho (\t
 
 Além disso, utiliza o FreeRTOS, que é o principal sistema operacional de tempo real (RTOS) para microcontroladores\cite{freertos}, de código aberto (\textit{MIT open source license}), e com suporte para diversas famílias de microcontroladores.
 
-Como o ESP32 possui 2 Cores, o freeRTOS usado no IDF é uma versão modificada do \textit{vanilla} FreeRTOS, permitindo que exista multiprocessamento simétrico (SMP, \textit{symmetric multiprocessing}).
+Como o ESP32 possui 2 Cores, o FreeRTOS usado no IDF é uma versão modificada do \textit{vanilla} FreeRTOS, permitindo que exista multiprocessamento simétrico (SMP, \textit{symmetric multiprocessing}).
 
 Outras bibliotecas, proprietárias ou disponíveis em código aberto, foram utilizadas para a integração de todos os periféricos. 
 
-A arquitetura completa do firmware está disposível no Anexo 2 
+A arquitetura completa do firmware está disposível no Anexo 2.
 %???
 
 Na camada mais alta do software nos dispositivos, separamos em três: sensores, feedback e rede; descritas a seguir. %??
@@ -216,7 +216,7 @@ Portanto, para realizar interações com o sensor, o usuário deve realizar os s
 \begin{itemize}
 	\item Inicializar a comunicação I²C com o sensor, que possui endereço 0x58, indicando ação de escrita;
 	\item Enviar o valor referente ao comando que deseja ser executado (normalmente valores de 16 bits);
-	\item Alguns comandos realizam respostas, como o comando \textit{Measure\_air\_quality} (0x2008). Se o comando realizado for desse tipo, basta reiniciar a comunicação I²C, agora indicando uma ação de leitura para o endereço 0x58, que os dados requisitados estarão disponívels;
+	\item Alguns comandos realizam respostas, como o comando \textit{Measure\_air\_quality} (0x2008). Se o comando realizado for desse tipo, basta reiniciar a comunicação I²C, agora indicando uma ação de leitura para o endereço 0x58, que os dados requisitados estarão disponíveis;
 	\item Os dados de reposta virão com 8 bits de CRC ao final. O usuário pode fazer a checagem desse valor, calculando o CRC de acordo com os valores da resposta para validar os dados lidos.
 \end{itemize}
 
@@ -279,50 +279,65 @@ Em cada um dos estados intermediários, a resposta dos botões é armazenada, a 
 2 timers
 2 botões
 
-\subsection{Bluetooth}
+\subsection{Conectividade}
 
-\begin{figure}[h]
+O módulo que trata da parte de rede do dispositivo foi separado em 2 partes, como exemplificado na figura \ref{fig:netw-arch}: implementação dos modelos que definem a rede BLE Mesh, presente em todos os dispositivos, e a implementação da conexão com o MQTT Broker presente no servidor externo através do protocolo Wi-Fi
+
+\begin{figure}[h!]
 	\centering
 	\includegraphics[]{netw-arch}
-	\caption{Arquitetura do Conectividade} %nome feio kk
+	\caption{Arquitetura do módulo de Conectividade} %nome feio kk
 	\label{fig:netw-arch}
 \end{figure}
 
-\subsubsection{Validação da Rede Mesh}
+\subsubsection{Bluetooth}
 
-Visando validar a parte de comunicação sem fio utilizando BLE Mesh do ESP32 para o uso no projeto, uma rede simples com apenas 3 dispositivos foi desenvolvida. Dentre os dispositivos, 2 deles eram constituídos pelo microcontrolador escolhido conectados a de 3 LEDs cada um, e o terceiro um \textit{smartphone}. 
+Como citado em seções anteriores, os dispositivos desse projeto foram interconectados em uma rede BLE Mesh para que os dados coletados por eles sejam enviados pela rede para um dispositivo com função de \textit{gateway}. Para realizar a implemenação da rede, foi utilizada a biblioteca ESP-BLE-MESH, da Espressif, sendo essa baseada na biblioteca de Bluetooth Mesh do \textit{Zephyr Project} \cite{zephyrproject}, um projeto de RTOS mantido pela Linux Foundation, que disponibiliza toda a API necessária para a implementação de uma rede BLE Mesh customizada.
 
-\begin{figure}[h]
+Por se tratar de uma aplicação com vários dados de sensores para serem enviados, foi criado um Modelo customizado que engloba todos os dados dos sensores que compõem um dispositivo, chamado de \textit{\textbf{Custom Sensor Model}}, o qual foi implementado tanto o Modelo Cliente quanto o Servidor. A estrutura de dados principal que define o estado do Modelo contém as seguintes variáveis: 
+
+!!!!!!!!!!!!!!!!! COLOCAR A ESTRUTURA DE DADOS DO BLE MESH AQUI !!!!!!!!!!!!!!!!
+
+A definição de um Modelo também requer que sejam definidas as mensagens utilizadas para interação, sendo elas:
+
+\begin{itemize}
+	\item \textbf{GET}: mensagem utilizada para requisitar o estado atual do Modelo. Ao receber essa mensagem, o nó deve responder a requisição com uma mensagem de STATUS. O corpo dessa mensagem pode ser enviado vazio, ou seja, apenas o endereço de destino precisa ser especificado.
+	\item \textbf{SET}: mensagem utilizada para alterar o estado atual do Modelo Servidor por um agente externo (Cliente ou outro nó Servidor). Essa mensagem foi implementada sem que haja ACK, ou seja, não é enviada uma confirmação ao dispositivo transmissor que a mensagem foi recebida. Deve ser especificado o endereço de destino, seja um endereço de um elemento único ou um endereço de grupo da rede para publicar a mensagem, e o conteúdo deve conter os valores que serão atualizados no destino, de acordo com a estrutura \textbf{REFERENCIAR A STRUCT ALI DE CIMA}.
+	\item \textbf{STATUS}: mensagem utilizada para notificar o estado atual do Modelo, normalmente enviada após receber uma mensagem do tipo GET. O conteúdo da mensagem será composto pela estrutura \textbf{REFERENCIAR A STRUCT ALI DE CIMA}.
+\end{itemize}
+
+Todos os dispositivos possuem as mesmas funcionalidades de coleta de dados de sensores, porém apenas um deles é responsável por também receber as medições de todos os outros, de modo que podemos separar os dispositivos em duas categorias diferentes: os dispositivos normais, chamados de \textit{Sensor Nodes}, e o dispositivo central, chamado de \textit{Gateway Node}. A composição lógica desses dois tipos de dispositivos está demonstrada na figura \ref{fig:mesh-node-architecture}, sendo compostos por apenas um Elemento cada, com o \textit{Configuration Server Model}, mandatório para esse tipo de dispositivo, já que é ele que exerce o papel de interlocutor com o dispositivo provisionador para que haja a atribuição das chaves NetKey e AppKey. Como pode ser observado na mesma imagem, os \textit{Sensor Nodes} possuem o \textit{Custom Sensor \textbf{Client} Model} e o dispositivo central possui o \textit{Custom Sensor \textbf{Server} Model}.
+
+\begin{figure}[h!]
 	\centering
-		\includegraphics[width=.8\textwidth]{mesh_test}
-		\label{fig:test}
-		\caption{Montagem na Protoboard para o teste de Validação da Rede Mesh}
+	\includegraphics[scale=0.22]{mesh-node-architecture.png}
+	\caption{Composição lógica dos nós da rede BLE Mesh}
+	\label{fig:mesh-node-architecture}
 \end{figure}
 
-Arquitetura da rede de testes criada:
+Os dispositivos foram organizados de acordo com o modelo \textit{Publish/Subscribe}, no qual os \textit{Sensor Nodes}, que possuem o Modelo Cliente, publicam mensagens do tipo SET sempre no mesmo grupo, de endereço 0xC100, em que o \textit{Gateway Node}, com o Modelo Servidor, está inscrito e recebe esses dados publicados, alterando seu estado. O conteúdo das mensagens enviadas é referente às medições dos sensores e, eventualmente, o resultado das perguntas da rotina de \textit{feedback}, realizados por cada nó da rede. Ao receber uma mensagem nova, o dispositivo central atualiza seu estado e coloca essa mensagem numa fila sincronizada, que será lida e processada por outra parte do programa principal do dispositivo. 
 
-\begin{itemize}
-	\item Nó com microcontrolador ESP32: 3 elementos, cada um com o \textit{OnOff Server Model} \cite{ble-mesh-models} implementado, visando controlar o ligamento e desligamento de um LED.
-	\item \textit{Smartphone}: utilizando o aplicativo nRF Mesh \cite{nrf-app}, usado para provisionar os outros nós e controlar a rede \textit{mesh}.
-\end{itemize}
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.22]{ble-mesh-architecture.png}
+	\caption{Arquitetura lógica da rede BLE Mesh}
+	\label{fig:mesh-network-architecture}
+\end{figure}
 
-O teste completo aqui descrito pode ser visto em \cite{teste-ble-mesh}.
+Essa fila sincronizada é a parte principal do dispositivo central, já que nela serão colocadas todas as mensagens recebidas dos nós da rede. Como citado na apresentação da estrutura de dados principal do Modelo, toda mensagem possui o nome do dispositivo que a enviou no início, antes dos dados dos sensores, sendo assim possível a identificação da mensagem em si após a sua retirada da fila e interpretação pelo programa principal.
 
-A partir do aplicativo citado, os outros dois dispositivos foram provisionados, criando a rede \textit{mesh}. Depois, foram criados 3 grupos diferentes:
 
-\begin{itemize}
-	\item \textit{Red Lights}: grupo em que os \textit{models} que controlam os LEDs vermelhos nos nós foram inscritos;
-	\item \textit{Green Lights}: grupo em que apenas um dos \textit{models} que controlam LEDs verdes foi incrito;
-	\item \textit{Red and Blue}: grupo em que tanto os \textit{models} de LEDs vermelhas quanto os de LEDs azuis foram inscritos.
-\end{itemize}
+\subsubsection{Wi-Fi}
 
-O funcionamento da rede pode ser validado quando mensagens de \textit{On} e \textit{Off} eram enviadas em cada grupo e apenas os LEDs que deveriam receber a mensagem do respectivo grupo era acionado ou desligado.
 
-Foi possível visualizar o a criação e o funcionamento de uma rede BLE Mesh na plataforma escolhida, bastando apenas modificar a lógica e parâmetros necessários para que as mensagens contenham os dados coletados pelos sensores do projeto e sejam enviadas para os dispositivos desejados.
-
-\subsection{Wifi}
-\subsubsection{MQTT}
 \section{Software}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.18]{network-architecture.png}
+	\caption{Arquitetura da rede implementada}
+	\label{fig:network-architecture}
+\end{figure}
 \section{Mecânica}
 
 Foi projetado um case mecânico para proteger a eletrônica dos dispositivos, a ser impresso em 3D. 
