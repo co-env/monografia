@@ -35,7 +35,7 @@ Para o design do hardware, utilizamos o software de CAD de PCB \textit{Altium De
 A partir do diagrama de blocos, foi desenvolvido o esquema elétrico
 
 \begin{figure}[h]
-	\includegraphics[width=\textwidth]{sch}
+	\includegraphics[width=0.9\textwidth]{sch}
 	\caption{Esquemático do Protótipo}
 	\label{fig:img2}
 \end{figure}
@@ -44,31 +44,25 @@ A partir do diagrama de blocos, foi desenvolvido o esquema elétrico
 
 A partir do esquema elétrico foi feito um desenho de PCB (\textit{Printed Circuit Board}, ou Placa de Circuito Impresso), \textit{Single Layer}, e dimensões finais 60x70mm. 
 
-\begin{figure}[h!]
-\centering
-\includegraphics[width=8cm]{pcb_2}
-\caption{Visão 2D da Camada Top Layer da PCB}
-\label{fig:img3}
-\end{figure}
-
-%! atualizar o 3D que ta a versão 1
-\begin{figure}[h!]
-\centering
-\includegraphics[width=10cm]{hw-3d.JPG}
-\caption{Visão 3D da PCB}
-\label{fig:img4}
-\end{figure}
+\begin{figure}[ht]
+	\centering
+	\begin{subfigure}{0.5\textwidth}
+	  \centering
+	  \includegraphics[width=.7\linewidth]{pcb_2}
+	  \caption{Vista 2D}
+	  \label{fig:sub1}
+	\end{subfigure}%
+	\begin{subfigure}{0.5\textwidth}
+	  \centering
+	  \includegraphics[width=.9\linewidth]{hw-3d}
+	  \caption{Vista 3D}
+	  \label{fig:sub2}
+	\end{subfigure}
+	\caption{Design da PCB}
+	\label{fig:test}
+	\end{figure}
 
 As placas foram fabricadas em fibra por uma fresadora CNC.
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=10cm]{pcb-fresada}
-\caption{PCB fresada}
-\label{fig:img5}
-\end{figure}
-
-%? Montagem final da placa
 
 \section{Firmware}
 
@@ -240,7 +234,11 @@ Os valores retornados pelo comando \textit{Measure Air Quality} são salvos em d
 
 \subsubsection{Microfone}
 
-adc 
+Para a medição de um indicador acústico, utilizamos um módulo com microfone de eletreto e um amplificador MAX4466, com ganho ajustável, da Adafruit \cite{max4466}.
+A sua resposta é um sinal analógico entre 0 e 3,3V, correspondente ao sinal de áudio no ambiente, variando em torno do seu valor médio (1,65V). 
+
+A interface com o ESP32 deu-se através do conversor analógico digital (ADC) do próprio microcontrolador. Este ADC possui uma resolução máxima de 
+bits e uma amostragem máxima de 6kHz. 
 
 \subsection{Feedback}
 
