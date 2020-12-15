@@ -137,12 +137,9 @@ Além do Wi-fi como diferencial no SoC, a Espressif possui um bom suporte e ferr
 
 \subsubsection{Alimentação}
 
-Para alimentar os dispositivos, foi pensado em utilizar uma bateria de Lítio-Polímero, de uma célula (1S), por ter a maior densidade energética dentre as baterias recarregáveis, permitindo que o dispositivo seja portátil e não dependente da rede elétrica. A capacidade da bateria será definida com base nos testes de consumo do equipamento nas etapas finais de desenvolvimento do protótipo. 
+Para alimentar os dispositivos, foi pensado inicialmente em utilizar uma bateria recarregável, de forma que o dispositivo seja portátil e não necessite da rede elétrica para funcionar. A tensão da bateria seria então regulada para 3.3V a fim de alimentar todos os circuitos da placa, que operam nessa tensão. 
 
-A bateria LiPo tem tensões de operação entre 3.5 e 4.2 Volts. Para alimentar o circuito foi optado por elevar a tensão para 5V, através de um regulador chaveado boost, ainda não definido. 
-
-Para fazer a recarga da bateria de forma eficiente e segura, foi pensado em um circuito carregador utilizando o CI TP4056 \cite{tp4056}, alimentado por 5V através de um conector USB-micro. Com esse CI é possível também que o circuito opere enquanto a bateria está sendo recarregada. 
-
+Com um conector USB e um circuito apropriado integrado na placa, seria possível recarregar a bateria sem interromper o funcionamento do dispositivo. Para fins de teste, como a placa de desenvolvimento ESP32 possui um USB micro e um regulador de 3.3V, optamos por utilizá-lo como alimentação para os demais módulos. Os dispositivos ficam, assim, conectados ao computador ou a tomada durante os testes.
 
 \subsection{Protocolos de Comunicação e Arquitetura da Rede}
 

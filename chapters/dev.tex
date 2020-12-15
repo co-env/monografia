@@ -60,7 +60,7 @@ A partir do esquema elétrico foi feito um desenho de PCB (\textit{Printed Circu
 	\end{subfigure}
 	\caption{Design da PCB}
 	\label{fig:test}
-	\end{figure}
+\end{figure}
 
 As placas foram fabricadas em fibra por uma fresadora CNC.
 
@@ -296,14 +296,16 @@ Como citado em seções anteriores, os dispositivos desse projeto foram intercon
 
 Por se tratar de uma aplicação com vários dados de sensores para serem enviados, foi criado um Modelo customizado que engloba todos os dados dos sensores que compõem um dispositivo, chamado de \textit{\textbf{Custom Sensor Model}}, o qual foi implementado tanto o Modelo Cliente quanto o Servidor. A estrutura de dados principal que define o estado do Modelo contém as seguintes variáveis: 
 
-!!!!!!!!!!!!!!!!! COLOCAR A ESTRUTURA DE DADOS DO BLE MESH AQUI !!!!!!!!!!!!!!!!
+% !!!!!!!!!!!!!!!!! COLOCAR A ESTRUTURA DE DADOS DO BLE MESH AQUI !!!!!!!!!!!!!!!!
 
 A definição de um Modelo também requer que sejam definidas as mensagens utilizadas para interação, sendo elas:
 
 \begin{itemize}
 	\item \textbf{GET}: mensagem utilizada para requisitar o estado atual do Modelo. Ao receber essa mensagem, o nó deve responder a requisição com uma mensagem de STATUS. O corpo dessa mensagem pode ser enviado vazio, ou seja, apenas o endereço de destino precisa ser especificado.
-	\item \textbf{SET}: mensagem utilizada para alterar o estado atual do Modelo Servidor por um agente externo (Cliente ou outro nó Servidor). Essa mensagem foi implementada sem que haja ACK, ou seja, não é enviada uma confirmação ao dispositivo transmissor que a mensagem foi recebida. Deve ser especificado o endereço de destino, seja um endereço de um elemento único ou um endereço de grupo da rede para publicar a mensagem, e o conteúdo deve conter os valores que serão atualizados no destino, de acordo com a estrutura \textbf{REFERENCIAR A STRUCT ALI DE CIMA}.
-	\item \textbf{STATUS}: mensagem utilizada para notificar o estado atual do Modelo, normalmente enviada após receber uma mensagem do tipo GET. O conteúdo da mensagem será composto pela estrutura \textbf{REFERENCIAR A STRUCT ALI DE CIMA}.
+	\item \textbf{SET}: mensagem utilizada para alterar o estado atual do Modelo Servidor por um agente externo (Cliente ou outro nó Servidor). Essa mensagem foi implementada sem que haja ACK, ou seja, não é enviada uma confirmação ao dispositivo transmissor que a mensagem foi recebida. Deve ser especificado o endereço de destino, seja um endereço de um elemento único ou um endereço de grupo da rede para publicar a mensagem, e o conteúdo deve conter os valores que serão atualizados no destino, de acordo com a estrutura 
+	% \textbf{REFERENCIAR A STRUCT ALI DE CIMA}.
+	\item \textbf{STATUS}: mensagem utilizada para notificar o estado atual do Modelo, normalmente enviada após receber uma mensagem do tipo GET. O conteúdo da mensagem será composto pela estrutura 
+	% \textbf{REFERENCIAR A STRUCT ALI DE CIMA}.
 \end{itemize}
 
 Todos os dispositivos possuem as mesmas funcionalidades de coleta de dados de sensores, porém apenas um deles é responsável por também receber as medições de todos os outros, de modo que podemos separar os dispositivos em duas categorias diferentes: os dispositivos normais, chamados de \textit{Sensor Nodes}, e o dispositivo central, chamado de \textit{Gateway Node}. A composição lógica desses dois tipos de dispositivos está demonstrada na figura \ref{fig:mesh-node-architecture}, sendo compostos por apenas um Elemento cada, com o \textit{Configuration Server Model}, mandatório para esse tipo de dispositivo, já que é ele que exerce o papel de interlocutor com o dispositivo provisionador para que haja a atribuição das chaves NetKey e AppKey. Como pode ser observado na mesma imagem, os \textit{Sensor Nodes} possuem o \textit{Custom Sensor \textbf{Client} Model} e o dispositivo central possui o \textit{Custom Sensor \textbf{Server} Model}.
@@ -338,6 +340,7 @@ Essa fila sincronizada é a parte principal do dispositivo central, já que nela
 	\caption{Arquitetura da rede implementada}
 	\label{fig:network-architecture}
 \end{figure}
+
 \section{Mecânica}
 
 Foi projetado um case mecânico para proteger a eletrônica dos dispositivos, a ser impresso em 3D. 
@@ -345,17 +348,21 @@ Foi projetado um case mecânico para proteger a eletrônica dos dispositivos, a 
 O case é composto por duas peças, uma base, onde fica fixada a placa, e uma tampa onde ficam fixados o display OLED e os botões. As laterais abertas permitem que sejam feitos ajustes dos módulos com sensores sem afetar o funcionamento destes. 
 
 \begin{figure}[h]
-	\centering
-	\includegraphics[width=0.6\textwidth]{mec-base.jpeg}
-	\caption{Base do Case Mecânico}
-	\label{fig:mec1}
-\end{figure}
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=0.6\textwidth]{mec-tampa.jpeg}
-	\caption{Tampa do Case Mecânico}
-	\label{fig:mec2}
+\centering
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{mec-tampa.jpeg}
+		\caption{Tampa}
+		\label{fig:tampa-mec}
+	\end{subfigure}%
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{mec-base.jpeg}
+		\caption{Base}
+		\label{fig:base-mec}
+	\end{subfigure}
+	\caption{Case Mecânico}
+	\label{fig:mecanicas}
 \end{figure}
 
 %* Montagem Final com Case
