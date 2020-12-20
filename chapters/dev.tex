@@ -353,7 +353,7 @@ Os dispositivos foram organizados de acordo com o modelo \textit{Publish/Subscri
 Essa fila sincronizada é a parte principal do dispositivo central, já que nela serão colocadas todas as mensagens recebidas dos nós da rede. Como citado na apresentação da estrutura de dados principal do Modelo, toda mensagem possui o nome do dispositivo que a enviou no início, antes dos dados dos sensores, sendo assim possível a identificação da mensagem em si após a sua retirada da fila e interpretação pelo programa principal.
 
 
-\subsubsection{Wi-Fi}
+\subsubsection{Wi-Fi} \label{dev-Wi-Fi}
 
 A conexão do dispositivo gateway com a plataforma em nuvem é realizada utilizando o protocolo Wi-Fi. O ESP-IDF possui uma API pronta para ser utilizada para conectar o microcrontolador a um ponto de acesso Wi-Fi à escolha do usuário. Para isso, é necessário informar o SSID do ponto de acesso e a sua senha para conexão, armazenados em duas constantes no firmware. Definidas essas constantes, basta chamar a função de conexão fornecida pela API, que usará os valores definidos para realizar a conexão, bloqueando todo o programa até que a conexão seja estabelecida, obtendo endereços IPv4 e IPv6 (caso o ambiente de conexão seja capaz de fornecer os dois tipos de endereço para o dispositivo).
 
@@ -371,6 +371,80 @@ Este é o mesmo formato utilizado para inserir dados no InfluxDB, portanto envi�
 
 
 \section{Software}
+
+O serviço de computação em nuvem escolhido para hospedar o banco de dados e a plataforma de visualização desse projeto foi o \textit{Amazon Web Services} (AWS). O AWS possui dezenas de serviços para diferentes aplicações, dos quais foi escolhido o \textit{Elastic Compute Cloud} (EC2), um serviço que permite que o usuário tenha uma máquina virtual com as características necessárias para hospedar as aplicações que desejar. O principal motivo que nos levou a escolher esse serviço de computação em nuvem foi o seu nível gratuito que, no caso do EC2, permite a configuração de uma máquina Linux do tipo \textit{t2.micro} \cite{aws-ec2-t2}, a qual optamos pela distribuição Ubuntu 20.04, com 1 GiB de memória RAM e 8 GiB de armazenamento SSD e que pode ser utilizada pelo período de 1 ano sem cobranças, que é o necessário para a realização do protótipo do projeto. Ao configurar a máquina pelo portal do AWS EC2, é fornecida uma chave criptografada do tipo \textit{Privacy-Enhanced Mail} (PEM) \cite{rfc1424}, utilizada para autenticar o acesso à máquina virtual através do protocolo SSH por um terminal externo, sendo essa a única forma de acessá-la. 
+
+Com acesso ao sistema da máquina virtual, podemos fazer a instalação e configuração dos serviços a serem utilizados. Todos eles possuem suporte integral ao sistema operacional escolhido, o que torna o processo de instalação muito simples, bastando apenas seguir as respectivas documentações oficiais. 
+
+
+\subsection{Eclipse Mosquitto}
+
+A documentação de instalação do \textit{Eclipse Mosquitto} para Ubuntu pode ser encontrada na sua página oficial \cite{mosquitto}, que é bem simples, resumida nos seguintes comandos:
+
+\begin{lstlisting}[language=bash, basicstyle=\ttfamily]
+$ sudo apt-add-repository ppa:mosquitto-dev/mosquitto-ppa
+$ sudo apt update
+$ sudo apt install mosquitto
+\end{lstlisting}
+
+Após a instalação, o serviço é inicializado automaticamente, executado na porta TCP 1883 do sistema. Inicialmente, o \textit{broker} não possui nenhuma configuração de segurança, de modo que qualquer cliente que saiba o endereço de IP público da máquina consegue publicar mensagens. Para adicionar uma camada de segurança, é necessário cirar um arquivo de texto em que cada linha segue o formato \texttt{usuário:senha} que serão aceitos pelo \textit{broker} como valores válidos para autenticação. Esse arquivo pode ser criptografado através do comando \texttt{mosquitto\char`_passwd -U arquivo\char`_de\char`_autenticacao} para que as senhas não fiquem salvas em texto puro. O caminho para esse arquivo de autenticação deve ser informado no arquivo de configuração geral do serviço, presente em \texttt{\char`/etc\char`/mosquitto\char`/conf.d\char`/config.conf}. Feito isso, os clientes precisam informar o par \textit{usuário:senha} para que consigam se conectar a esse \textit{broker}.
+
+A comunicação é feita sobre o protocolo TCP sem nenhuma criptografia nas mensagens trocadas entre os dispositivos, de forma que as credenciais citadas anteriormente sejam transmitidas em texto e possam ser interceptadas e lidas por terceiros. Uma forma de melhorar ainda mais a segurança da conexão seria adicionar uma forma de criptografia na camada de transporte com o uso de SSL.
+
+\subsection{InfluxDB}
+
+Do mesmo modo que a aplicação anterior, a instalação do banco de dados InfluxDB ocorre de forma direta e simplificada, detalhada em sua página oficial \cite{influxdb-installation} e, após a instalação, a aplicação será executada por padrão na porta TCP 8086 do sistema. 
+
+A interface de linha de comando da aplicação pode ser acessada através do comando \texttt{influx}, onde é possível realizar comandos e executar \textit{queries}, de acordo com a documentação oficial. A linguagem de interação com o banco de dados é chamada de \textit{InfluxQL}, muito parecida com a linguagem SQL. A primeira coisa a ser feita é criar um novo banco de dados utilizando o comando \texttt{CREATE DATABASE prototipo\char`_v1}, utilizado para salvar os dados desse projeto. Para criar usuários para que outras aplicações consigam acessar o banco de dados, usamos o comando \texttt{CREATE USER <username> WITH PASSWORD '<password>'} e criaremos dois usuários de acesso: 'telegraf' e 'grafana', sendo que o primeiro possui acesso total ao banco de dados (leitura e escrita), já que ele será responsável por escrever os dados recebidos da rede de sensores, e o segundo com permissões apenas de leitura. 
+
+Todos os pontos inseridos no banco de dados possuem um \textit{timestamp} atrelado a eles, no formato UTC definido no RFC3339 \cite{rfc3339}, que indica o momento em que o ponto foi salvo. Os valores que se referem aos dados armazenados de fato são chamados de \textit{\textbf{Field Values}}, que podem ser números inteiros, valores booleanos, \textit{strings} ou valores de ponto flutuante. Esses dados podem ser identificados através de outros valores, chamados de \textit{\textbf{Field Keys}}, que servem para identificar o dado salvo, ou seja, age como o nome da variável, enquanto o valor anterior age como o conteúdo de fato da variável salva.
+
+Outro par de campos que servem para descrever o dado salvo é \textit{\textbf{Tag Keys}} e \textit{\textbf{Tag Values}}, ambos do tipo \textit{string}, muito úteis quando é preciso buscar e agrupar dados. Todos esses campos citados são salvos dentro de um grupo chamado de \textit{\textbf{Measurement}}, sendo que o nome desse grupo descreve todos os dados que estão contidos dentro dele.
+
+Finalmente, uma \textbf{série temporal} é o conjunto de pontos que conta com os mesmos valores de \textit{Measurement}, \textit{Tag} e \textit{Field Key}, com seus valores únicos identificados pelo \textit{Field Value} em conjunto com o \textit{timestamp}.
+
+No contexto desse projeto, temos \textit{Measurements} que separam cada dispostivo único na rede, como mostrado na tabela \ref{table:measurements}, \textit{Tag Key} como sendo o nome de um dos quatro sensores únicos em um dispositivo ou \textit{feedback} e \textit{Field Key} os nomes dos diferentes parâmetros lidos, conforme a tabela \ref{table:tag-field-keys}.
+
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{|c|c|}
+	\hline
+	\textbf{Dispositivo} & \textit{\textbf{Measurement}}  \\ \hline
+	Gateway              & esp\_1                         \\ \hline
+	Nó 1                 & esp\_2                         \\ \hline
+	Nó 2                 & esp\_3                         \\ \hline 
+	\end{tabular}
+	\caption{\textit{Measurements} presentes no banco de dados}
+	\label{table:measurements}
+\end{table}
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{|c|c|c|}
+		\hline
+		\textbf{Sensor} & \textit{\textbf{Tag Key}} & \textit{\textbf{Field Key}} \\ \hline
+		BME280          & Temperature               & temperature, humidity       \\ \hline
+		SGP30           & Air                       & eco2, tvoc                  \\ \hline
+		AS7262          & Color                     & v, b, g, y, o, r, lux       \\ \hline
+		Microfone       & Noise                     & noise\_level                \\ \hline
+	\end{tabular}
+	\caption{\textit{Tag Keys} e \textit{Field Keys} que identificam cada tipo de sensor e dados coletados}
+	\label{table:tag-field-keys}
+\end{table}
+
+Ao final da seção \ref{dev-Wi-Fi}, foi explicado que os dados eram publicados seguindo um formato que facilitaria o tratamento e sua inserção no banco de dados. De fato, esse formato segue exatamente o que foi explicado agora, com cada campo correspondendo a sua respectiva função conforme as atribuições anteriores.
+
+\begin{center}
+	$\underbrace{device\_name}_\text{Measurement},\underbrace{``sensor\_name``}_\text{Tag Set},\underbrace{value1=v1,value2=v2}_\text{Field Set}...$
+\end{center}
+
+\subsection{Telegraf}
+
+\subsection{Grafana}
+
+\subsection{Servidor}
+
 
 \begin{figure}[h!]
 	\centering
