@@ -59,14 +59,6 @@ Salas de mecanografia: 50 - 60 dB(A)
 Para escritórios: 500 - 750 - 1000 lux
 \end{citacaoLonga}
 
-\subsection{Conforto Visual} %check
-Além da \textbf{intensidade da luz incidente}, cujos níveis são estabelecida na legislação, a \textbf{temperatura da cor} da luz incidente também tem grande relevância. A muitos anos sabe-se que a luz azul emitida, de maior temperatura, causa danos à retina \cite{BlueLight}. \par
-Assim, temperatura é um parâmetro importante para a qualidade do ambiente, muitas vezes deixado de lado, e assim como na saúde, afeta diretamente o conforto e a atenção das pessoas, como visto em \cite{VisualComfort}: 
-\begin{itemize}
-\item Conforto, luz natural: 3000K - 6000K
-\item Concentração: acima de 5300K 
-\end{itemize}
-
 \subsection{Qualidade do Ar} % Pesquisa CO2 e VOC
 
 % Colocar o que é IAQ, falar sobre?
@@ -117,8 +109,17 @@ Abaixo de 93 ppb  &  Baixa \\
 \label{table}
 \end{table}
 
+\subsection{Conforto Visual}
 
-\subsection{Qualidade em Ambientes Internos}
+Além da \textbf{intensidade da luz incidente}, cujos níveis são estabelecida na legislação, a \textbf{temperatura da cor} da luz incidente também tem grande relevância. A muitos anos sabe-se que a luz azul emitida, de maior temperatura, causa danos à retina \cite{BlueLight}. \par
+% Assim, temperatura é um parâmetro importante para a qualidade do ambiente, muitas vezes deixado de lado, e assim como na saúde, afeta diretamente o conforto e a atenção das pessoas, como visto em \cite{VisualComfort}: 
+% \begin{itemize}
+% \item Conforto, luz natural: 3000K - 6000K
+% \item Concentração: acima de 5300K 
+% \end{itemize}
+
+
+\section{Trabalhos Relacionados a Qualidade de Ambientes Internos} 
 
 O artigo "Development of low-cost indoor air quality monitoring devices:
 Recent advancements", de 2020 da Universidade do Porto \cite{IAQ_Compare} traz uma comparação de projetos focados em monitoramento de qualidade do ar. A tabela 2 mostra os estudos que possuem uma maior relevância para o nosso projeto. 
@@ -264,7 +265,7 @@ Com o crescimento do conceito de Internet das Coisas, novas tecnologias para con
 
 Wi-Fi é o nome dado a uma família de tecnologias designadas para comunicação sem fio baseada no padrão IEEE 802.11\cite{802.11}, amplamente utilizada em redes de área local (em inglês \textit{local area network}, LAN) para prover acesso à internet como uma alternativa à tecnologia cabeada Ethernet. Essa tecnologia opera nas faixas de 2,4GHz e 5GHz, sendo que a primeira permite uma taxa de transmissão de até 600 Mbits/s e a segunda até 1 Gbit/s em casos mais extremos\cite{Wi-Fi-datarate}. A topologia comum de uma rede Wi-Fi é dada por um  dispositivo que atua como ponto de acesso que disponibiliza o sinal sem fio para que dispositivos ao seu redor possam se conectar à rede, em uma topologia de rede em estrela. Deste modo, os dispositvos têm que estar a uma distância de poucos metros do ponto de acesso para que a comunicação não seja afetada, sendo essa distância cerca de 76m a 122m em ambientes internos\cite{wifi-range}, dependendo da antena utilizada.
 
-Outra norma comumente utilizada em redes sem fio é a IEEE 802.15.4, que define especificações de camada física e de enlace da pilha de protocolos OSI para redes de comunicação sem fio que operam com baixa taxa de transmissão de dados (em inglês, \textit{Lower Rate Wireless Personal Area Network,}, ou LR-WPAN), que também utiliza a banda de frequência de 2,4GHz\cite{802.15.4}. Os nós participantes da rede podem ser do tipo "função completa" (em inglês, \textit{full-function device} (FFD)), agindo como coordenador da rede, podendo retransmitir mensagens para outros nós, ou do tipo "função reduzida" (em inglês, \textit{reduced-function device} (RFD)), destinados a serem dispositivos simples e com poucos requisitos de comunicação, podendo apenas se comunicar com FFDs, possibilitando aplicações com menor custo energético. 
+Outra norma comumente utilizada em redes sem fio é a IEEE 802.15.4, que define especificações de camada física e de enlace da pilha de protocolos OSI para redes de comunicação sem fio que operam com baixa taxa de transmissão de dados (em inglês, \textit{Lower Rate Wireless Personal Area Network,}, ou LR-WPAN), que também utiliza a banda de frequência de 2,4GHz\cite{802.15.4}. Os nós participantes da rede podem ser do tipo "função completa" (FFD, do inglês \textit{full-function device}), agindo como coordenador da rede, podendo retransmitir mensagens para outros nós, ou do tipo "função reduzida" (RFD, do inglês \textit{reduced-function device}, destinados a serem dispositivos simples e com poucos requisitos de comunicação, podendo apenas se comunicar com FFDs, possibilitando aplicações com menor custo energético. 
 
 Por último, dentre as tecnlogias citadas anteriormente, o Bluetooth surgiu com objetivo de substituir a conexão por fios entre dispositivos móveis comuns como celulares e fones de ouvido, porém já evoluiu muito e pode ser encontrada em diversas aplicações. O IEEE padronizou a tecnologia como IEEE 802.15.1, mas atualmente mantinda por outra organização, a \textit{Bluetooth Special Interest Group} (Bluetooth SIG), composta por mais de 35 mil empresas parceiras, que gerencia o desenvolvimento e define os padrões da tecnologia. Em 2009, a Bluetooth SIG definiu uma nova versão de baixo consumo energético, chamada de \textit{Bluetooth Low Energy} (BLE), visando aplicações em que não é necessária comunicação contínua como, por exemplo, sensores que coletam dados em intervalos de tempo espaçados. O BLE vem se tornando uma das principais tecnologias para aplicações IoT, principalmente por estar presente na maioria dos dispositivos mais comuns utilizados no dia-a-dia das pessoas, como computadores, \textit{smartphones} e \textit{tablets}, o que facilita a comunicação do usuário com outros dispositivos específicos. As aplicações BLE operam de 2,4 a 2,485GHz com taxas de transmissão entre 0,27 e 1,37 Mbps\cite{ble-datarate}. 
 
@@ -279,7 +280,7 @@ O protocolo BLE possui uma especificação que engloba desde a camada física at
 \label{fig:ble-stack}
 \end{figure}
 
-No contexto de IoT, em que dispositivos simples e com pouca capacidade de processamento, como sensores, precisam estar conectados à servidores via Internet, há a necessidade do uso  de protocolos de aplicação também mais simples. O protocolo HTTP é um dos principais protocolos de aplicação utilizados na Web, porém possui algumas características que o tornam não muito adequado para aplicações nesse contexto, como a necessidade de longos cabeçalhos e regras antes do corpo da mensagem, que podem ocasionar \textit{overheads} quando tratamos que dispositivos com pouca capacidade de processamento, a necessidade do cliente esperar por uma resposta do servidor e a comunicação ser unidirecional, sempre iniciada pelo cliente para o servidor.
+Para o caso do WiFi no contexto de IoT, em que dispositivos simples e com pouca capacidade de processamento, como sensores, precisam estar conectados à servidores via Internet, há a necessidade do uso  de protocolos de aplicação também mais simples. O protocolo HTTP é um dos principais protocolos de aplicação utilizados na Web, porém possui algumas características que o tornam não muito adequado para aplicações nesse contexto, como a necessidade de longos cabeçalhos e regras antes do corpo da mensagem, que podem ocasionar \textit{overheads} quando tratamos que dispositivos com pouca capacidade de processamento, a necessidade do cliente esperar por uma resposta do servidor e a comunicação ser unidirecional, sempre iniciada pelo cliente para o servidor.
 
 Um protocolo comumente utilizado em aplicações IoT é o \textit{Message Queuing Telemetry Transport} (MQTT) \cite{mqtt-specification}, implementado sobre a pilha TCP/IP, criado pela IBM em 1999, que utiliza o modelo \textit{Publisher/Subscriber}, onde dispositivos MQTT publicam mensagens em tópicos em um dispositivo centralizado, chamado \textit{Broker}, e se inscrevem em outros tópicos para receberem mensagens. O papel do \textit{Broker} é receber as mensagens publicadas nos diferentes tópicos e redirecioná-las para os dispositivos que estão inscritos nesses tópicos. Desse modo, o protocolo MQTT apresenta grande escalabilidade, facilitando a implementação de redes com muitos dispositivos. É um protocolo orientado à conexão, já que a comunicaçao entre Cliente e \textit{Broker} utiliza TCP na camada de transporte, podendo também ser utilizado TLS/SSL para segurança. 
 
