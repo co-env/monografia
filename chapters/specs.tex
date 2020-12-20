@@ -23,7 +23,7 @@ Para cada um dos indicadores, decidimos medir as seguintes informações:
 \begin{itemize}
 \item Térmico: temperatura ambiente e umidade relativa
 \item Acústico: ruído ambiente
-\item Luminoso: intensidade e temperatura da luz incidente
+\item Luminoso: intensidade e cor da luz incidente
 \item Qualidade do ar (e Olfativo): CO2 e VOC (\textit{volatile organic compounds})
 \end{itemize}
 
@@ -88,7 +88,7 @@ Sensor para medições de aplicação \textit{indoor}.
 
 Em conjunto com um circuito amplificador, atende aos requisitos de \textit{conforto acústico}. 
 
-\textbf{Medida}: volume de ruído sonoro ambiente
+\textbf{Medida}: intensidade do som no ambiente
 
 \textbf{Comunicação}: Analógica, precisão de 12 bits (resolução do conversor analógico-digital do ESP32). 
 \end{itemize}
@@ -103,14 +103,14 @@ De acordo com a mesma pesquisa da Aspencore citada anteriormente, 61\% dos proje
 
 A partir das especificações dadas, listamos os periféricos necessários ao microcontrolador, e buscamos as principais opções existentes no mercado para atuar como processador central do dispositivo. 
 
-Como a comunicação dos dispositivos é uma funcionalidade crucial, foi dada a preferência para os \textit{System-on-a-Chip} (SoCs), ou Sistema em um chip, ao invés de microcontroladores e módulos \textit{wireless} independentes. SoC é o nome dado a circuitos integrados que englobam processadores (ou microcontroladores, usualmente em dispositivos embarcados), memórias, dentre outros módulos, como circuitos para comunicação sem fio, personalizados para uma aplicação \cite{soc}. Assim, chegamos a três opções de SoCs com \textbf{bluetooth} integrado. 
+Como a comunicação dos dispositivos é uma funcionalidade crucial, foi dada a preferência para os \textit{System-on-a-Chip} (SoCs), ou Sistema em um chip, ao invés de microcontroladores e módulos \textit{wireless} independentes. SoC é o nome dado a circuitos integrados que englobam processadores (ou microcontroladores, usualmente em dispositivos embarcados), memórias, dentre outros módulos, como circuitos para comunicação sem fio, personalizados para uma aplicação \cite{soc}. Assim, chegamos a três opções de SoCs com \textbf{bluetooth} integrado mostradas na tabela \ref{table-processor}.
 
 
-\begin{center}
-\begin{table}
-\begin{tabular}{|c|c|c|c|c|} 
+\begin{table}[h]
+\centering
+\begin{tabular}[width=0.9\textwidth]{|c|c|c|c|c|} 
 \hline
-\textbf{Vendor} & \textbf{Chip} & \textbf{Price} & \textbf{Kit} & \textbf{Kit Price} \\
+\textbf{Fabricante} & \textbf{CI} & \textbf{Preço} & \textbf{Placa de Desenvolvimento} & \textbf{Preço da Placa} \\
 \hline
 Nordic Semi & BMD350 & \$11.3 & BMD350-EVAL & \$89 \\ 
 Espressif Systems & ESP32 & \$3.8 & ESP32-DevKitC & \$10 \\ 
@@ -118,11 +118,10 @@ STMicroelectronics & BlueNRG-2 & \$3.5 & BlueNRG-Tile & \$50 \\
 \hline
 \end{tabular}
 \caption{Tabela comparativa de processadores}
-\label{table}
+\label{table-processor}
 \end{table}
-\end{center}
 
-Analisando principalmente os ambientes de desenvolvimento, a documentação disponível e o preço dos CIs e de seus kits de desenvolvimento, optamos pela família ESP32 \cite{ESP32}. 
+Analisando principalmente os ambientes de desenvolvimento, a documentação disponível e o preço dos CIs e de seus kits de desenvolvimento, optamos pela família \textbf{ESP32}\cite{ESP32}. 
 
 Além do Wi-fi como diferencial no SoC, a Espressif possui um bom suporte e ferramentas de desenvolvimento focadas em BLE e Wi-Fi, em especial para o uso de BLE Mesh, e um dos menores preços, assim considerado o melhor custo-benefício. 
 
