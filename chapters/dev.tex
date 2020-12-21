@@ -372,7 +372,7 @@ Essa fila sincronizada é a parte principal do dispositivo central, já que nela
 
 A conexão do dispositivo gateway com a plataforma em nuvem é realizada utilizando o protocolo Wi-Fi. O ESP-IDF possui uma API pronta para ser utilizada para conectar o microcrontolador a um ponto de acesso Wi-Fi à escolha do usuário. Para isso, é necessário informar o SSID do ponto de acesso e a sua senha para conexão, armazenados em duas constantes no firmware. Definidas essas constantes, basta chamar a função de conexão fornecida pela API, que usará os valores definidos para realizar a conexão, bloqueando todo o programa até que a conexão seja estabelecida, obtendo endereços IPv4 e IPv6 (caso o ambiente de conexão seja capaz de fornecer os dois tipos de endereço para o dispositivo).
 
-Com uma conexão com a internet estabelecida, é necessário agora inicializar o dispositivo como um cliente MQTT e conectá-lo com o \textit{MQTT Broker} hospedado remotamente. Do mesmo modo, o ESP-IDF possui uma API que implementa as funcionalidades do protocolo MQTT utilziando conexão via TCP, para o qual é necessário informar o URL do \textit{MQTT Broker} a ser conectado, além dos valores de usuário e senha para autenticação no mesmo. Esses valores são salvos em uma estrutura no firmware, utilizada por uma função para inicializar o dispositivo como um cliente e estbelecer a conexão, a qual exige que haja uma conexão com a internet previamente estabelecida, como detalhado anteriormente. Se a conexão com o \textit{MQTT Broker} for realizada com sucesso, um evento indicando essa conexão será recebido pelo dispositivo, que estará pronto para enviar e receber mensagens.
+Com uma conexão com a Internet estabelecida, é necessário agora inicializar o dispositivo como um cliente MQTT e conectá-lo com o \textit{MQTT Broker} hospedado remotamente. Do mesmo modo, o ESP-IDF possui uma API que implementa as funcionalidades do protocolo MQTT utilizando conexão via TCP, para o qual é necessário informar o URL do \textit{MQTT Broker} a ser conectado, além dos valores de usuário e senha para autenticação no mesmo. Esses valores são salvos em uma estrutura no firmware, utilizada por uma função para inicializar o dispositivo como um cliente e estabelecer a conexão, a qual exige que haja uma conexão com a internet previamente estabelecida, como detalhado anteriormente. Se a conexão com o \textit{MQTT Broker} for realizada com sucesso, um evento indicando essa conexão será recebido pelo dispositivo, que estará pronto para enviar e receber mensagens.
 
 O dispositivo gateway publicará as mensagens em tópicos referentes a cada dispositivo da rede, ou seja, cada dispositivo terá um tópico referente aos seus dados, seguindo o formato \texttt{devices\char`/device\char`_name}, no qual \textit{device\_name} se refere ao nome do dispositivo definido na estrutura de dados do \textit{Custom Sensor Model}, descrita na seção \ref{dev-bluetooth-section}. O conteúdo das mensagens enviadas nos tópicos se refere às leituras dos diferentes sensores, tanto as recebidas via BLE Mesh quanto as leituras do próprio dispositivo gateway.
 
@@ -402,7 +402,7 @@ $ sudo apt update
 $ sudo apt install mosquitto
 \end{lstlisting}
 
-Após a instalação, o serviço é inicializado automaticamente, executado na porta TCP 1883 do sistema. Inicialmente, o \textit{broker} não possui nenhuma configuração de segurança, de modo que qualquer cliente que saiba o endereço de IP público da máquina consegue publicar mensagens. Para adicionar uma camada de segurança, é necessário cirar um arquivo de texto em que cada linha segue o formato \texttt{usuário:senha} que serão aceitos pelo \textit{broker} como valores válidos para autenticação. Esse arquivo pode ser criptografado através do comando \texttt{mosquitto\char`_passwd -U arquivo\char`_de\char`_autenticacao} para que as senhas não fiquem salvas em texto puro. O caminho para esse arquivo de autenticação deve ser informado no arquivo de configuração geral do serviço, presente em \texttt{\char`/etc\char`/mosquitto\char`/conf.d\char`/config.conf}. Feito isso, os clientes precisam informar o par \textit{usuário:senha} para que consigam se conectar a esse \textit{broker}.
+Após a instalação, o serviço é inicializado automaticamente, executado na porta TCP 1883 do sistema. Inicialmente, o \textit{broker} não possui nenhuma configuração de segurança, de modo que qualquer cliente que saiba o endereço de IP público da máquina consegue publicar mensagens. Para adicionar uma camada de segurança, é necessário criar um arquivo de texto em que cada linha segue o formato \texttt{usuário:senha} que serão aceitos pelo \textit{broker} como valores válidos para autenticação. Esse arquivo pode ser criptografado através do comando \texttt{mosquitto\char`_passwd -U arquivo\char`_de\char`_autenticacao} para que as senhas não fiquem salvas em texto puro. O caminho para esse arquivo de autenticação deve ser informado no arquivo de configuração geral do serviço, presente em \texttt{\char`/etc\char`/mosquitto\char`/conf.d\char`/config.conf}. Feito isso, os clientes precisam informar o par \textit{usuário:senha} para que consigam se conectar a esse \textit{broker}.
 
 A comunicação é feita sobre o protocolo TCP sem nenhuma criptografia nas mensagens trocadas entre os dispositivos, de forma que as credenciais citadas anteriormente sejam transmitidas em texto e possam ser interceptadas e lidas por terceiros. Uma forma de melhorar ainda mais a segurança da conexão seria adicionar uma forma de criptografia na camada de transporte com o uso de SSL.
 
@@ -412,7 +412,7 @@ Do mesmo modo que a aplicação anterior, a instalação do banco de dados Influ
 
 A interface de linha de comando da aplicação pode ser acessada através do comando \texttt{influx}, onde é possível realizar comandos e executar \textit{queries}, de acordo com a documentação oficial. A linguagem de interação com o banco de dados é chamada de \textit{InfluxQL}, muito parecida com a linguagem SQL. A primeira coisa a ser feita é criar um novo banco de dados utilizando o comando \texttt{CREATE DATABASE prototipo\char`_v1}, utilizado para salvar os dados desse projeto. Para criar usuários para que outras aplicações consigam acessar o banco de dados, usamos o comando \texttt{CREATE USER <username> WITH PASSWORD '<password>'} e criaremos dois usuários de acesso: 'telegraf' e 'grafana', sendo que o primeiro possui acesso total ao banco de dados (leitura e escrita), já que ele será responsável por escrever os dados recebidos da rede de sensores, e o segundo com permissões apenas de leitura. 
 
-Todos os pontos inseridos no banco de dados possuem um \textit{timestamp} atrelado a eles, no formato UTC definido no RFC3339 \cite{rfc3339}, que indica o momento em que o ponto foi salvo. Os valores que se referem aos dados armazenados de fato são chamados de \textit{\textbf{Field Values}}, que podem ser números inteiros, valores booleanos, \textit{strings} ou valores de ponto flutuante. Esses dados podem ser identificados através de outros valores, chamados de \textit{\textbf{Field Keys}}, que servem para identificar o dado salvo, ou seja, age como o nome da variável, enquanto o valor anterior age como o conteúdo de fato da variável salva.
+Todos os pontos inseridos no banco de dados possuem um \textit{timestamp} atrelado a eles, no formato UTC definido no RFC3339 \cite{rfc3339}, que indica o momento em que o ponto foi salvo. Os valores que se referem aos dados armazenados de fato são chamados de \textit{\textbf{Field Values}}, que podem ser números inteiros, valores booleanos, \textit{strings} ou de ponto flutuante. Esses dados podem ser identificados através de outros valores, chamados de \textit{\textbf{Field Keys}}, que servem para identificar o dado salvo, ou seja, age como o nome da variável, enquanto o valor anterior age como o conteúdo de fato da variável salva.
 
 Outro par de campos que servem para descrever o dado salvo é \textit{\textbf{Tag Keys}} e \textit{\textbf{Tag Values}}, ambos do tipo \textit{string}, muito úteis quando é preciso buscar e agrupar dados. Todos esses campos citados são salvos dentro de um grupo chamado de \textit{\textbf{Measurement}}, sendo que o nome desse grupo descreve todos os dados que estão contidos dentro dele.
 
@@ -448,17 +448,108 @@ No contexto desse projeto, temos \textit{Measurements} que separam cada disposti
 	\label{table:tag-field-keys}
 \end{table}
 
-Ao final da seção \ref{dev-Wi-Fi}, foi explicado que os dados eram publicados seguindo um formato que facilitaria o tratamento e sua inserção no banco de dados. De fato, esse formato segue exatamente o que foi explicado agora, com cada campo correspondendo a sua respectiva função conforme as atribuições anteriores.
+Ao final da seção \ref{dev-Wi-Fi}, foi explicado que os dados eram publicados seguindo um formato que facilitaria o tratamento e sua inserção no banco de dados. De fato, esse formato segue exatamente o que foi explicado agora, com cada campo correspondendo a sua respectiva função conforme as atribuições anteriores. A separação dos campos ocorre da seguinte forma:
 
 \begin{center}
-	$\underbrace{device\_name}_\text{Measurement},\underbrace{``sensor\_name``}_\text{Tag Set},\underbrace{value1=v1,value2=v2}_\text{Field Set}...$
+	$\underbrace{device\_name}_\text{Measurement},\underbrace{sensor=``sensor\_name``}_\text{Tag Set},\underbrace{value1=v1,value2=v2}_\text{Field Set}...$
 \end{center}
 
 \subsection{Telegraf}
 
+O Telegraf é a aplicação responsável por conectar o Mosquitto com o InfluxDB, se inscrevendo nos tópicos de dados enviados pelos dispositivos da rede e inserindo-os no banco de dados. Como mencionado anteriormente, essa aplicação também é desenvolvida pela \textit{Influxdata}, mesma empresa que mantém o InfluxDB, de modo que suas documentações são muito parecidas \cite{telegraf-installation}. Logo, sua instalação também ocorre de maneira direta no sistema operacional escolhido através de poucos comandos. 
+
+Simplificadamente, esse programa tem como objetivo ligar diferentes fontes de dados a diferentes destinos através de plugins previamente desenvolvidos, bastando o usuário escolher quais utilizar. Esses plugins são separados em duas categorias principais, plugins de entrada (\textit{input plugins}) e de saída (\textit{output plugins}). No nosso caso, utilizamos o \textit{\textbf{MQTT Consumer Input Plugin}} como plugin de entrada e o \textit{\textbf{InfluxDB v1.x Output Plugin}} como saída. A configuração e escolha dos plugins utilizados é feita através de um arquivo de configuração presente no caminho \texttt{\char`/etc\char`/telegraf\char`/telegraf.conf}, no qual a atribuição de valores às diferentes configurações de cada plugin é feita, seguindo as respectivas documentações. 
+
+O primeiro plugin tem a função de se conectar ao MQTT Broker e se inscrever nos tópicos em que são escritos os dados provenientes da rede de dispositivos, recebendo assim as mesagens publicadas referentes às diferentes medições de sensores e, como definido na seção \ref{dev-Wi-Fi}, os tópicos seguem o formato \texttt{devices\char`/device\char`_name}, com conteúdo das mensagens no formato definido pelo InfluxDB. Dessa forma, definimos as configurações desse plugin:
+
+\begin{lstlisting}[basicstyle=\small]
+	[[inputs.mqtt_consumer]]
+		servers = ["tcp://localhost:1883"]
+		topics = [ "devices/#" ]
+		data_format = "influx"
+
+		username = <username_broker> 
+		password = <senha_broker>
+\end{lstlisting}
+
+A aplicação Mosquitto é executada no endereço \texttt{tcp://localhost:1883}, no qual o Telegraf se conecta utilizando o usuário e senha aqui configurados para autenticação, se inscrevendo nos tópicos que atendem o formato passado em \textit{topics}, esperando mensagens no formato \textit{influx}. 
+
+Já o segundo plugin tem a função de inserir todos os dados coletados pelo Telegraf em um banco de dados no InfluxDB. Precisamos apenas configurar a conexão do plugin com o banco de dados desejado, porque os dados coletados já estão no formato requisitado para a inserção. A configuração desse plugin ocorre no mesmo arquivo do anterior, adicionando os seguintes campos:
+
+\begin{lstlisting}[basicstyle=\small]
+	[[outputs.influxdb]]
+		urls = ["http://localhost:8086"]
+		database = "prototipo_v1"
+		username = "telegraf"
+		password = <senha_influxdb>
+
+		namepass = ["esp*"]
+\end{lstlisting}
+
+O Telegraf se conecta com o InfluxDB através do endereço \texttt{http://localhost:8086}, se autenticando no banco de dados indicado na variável \textit{database} utilizando o par usuário e senha fornecidos. Utilizamos a variável \textit{namepass}, que verifica quais dados possuem a expressão \texttt{"esp"} em seu início, com o propósito filtrar os dados que serão inseridos de fato por esse plugin no banco de dados. Essa expressão estará presente nas mensagens recebidas, pois os nomes dos dispositivos (\texttt{device\char`_name}) definidos no projeto são \texttt{esp\char`_1}, \texttt{esp\char`_2} e \texttt{esp\char`_3}, já que temos apenas 3 dispositivos protótipos, que indicará também o \textit{measurement} inserido no banco de dados. 
+
+Feitas essas configurações, as mensagens publicadas pelos dispositivos nos tópicos citados serão encaminhadas para o Telegraf, que fará sua inserção no banco de dados. A partir desse ponto, os dados estarão prontos para serem acessados e analisados.
+
 \subsection{Grafana}
 
+A plataforma de visualização de dados também pode ser instalada facilmente através de poucos comandos seguindo a sua própria documentação, presente em \cite{grafana-installation}. Logo após a instalação, a aplicação será executada na porta 3000 do sistema por padrão. Ao acessá-la pela primeira vez através de um navegador web utilizando o IP da máquina e a porta 3000, o usuário é levado a uma página de \textit{login} para a definição da senha de acesso para o usuário administrador que, depois de definida, pode ser utilizada para acessar o ambiente do Grafana. 
+
+A aplicação possui um menu lateral onde é possível acessar parâmetros de configuração geral. A primeira configuração realizada é a conexão com o banco de dados, escolhendo a opção \textit{Configuration} $\rightarrow$ \textit{Data Sources} no canto esquerdo, que levará a uma página onde pode ser escolhido o tipo da fonte de dados a ser conectado a partir de uma lista com inúmeras conexões possíveis, onde selecionamos o InfluxDB, e depois é necessário preencher as informações de conexão, análogas às que foram utilizadas pelo Telegraf, como ilustrado na figura \ref{fig:grafana-datasource}.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.4]{grafana-datasource.png}
+	\caption{Conexão do Grafana com a fonte de dados InfluxDB}
+	\label{fig:grafana-datasource}
+\end{figure}
+
+O Grafana possui diferentes opções de painéis como tabelas, gráficos de linhas e de barras, destinados a mostrar dados acessados atavés de consultas específicas ao banco de dados. Essas consultas, normalmente, retornam partes de uma das séries temporais referentes a medições de sensores em um período de tempo específico, determindo por uma variavel presente no canto superior direito de todas as páginas do \textit{dashboard}, onde o usuário pode selecionar a faixa de tempo desejada. A figura \ref{fig:grafana-query} ilustra como uma consulta pode ser configurada dentro de um painel, exemplificando o caso de acesso à série temporal referente às medições de temperatura do dispositivo \textit{esp\_1} para serem visualizados em um gráfico de linha.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.7]{grafana-graph-query.png}
+	\caption{Exemplo de consulta feita em um painel do Grafana}
+	\label{fig:grafana-query}
+\end{figure}
+
+
+A configuração de painéis gráficos também permite que sejam estabelecidos valores limiares para as séries temporais monitoradas e, a partir desses limiares, configurar alertas que podem ser notificados em diferentes serviços externos, dentre eles alguns serviços de comunicação como Slack, Telegram, Microsoft Teams e email. 
+
+Os valores de limiar foram definidos com base nos níveis recomendados para cada indicador de qualidade e conforto medidos, discutidos na seção \ref{arte-indicadores}. O sistema de alertas foi configurado para avaliar a cada 10 minutos os últimos dados coletados e, se estiverem fora dos níveis recomendados, enviam notificações para um canal em um servidor do aplicativo Slack, para demonstrar um possível caso de uso em um escritório de uma empresa que faz uso desse meio de comunicação.
+
+%! Precisamos incluir imagens e uma descrição do dashboard desenvolvido aqui ou só no capítulo de testes?
+
+
 \subsection{Servidor}
+
+Com objetivo de facilitar o acesso à plataforma de visualização, registramos o domínio \underline{coent.tech} gratuitamente por 1 ano através do programa dedicado a estudantes \textit{GitHub Education} \cite{github-education}. Como serviço de DNS, foi utilizado o \textit{Cloudflare} \cite{cloudflare}, redirecionando acessos ao domínio adquirido ao IP público da máquina virtual fornecido pela AWS.
+
+Cada aplicação citada até aqui roda em um porta diferente no sistema, porém acessá-las externamente através dessas portas não é seguro nem prático. Dado isso, utilizamos o NGINX, uma aplicação que atua como \textit{reverse proxy}, ou seja, todas as requisições feitas ao nosso sistema passarão por essa aplicação, a qual redireciona as requisições para os serviços adequados. Deste modo, podemos deixar apenas as portas 80 (HTTP), 443 (HTTPS) e 1883 (MQTT/TCP) liberadas para aceitarem conexões externas e que serão monitoradas pelo NGINX.
+
+As configurações de redirecionamento são definidas por regras presentes em um arquivo específico, onde são explicitados quais os destinos que devem receber as requisições, dependendo da URL de origem. Os valores escolhidos para os pares subdomíno - aplicação estão mostrados na tabela \ref{table:nginx-config}. Todos os subdomínios citados também foram adicionados às configurações do \textit{Cloudflare} para que a tradução dos nomes seja feita corretamente.
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{|c|c|}
+	\hline
+	\textbf{Subdomínio}         & \textbf{Aplicação Local}                                               \\ \hline
+	mosquitto.coenv.tech & \begin{tabular}[c]{@{}c@{}}Eclipse Mosquitto\\ porta 1883\end{tabular} \\ \hline
+	dashboard.coenv.tech & \begin{tabular}[c]{@{}c@{}}Grafana\\ porta 3000\end{tabular}           \\ \hline
+	coenv.tech           & Página HTML estática                                                   \\ \hline
+	\end{tabular}
+	\caption{Tabela de redirecionamento configurada para o NGINX}
+	\label{table:nginx-config}
+\end{table}
+
+Visando adicionar uma camada maior de segurança, utilizamos o \textit{certbot}, um programa desenvolvido pela \textit{Electronic Frontier Foundation} que facilita a adoção de certificados SSL emitidos gratuitamente pela \textit{Let's Encrypt} \cite{certbot}\cite{lets-encrypt}, para adicionar um certificado no nosso servidor e permitir conexões seguras via HTTPS. 
+
+Portanto, temos as seguintes formas de acessar os serviços disponibilizados pelo servidor:
+
+\begin{itemize}
+	\item Acesso ao Mosquitto MQTT Broker: \underline{mqtt://mosquitto.coenv.tech/}
+	\item Acesso à plataforma de visualização de dados: \underline{https://dashboard.coenv.tech/}
+	\item Acesso à página web com informações sobre o projeto: \underline{https://coenv.tech/}
+\end{itemize}
 
 
 \begin{figure}[h!]
