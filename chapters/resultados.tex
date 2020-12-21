@@ -14,19 +14,50 @@ Para os sensores e o display, ao desenvolver cada uma das bibliotecas citadas na
 
 Utilizando a biblioteca de logging do ESP-IDF\cite{log-esp}, no modo Info, pudemos analisar os dados coletados pelos sensores, assim como os cálculos realizados, através do \textbf{IDF monitor}, uma ferramenta do ESP-IDF que funciona como um terminal serial, comunicando-se com o ESP32. 
 
+Para calcular a \textbf{intensidade} total da luz no ambiente fizemos alguns testes de calibração no LME, com o auxílio do técnico Carlos Ramos. Utilizando uma célula solar padrão com resposta conhecida, pudemos medir a intensidade real de uma luz branca incidindo sobre ela. Colomos em seguida o sensor AS7262 na mesma posição da célula, incidindo a mesma luz cuja intensidade é agora conhecida. 
 
-% %? Problemas?
-% Problema no MIC?
+Com leituras para diferentes intensidades, somamos os dados lidos pelo sensor para cada espectro, uma vez que o sensor tem como resposta 6 valores proporcionais à energia por unidade de área da luz incidente em cada um de seus filtros internos. 
+Dividimos esse valor pelo tempo de integração configurado, explicado na seção \ref{as7262}, obtendo assim um valor proporcional à intensidade da luz. 	
 
-
-O sensor de luz \textbf{AS7262} tem como resposta 6 valores proporcionais à energia por unidade de área da luz incidente em cada espectro de seus filtros internos, de 450nm, 500nm, 550nm, 570nm, 600nm e 650nm. 
-
-Para calcular a intensidade total da luz no ambiente fizemos alguns testes de calibração no LME com o técnico Carlos Ramos. Utilizando uma célula solar padrão com resposta conhecida, pudemos medir a intensidade real de uma luz branca incidindo sobre ela. Colomos em seguida o sensor AS7262 na mesma posição da célula, incidindo a mesma luz, com intensidade conhecida. 
-
-Fizemos leituras com o sensor para diferentes intensidades, somamos os dados lidos pelo sensor para cada espectro e dividimos esse valor pelo tempo de integração configurado para a operação do sensor, conseguindo assim um valor proporcional à intensidade da luz. 
-Com esses dados, mostrados na tabela \ref{tabela-luz}, foi possível encontrar uma constante calibrada para a conversão da leitura, em $\mu W/cm^2$. %?
+Com esses dados, mostrados na tabela \ref{table:tabela-luz}, foi possível encontrar uma constante calibrada $\alpha$  para a conversão da leitura. \newpage
 
 %!! tabelas do teste de luz
+\begin{table}[h]
+\centering
+\begin{tabular}{ |c|c|c|c|c|c|c| }
+	\hline
+	\multicolumn{2}{|c|}{} & \multicolumn{5}{|c|}{\textbf{Intensidade da Luz} ($\mu W/cm^2$)} \\
+	\hline
+	\textbf{Tempo de Integração} & \textbf{Espectro} & 11000	& 5000 & 20000 & 25000 & 30000 \\
+	\hline
+	\hline
+	\multirow{7}{3em}{84ms (0x1E)} & Violet & 6003&8167&10877&13143 & 16216 \\
+	& Blue	&2451	&3368	&4512	&5484	&6822 \\
+	& Green	&11271	&15485	&20939	&25654	&30721 \\
+	& Yellow &13911	&19084	&25809	&30721	&30721 \\
+	& Orange &3404	&4698	&6732	&7801	&9853 \\
+	& Red	&1932	&2618	&3608	&4279	&5333 \\
+	\hline
+	& Soma	&38972	&53420	&72477	&87082	&99666 \\
+	\hline
+	\multirow{7}{3em}{168ms (0x3C)} & Violet & 12033&	16211&	21585&	26485&	32478\\
+	&Blue	&4896	&6577	&8868	&11031	&13647 \\
+	&Green	&22588	&30874	&41505	&52153	&61441 \\
+	&Yellow	&27844	&38091	&51252	&61441	&61441 \\
+	&Orange	&6662	&9184	&12357	&15725	&19672 \\
+	&Red	&3790	&5146	&6813	&8689	&10637 \\
+	\hline
+	&Soma	&77813	&106083	&142380	&175524	&199316 \\
+	\hline
+\end{tabular}
+\caption{Tabela de dados coletados na calibração do sensor AS7262}
+\label{table:tabela-luz}
+\end{table}
+\hfill \break
+
+Encontramos a relação entre a soma lida pelo sensor e a intensidade da luz incidente como a constante $\alpha = \frac{Soma}{\Delta t * I} \approx 41,67$. Assim, podemos calcular os valores da intensidade lida no ambinete $I[\mu W/cm^2]=\frac{Soma}{\Delta t * \alpha}$. Como 1 lux equivale a $1,46*10^-7 W/cm^2$, temos: 
+
+\[I[lux]= 0,146*\frac{Soma}{\Delta t * \alpha}\] \newpage
 
 \subsection{Validação do Dispositivo} %? Teste Completo
 
@@ -38,9 +69,9 @@ Com todos os subsistemas citados anteriormente validados, fabricamos uma PCB em 
 	\centering
 	\begin{subfigure}{0.5\textwidth}
 		\centering
-	\includegraphics[width=0.8\textwidth]{placa-final}
-	\caption{Interna}
-	\label{fig:interna}
+		\includegraphics[width=0.8\textwidth]{placa-final}
+		\caption{Interna}
+		\label{fig:interna}
 	\end{subfigure}%
 	\begin{subfigure}{0.5\textwidth}
 		\centering
@@ -52,41 +83,90 @@ Com todos os subsistemas citados anteriormente validados, fabricamos uma PCB em 
 	\label{fig:montagem-final}
 \end{figure}
 
-Para validação de cada subcircuito presente na PCB, utilizamos os mesmos exemplos citados para validação dos sensores e do display, até então testados usando uma protoboard de testes.
+Para validação de cada subcircuito presente na PCB, utilizamos os mesmos exemplos citados para validação dos sensores e do display, até então testados usando uma protoboard de testes. 
 
-Com o firmware completo desenvolvido, fizemos testes com um só dispositivo, utilizando a mesma biblioteca de Log e o IDF monitor. Os dados dos quatro sensores operando em paralelo podem ser vistos na figura \ref{fig:monitor-sensors}.
+Com o firmware completo desenvolvido, fizemos testes com esse dispositivo, utilizando a mesma biblioteca de Log e o IDF monitor para visualizar as leituras. Os dados dos quatro sensores operando em paralelo podem ser vistos na figura \ref{fig:monitor-sensors}.
 
 %! monitor com dados sensores
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=\textwidth]{monitor-sensors}
-	\label{fig:monitor-sensors}
+	\includegraphics[width=0.6\textwidth]{monitor-sensors}
 	\caption{Coleta dos sensores no IDF-Monitor}
+	\label{fig:monitor-sensors}
 \end{figure}
 
-Em seguida, incluímos o envio dos dados via WiFi, como citado em \ref{dev-Wi-Fi}, com o dispositivo operando como gateway. Os dados das coletas, agora salvos no banco de dados, foram apresentados no dashboard como mostra a figura \ref{fig:dashboard-graphs}.
+Cada sensor tem sua coleta sendo feita em uma task individual, isto é, a leitura e os cálculos de um sensor é feito em paralelo aos demais. Dessa forma, a ordem das mensagens sendo apresentadas no monitor terminal podem ocorrer em diferentes ordens a cada iteração, e com dados de dois sensores se intercalando, por exemplo. \newpage
+
+Em seguida, incluímos ao código o envio dos dados via WiFi, como citado em \ref{dev-Wi-Fi}, com o dispositivo operando como gateway. Os dados das coletas, agora salvos no banco de dados, foram apresentados no dashboard como mostra a figura \ref{fig:dashboard-graphs}.
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\textwidth]{dashboard-graphs}
-	\label{fig:dashboard-graphs}
 	\caption{Gráficos de coletas do Gateway no Dashboard}
+	\label{fig:dashboard-graphs}
 \end{figure}
 
 Fabricamos mais dois dispositivos para criar então a rede completa, utilizando BLE-Mesh e um dos 3 funcionando como Gateway para enviar os dados para o dashboard. 
 
+Para provisionar os dispositivos na rede Mesh, utilizamos o aplicativo nRF Mesh\cite{nrf-app} da Nordic. 
+
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=\textwidth]{dashboard-feedback}
-	\label{fig:dashboard-feedback}
-	\caption{Feedbacks no Dashboard}
+	\begin{subfigure}[b]{0.22\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{mesh-bind-1}
+		\caption{Identify}
+		\label{fig:mesh-bind-1}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.22\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{mesh-bind-2}
+		\caption{Provision}
+		\label{fig:mesh-bind-2}
+	\end{subfigure} %\\*
+	\begin{subfigure}[b]{0.22\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{mesh-bind-3}
+		% \caption{$y=2/x$}
+		\label{fig:mesh-bind-3}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.22\textwidth} 
+		\centering
+		\includegraphics[width=\textwidth]{mesh-bind-4}
+		\caption{Bind key}
+		\label{fig:mesh-bind-4}
+	\end{subfigure}
+	\caption{Telas do aplicativo nRF-Mesh}
+	\label{fig:app-nrf-mesh}
 \end{figure}
+
+O gateway precisa também dar subscribe %!!!
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.5]{mesh-subscribe.JPG}
+	\caption{Tela do app nrf mesh - escolha do grupo}
+	\label{mesh-subscribe}
+\end{figure}
+
+Além dos gráficos com os dados de cada sensor, utilizados nos testes funcionais do dispositivo, criamos um dashboard com as últimas leituras dos dispositivos, mostrado na figura \ref{fig:dashboard-medicoes}, de forma a resumir o estado atual da rede de sensores. 
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\textwidth]{dashboard-medicoes}
-	\label{fig:dashboard-medicoes}
 	\caption{Últimas medições dos indicadores no Dashboard}
+	\label{fig:dashboard-medicoes}
 \end{figure}
+
+O dispositivo periodicamente inicia uma coleta de feedback do usuário, junto com uma medição dos indicadores do ambiente. As últimas respostas são mostradas como na figura \ref{fig:dashboard-feedback}. 
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth]{dashboard-feedback}
+	\caption{Feedbacks no Dashboard}
+	\label{fig:dashboard-feedback}
+\end{figure}
+
+Alertas de Qualidade
 
 \end{document}
