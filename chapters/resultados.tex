@@ -97,7 +97,7 @@ Com o firmware completo desenvolvido, fizemos testes com esse dispositivo, utili
 
 Cada sensor tem sua coleta sendo feita em uma task individual, isto é, a leitura e os cálculos de um sensor é feito em paralelo aos demais. Dessa forma, a ordem das mensagens sendo apresentadas no monitor terminal podem ocorrer em diferentes ordens a cada iteração, e com dados de dois sensores se intercalando, por exemplo. \newpage
 
-Em seguida, incluímos ao código o envio dos dados via WiFi, como citado em \ref{dev-Wi-Fi}, com o dispositivo operando como gateway. Os dados das coletas, agora salvos no banco de dados, foram apresentados no dashboard como mostra a figura \ref{fig:dashboard-graphs}.
+Em seguida, incluímos ao código o envio dos dados via WiFi, como citado em \ref{dev-Wi-Fi}, com o dispositivo operando como \textit{gateway}. Os dados das coletas, agora salvos no banco de dados, foram apresentados no dashboard como mostra a figura \ref{fig:dashboard-graphs}.
 
 \begin{figure}[h]
 	\centering
@@ -106,9 +106,9 @@ Em seguida, incluímos ao código o envio dos dados via WiFi, como citado em \re
 	\label{fig:dashboard-graphs}
 \end{figure}
 
-Fabricamos mais dois dispositivos para criar então a rede completa, utilizando BLE-Mesh e um dos 3 funcionando como Gateway para enviar os dados para o dashboard. 
+Fabricamos mais dois dispositivos para criar a rede BLE-Mesh completa, com um dos dispositivos atuando como \textit{gateway}. A validação funcional de cada um deles seguiu o mesmo teste do primeiro.  
 
-Para provisionar os dispositivos na rede Mesh, utilizamos o aplicativo nRF Mesh\cite{nrf-app} da Nordic. 
+Para provisionar os dispositivos na rede Mesh, utilizamos o aplicativo nRF Mesh\cite{nrf-app}, da Nordic Semiconductor. As etapas, comuns aos três dispositivos, estão mostradas na figura \ref{fig:app-nrf-mesh}.
 
 \begin{figure}[h]
 	\centering
@@ -140,7 +140,7 @@ Para provisionar os dispositivos na rede Mesh, utilizamos o aplicativo nRF Mesh\
 	\label{fig:app-nrf-mesh}
 \end{figure}
 
-O gateway precisa também dar subscribe %!!!
+Além dessas etapas, o dispositivo que atuar como gateway precisa também se inscrever (subscribe) em um grupo, nesse caso com endereço 0xC100. 
 
 \begin{figure}[h]
 	\centering
@@ -149,7 +149,7 @@ O gateway precisa também dar subscribe %!!!
 	\label{mesh-subscribe}
 \end{figure}
 
-Além dos gráficos com os dados de cada sensor, utilizados nos testes funcionais do dispositivo, criamos um dashboard com as últimas leituras dos dispositivos, mostrado na figura \ref{fig:dashboard-medicoes}, de forma a resumir o estado atual da rede de sensores. 
+No dashboard foi possível visualizarmos os dados dos 3 dispositivos em gráficos temporais iguais aos utilizados nos testes funcionais do dispositivo (figura \ref{fig:dashboard-graphs}). Criamos também um segundo dashboard com as últimas leituras dos dispositivos, mostrado na figura \ref{fig:dashboard-medicoes}, de forma a resumir o estado atual da rede de sensores. 
 
 \begin{figure}[h]
 	\centering
@@ -158,6 +158,7 @@ Além dos gráficos com os dados de cada sensor, utilizados nos testes funcionai
 	\label{fig:dashboard-medicoes}
 \end{figure}
 
+\newpage
 O dispositivo periodicamente inicia uma coleta de feedback do usuário, junto com uma medição dos indicadores do ambiente. As últimas respostas são mostradas como na figura \ref{fig:dashboard-feedback}. 
 
 \begin{figure}[h]
