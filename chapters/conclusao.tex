@@ -14,16 +14,23 @@ A solução desenvolvida nesse projeto conseguiu realizar a medição e o monito
 
 A rede de dispositivos se mostrou confiável, raramente apresentando alguma perda de dados. Por ser implementada utilizando Bluetooth Mesh, a rede é totalmente escalável além dos três dispositivos protótipos desenvolvidos nesse projeto, com a possibilidade de que sejam inseridos outros tipos de dispositivos que possam interagir com os do projeto. 
 
-
-
 \section{Perspectivas de Continuidade}
 \subsection{Hardware}
 \subsubsection{Alimentação}
-(copiado)
-Bateria de Lítio-Polímero, de uma célula (1S), por ter a maior densidade energética dentre as baterias recarregáveis, permitindo que o dispositivo seja portátil e não dependente da rede elétrica. A capacidade da bateria será definida com base nos testes de consumo do equipamento nas etapas finais de desenvolvimento do protótipo. 
 
-A bateria LiPo tem tensões de operação entre 3.5 e 4.2 Volts. Para alimentar o circuito foi optado por elevar a tensão para 5V, através de um regulador chaveado boost, ainda não definido. 
+Para que os dispositivos tornem-se portáteis e independentes da rede elétrica, ao invés de alimentá-los diretamente pelo conector micro USB do módulo ESP32 seria interessante utilizar uma bateria de Lítio-Polímero de uma célula (1S). Dentre as baterias recarregáveis, a bateria LiPo possui a maior densidade energética e é uma das principais soluções utilizadas hoje em dispositivos embarcados. % do jeito que eu falei parece pedir uma referência, da pra achar depois
+
+A bateria LiPo tem tensões de operação entre 3.5 e 4.2 Volts. Para alimentar o circuito é necessário elevar a tensão para 5V através de um regulador chaveado boost, e então regulando para 3.3V a fim de alimentar todos os subcircuitos do hardware, mantendo assim a tensão estável, com menores oscilações. 
 
 Para fazer a recarga da bateria de forma eficiente e segura, foi pensado em um circuito carregador utilizando o CI TP4056 \cite{tp4056}, alimentado por 5V através de um conector USB-micro. Com esse CI é possível também que o circuito opere enquanto a bateria está sendo recarregada. 
+
+\subsection{Firmware}
+\subsubsection{Microfone}
+
+Para a realização do cálculo do volume ambiente em decibels é necessário ponderar o sinal recebido de forma a levar em conta a sensibilidade do ouvido. Para realizar essa filtragem correspondente, é necessário que o sinal tenha uma amostragem de ao menos 40kHz, para termos assim uma banda de 20kHz (Teorema de Nyquist). 
+
+Como o ESP32 tem uma frequência máxima de amostragem de 6kHz, para fazer uma amostragem suficiente do microfone, seria necessário utilizar um conversor analógico-digital externo, com comunicação digital com o ESP32. Uma alternativa a isso seria trocar o microfone por um sensor microeletromecânico (MEMS, do inglês \textit{MicroElectroMechanical Sensor} com um conversor analógico-digital integrado. 
+
+Além disso, alguns ruídos parecem influenciar mais do que o volume de forma geral, em especial ruídos de alta frequência produzidos por máquinas. Para isso, seria interessante filtrar o sinal em diferentes frequências de interesse, isto é, as que mais afetam a sensação de conforto, para conseguir identificá-las e usar a intensidade nessas frequências como indicador de conforto. 
 
 \end{document}
