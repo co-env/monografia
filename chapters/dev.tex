@@ -590,6 +590,7 @@ O software de CAD de PCB \textit{Altium Designer 20}\cite{altium}, utlizado para
 A tabela \ref{table:custos} mostra os custos dos componentes utilizados no hardware dos 3 dispositivos. 
 
 \begin{table}[h]
+\centering
 \begin{tabular}{ |p{4.5cm}|p{2cm}|p{3cm}|p{3cm}|  }
 	\hline
 	\multicolumn{4}{|c|}{Hardware} \\
@@ -597,23 +598,27 @@ A tabela \ref{table:custos} mostra os custos dos componentes utilizados no hardw
 	\hline
 	Componente & Quantidade & Custo Unit. & Total\\
 	\hline
-	ESP32 DevKitC & 3 & R\$ & R\$ \\
-	BME280 & 3 & R\$35,30 & R\$105,80 \\
-	SGP30 & 3 & R\$ & R\$ \\
-	AS7262 & 3 & R\$ & R\$ \\
-	Microfone MAX4466 & 3 & R\$33,06 & R\$99,18 \\
-	LCD Oled SSD1306 & 3 & R\$28,88 & R\$86,64 \\
-	Botões Push-Button & 9 & R\$0,37 & R\$3,33 \\
-	Capacitor 220nF & 9 & R\$0,10 & R\$0,90 \\
-	Resistor 1kOhm & 9 & R\$0,10 & R\$0,90 \\
-	Cabos USB micro & 3 & R\$9,90 & R\$29,70 \\
-	Placas de fibra de vidro & 3 & R\$4,00 & R\$12,00 \\
+	ESP32 DevKitC 				& 3 & R\$ 45,00   & R\$ 135,00 \\
+	BME280 						& 3 & R\$ 35,30   & R\$ 105,80 \\
+	SGP30 						& 3 & US\$ 19,95  & R\$ 909,78* \\
+	AS7262 						& 3 & US\$ 19,95  & R\$ 909,78* \\
+	Microfone MAX4466 			& 3 & R\$ 33,06   & R\$ 99,18 \\
+	LCD Oled SSD1306 			& 3 & R\$ 28,88   & R\$ 86,64 \\
+	Botões Push-Button 			& 9 & R\$ 0,37    & R\$ 3,33 \\
+	Capacitor 220nF 			& 9 & R\$ 0,10    & R\$ 0,90 \\
+	Resistor 1kOhm 				& 9 & R\$ 0,10    & R\$ 0,90 \\
+	Cabos USB micro 			& 3 & R\$ 9,90    & R\$ 29,70 \\
+	Placas de fibra de vidro 	& 3 & R\$ 4,00    & R\$ 12,00 \\
 	\hline
-	\multicolumn{2}{|c|}{ } & Total & R\$338,45 \\
+	\multicolumn{2}{|c|}{ } & Total & R\$ 2.293,01 \\
 	\hline
 \end{tabular}
 	\caption{Tabela de Custos do Hardware}
 	\label{table:custos}
+
+\begin{flushleft}
+	(*) Valores convertidos para reais somados aos impostos de importação. Cotação utilizada: US\$ 1,00 $\rightarrow$ R\$ 5,59.
+\end{flushleft}
 \end{table}
 
 A fabricação das PCBs foi feita no PSI, em uma fresa CNC, podendo ter um custo adicional se o processo for terceirizado. Para a montagem final dos dispositivos, foram utilizados cabos com um custo aproximado de \textbf{R\$20}. 

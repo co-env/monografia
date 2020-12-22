@@ -168,6 +168,36 @@ O dispositivo periodicamente inicia uma coleta de feedback do usuário, junto co
 	\label{fig:dashboard-feedback}
 \end{figure}
 
-Alertas de Qualidade
+Para cada parâmetro monitorado, foram definidos valores limiares segundo os níves de indicação de qualidade de ambientes para escritórios. A partir desses limiares, foram configurados alertas que são acionados caso o valor médio de certo parâmetro dentro de uma janela de 5 minutos fique acima dos valores definidos e que enviam notificações para um canal no serviço de mensagens \textit{Slack}.    
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=\textwidth]{grafana-temperature-alert.png}
+	\caption{Exemplo de ocorrência de alerta de temperatura no Dashboard}
+	\label{fig:dashboard-alerta}
+\end{figure}
+
+A figura \ref{fig:dashboard-alerta} ilustra um caso em que houve o disparo de uma notificação de alerta: às 18:30, o sistema percebeu que os valores presentes nas séries de cor roxa e azul estavam acima do limiar de 31 °C, que foram monitorados até às 18:34, quando ocorreu o disparo de uma notificação de alerta, ilustrada na figura \ref{fig:slack-alerta}. Finalmente, podemos visualizar que os valores retornaram a níveis abaixo do limiar às 18:39, sendo enviada uma nova notificação para informar essa volta à normalidade, como visto na figura \ref{fig:slack-ok}.
+
+
+\begin{figure}[h!]
+	\centering
+	\begin{subfigure}[b]{0.7\textwidth}
+		\includegraphics[width=\textwidth]{grafana-slack-alert.png}
+		\caption{Notificação de alerta}
+		\label{fig:slack-alerta}
+	\end{subfigure}
+	
+	\begin{subfigure}[b]{0.7\textwidth}
+		\includegraphics[width=\textwidth]{grafana-slack-ok.png}
+		\caption{Notificação de normalidade}
+		\label{fig:slack-ok}
+	\end{subfigure}
+
+	\caption{Exemplo de recbimento de notificações de alerta no serviço Slack}
+	\label{fig:slack-notifications}
+\end{figure}
+
+
 
 \end{document}
