@@ -585,6 +585,11 @@ O case é composto por duas peças, uma base, onde fica fixada a placa, e uma ta
 
 \section{Custos}
 
+O software de CAD de PCB \textit{Altium Designer 20}\cite{altium}, utlizado para o design do hardware, é um software pago, que foi utilizado com uma licença estudantil no desenvolvimento desse projeto. Possui 30 dias de teste grátis, com um custo anual não divulgado pela empresa, apenas sob consulta. 
+
+A tabela \ref{table:custos} mostra os custos dos componentes utilizados no hardware dos 3 dispositivos. 
+
+\begin{table}[h]
 \begin{tabular}{ |p{4.5cm}|p{2cm}|p{3cm}|p{3cm}|  }
 	\hline
 	\multicolumn{4}{|c|}{Hardware} \\
@@ -601,16 +606,20 @@ O case é composto por duas peças, uma base, onde fica fixada a placa, e uma ta
 	Botões Push-Button & 9 & R\$0,37 & R\$3,33 \\
 	Capacitor 220nF & 9 & R\$0,10 & R\$0,90 \\
 	Resistor 1kOhm & 9 & R\$0,10 & R\$0,90 \\
-	Cabos USB micro & 3 & R\$9,90 & R\$29,7 \\
+	Cabos USB micro & 3 & R\$9,90 & R\$29,70 \\
+	Placas de fibra de vidro & 3 & R\$4,00 & R\$12,00 \\
 	\hline
-	\multicolumn{2}{|c|}{ } & Total & R\$326,45 \\
+	\multicolumn{2}{|c|}{ } & Total & R\$338,45 \\
 	\hline
 \end{tabular}
+	\caption{Tabela de Custos do Hardware}
+	\label{table:custos}
+\end{table}
 
-Licença Altium 
-3x Placa fibra de vidro face simples 7x7cm R\$11,00
-Cabos R\$19,45
-Fresa CNC pode ter custo adicional
-Impressora 3D 
+A fabricação das PCBs foi feita no PSI, em uma fresa CNC, podendo ter um custo adicional se o processo for terceirizado. Para a montagem final dos dispositivos, foram utilizados cabos com um custo aproximado de \textbf{R\$20}. 
+
+Os cases mecânicos foram impressos em PLA por uma impressora 3D Ender 3. Utilizando o software Ultimaker Cura\cite{cura} vemos que foram utilizados cerca de 49g de filamento PLA por case, totalizando um custo aproximado de \textbf{R\$18} para os três dispositivos (considerando em média R\$120,00/kg de filamento PLA). 
+
+Assim como a fresagem da PCB, o trabalho de impressão pode ter um custo adicional caso seja terceirizado. Gastos de energia elétrica não foram considerados. 
 
 \end{document}
