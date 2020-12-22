@@ -6,7 +6,7 @@
 
 \subsection{Rede de Sensores}
 
-Com base na pesquisa sobre os protocolos de rede mais adequados para aplicações de redes de sensores no contexto de internet das coisas, optamos por utilizar BLE em conjunto com Wi-fi. 
+Com base na pesquisa sobre os protocolos de rede mais adequados para aplicações de redes de sensores no contexto de Internet das coisas, optamos por utilizar BLE em conjunto com Wi-Fi. 
 
 A fim de disponibilizar os dados coletados pelos diferentes sensores acerca do ambiente para posterior análise, se faz necessária uma conexão à Internet dos dispositivos desenvolvidos. Essa conexão será feita através do protocolo Wi-Fi, conectando o dispositivo em si a um ponto de acesso presente no ambiente analisado.
 
@@ -24,12 +24,12 @@ Para cada um dos indicadores, decidimos medir as seguintes informações:
 \item Térmico: temperatura ambiente e umidade relativa
 \item Acústico: ruído ambiente
 \item Luminoso: intensidade e cor da luz incidente
-\item Qualidade do ar (e Olfativo): CO2 e VOC (\textit{volatile organic compounds})
+\item Qualidade do ar (e Olfativo): $CO_{2}$ e VOC (\textit{volatile organic compounds})
 \end{itemize}
 
 \subsection{Software}
 
-Os dados coletados serão então armazenados em um banco de dados, estando assim disponíveis para análise a longo prazo. Soluções com armazenamento em nuvem são boas alternativas pois possibilitam o acesso remotamente, além de garantir maior robustez.
+Os dados coletados serão então armazenados em um banco de dados, estando assim disponíveis para análise a longo prazo. Soluções com armazenamento em nuvem são boas alternativas, pois possibilitam o acesso remotamente, além de garantir maior robustez.
 
 Por fim, as medições precisam ser apresentadas para que sua análise seja possível. Um painel de dados (\textit{data dashboard}) será desenvolvido com esse propósito. 
 
@@ -47,7 +47,7 @@ A partir da definição dos requisitos técnicos, chegamos a seguinte arquitetur
 \end{figure}
 
 \subsubsection{Sensores}
-A fim de atender aos critérios apresentados para o monitoramento, foram escolhidos os seguintes sensores: 
+Com o objetivo de atender aos critérios apresentados para o monitoramento, foram escolhidos os seguintes sensores: 
 \begin{itemize}
 \item \textbf{AS7262}\cite{as7262}, da AMS: 
 
@@ -95,15 +95,15 @@ Em conjunto com um circuito amplificador, atende aos requisitos de \textit{confo
 
 \subsubsection{Feedback}
 
-Para Sistema de coleta de \textit{feedback} nos dispositivos, optamos por utilizar um display LCD OLED\cite{oled} SSD1306 de 128x64 pixels, com driver de comunicação I2C, e 2 botões do tipo \textit{push button}. 
+Para Sistema de coleta de \textit{feedback} nos dispositivos, optamos por utilizar um \textit{display} LCD OLED \cite{oled} SSD1306 de 128x64 pixels, com driver de comunicação I²C, e 2 botões do tipo \textit{push button}. 
 
 \subsubsection{Processador}
 
 De acordo com a mesma pesquisa da Aspencore citada anteriormente, 61\% dos projetos de sistemas embarcados usam processadores de 32-bits, e 65\% utiliza algum tipo de sistema operacional. 
 
-A partir das especificações dadas, listamos os periféricos necessários ao microcontrolador, e buscamos as principais opções existentes no mercado para atuar como processador central do dispositivo. 
+A partir das especificações dadas, listamos os periféricos necessários ao microcontrolador e buscamos as principais opções existentes no mercado para atuar como processador central do dispositivo. 
 
-Como a comunicação dos dispositivos é uma funcionalidade crucial, foi dada a preferência para os \textit{System-on-a-Chip} (SoCs), ou Sistema em um chip, ao invés de microcontroladores e módulos \textit{wireless} independentes. SoC é o nome dado a circuitos integrados que englobam processadores (ou microcontroladores, usualmente em dispositivos embarcados), memórias, dentre outros módulos, como circuitos para comunicação sem fio, personalizados para uma aplicação \cite{soc}. Assim, chegamos a três opções de SoCs com \textbf{bluetooth} integrado mostradas na tabela \ref{table-processor}.
+Como a comunicação dos dispositivos é uma funcionalidade crucial, foi dada a preferência para os \textit{System-on-a-Chip} (SoCs), ou Sistema em um chip, ao invés de microcontroladores e módulos \textit{wireless} independentes. SoC é o nome dado a circuitos integrados que englobam processadores (ou microcontroladores, usualmente em dispositivos embarcados), memórias, dentre outros módulos, como circuitos para comunicação sem fio, personalizados para uma aplicação \cite{soc}. Assim, chegamos a três opções de SoCs com \textbf{bluetooth} integrado, mostradas na tabela \ref{table-processor}.
 
 
 \begin{table}[h]
@@ -121,9 +121,9 @@ STMicroelectronics & BlueNRG-2 & \$3.5 & BlueNRG-Tile & \$50 \\
 \label{table-processor}
 \end{table}
 
-Analisando principalmente os ambientes de desenvolvimento, a documentação disponível e o preço dos CIs e de seus kits de desenvolvimento, optamos pela família \textbf{ESP32}\cite{ESP32}. 
+Analisando principalmente os ambientes de desenvolvimento, a documentação disponível, o preço dos CIs e de seus kits de desenvolvimento, optamos pela família \textbf{ESP32}\cite{ESP32}. 
 
-Além do Wi-fi como diferencial no SoC, a Espressif possui um bom suporte e ferramentas de desenvolvimento focadas em BLE e Wi-Fi, em especial para o uso de BLE Mesh, e um dos menores preços, assim considerado o melhor custo-benefício. 
+Além do Wi-Fi como diferencial no SoC, a Espressif possui um bom suporte e ferramentas de desenvolvimento focadas em BLE e Wi-Fi, em especial para o uso de BLE Mesh, e um dos menores preços, assim considerado o melhor custo-benefício. 
 
 \textbf{Especificações do ESP32:} \cite{ESP-datasheet}
 \begin{itemize}
@@ -146,28 +146,28 @@ Os dispositivos serão interconectados por meio de uma rede \textit{Bluetooth Me
 
 Apenas um dos dispositivos da rede estará conectado também à Internet via Wi-Fi, atuando como um gateway para a rede, sendo assim necessário que este também esteja conectado a uma fonte fixa de energia. Essa conexão permitirá o envio dos dados coletados pela rede para um servidor externo ao sistema, possibilitando o acesso remoto aos dados.
 
-O artigo \cite{analise-protocolos-iot} faz uma comparação dos protocolos mais utilizados em aplicações IoT, citados na seção \ref{protocolos-aplicacao}, de maneira prática, utilizando um \textit{testbed} muito parecido com o que utilizamos para o desenvolvimento desse projeto --- microcontrolador ESP8266 ao invés do ESP32. A partir das conclusões presentes no artigo, podemos ver que o protocolo MQTT se mostrou mais estável em relação ao CoAP ao utilizar esse dispositivo restrito, aguentando maior carga de dados e maior confiabilidade na entrega dos mesmos, o que o torna ideal para a aplicação desse projeto.
+O artigo \cite{analise-protocolos-iot} faz uma comparação dos protocolos mais utilizados em aplicações IoT, citados na seção \ref{protocolos-aplicacao}, de maneira prática, utilizando um \textit{testbed} muito parecido com o que utilizamos para o desenvolvimento desse projeto --- microcontrolador ESP8266 ao invés do ESP32. A partir das conclusões presentes no artigo, vemos que o protocolo MQTT se mostrou mais estável em relação ao CoAP ao utilizar esse dispositivo restrito, aguentando maior carga de dados e maior confiabilidade na entrega dos mesmos, o que o torna ideal para a aplicação desse projeto.
 
 %> OBS: inserir imagem da arquitetura da rede 
 
 \subsection{Software}
 
 %* MQTT broker (necessidade + descr)
-O uso do protocolo MQTT na rede de dipositivos torna necessária a implementação de um \textit{MQTT Broker} para a recepção dos dados coletados. Utilizamos o Eclipse Mosquitto \cite{mosquitto}, uma implementação de código aberto disponibilizada pela Eclipse Foundation, bastante utilizado em projetos que usam essa tecnologia.
+O uso do protocolo MQTT na rede de dispositivos torna necessária a implementação de um \textit{MQTT Broker} para a recepção dos dados coletados. Utilizamos o Eclipse Mosquitto \cite{mosquitto}, uma implementação de código aberto disponibilizada pela Eclipse Foundation, bastante utilizado em projetos que usam essa tecnologia.
 
 %* InfluxDB (descr)
-Há também, para esse projeto, a necessidade de armazenar os dados recebidos, como discutido anteriormente. Existem vários tipos de bancos de dados, separados em dois grandes grupos: bancos de dados relacionais, como PostgreSQL e MySQL, e os não relacionais (NoSQL), como o MongoDB. Dentro do segundo grupo, existe uma subcategoria que engloba os bancos de dados de séries temporais (\textit{Time Series Data Bases}, TSDBs), especialmente criados para armzenar dados que remetem a evolução ao longo do tempo de alguma métrica, como medições de sensores ao longo do dia, e que são otimizados para tratar esses tipos de dados epecificamente. O artigo \cite{timeseries-databases} faz um comparativo entre bancos de dados relacionais e de série temporal, mostrando o quão eficiente o segundo tipo é em lidar com dados gerados num cenário de IoT. O artigo mostra também várias opções de TSDBs, optando pelo InfluxDB, da empresa InfluxData, que possui grande suporte a integração a diferentes linguagens de programação, possui código aberto e de uso livre sob a licença MIT e apresenta um ótimo desempenho com o tratamento de dados, sendo ideal para o uso nesse projeto, no qual possuímos leituras de diferentes sensores em vários dispositivos que monitoram o estado do ambiente ao longo do tempo.
+Há também, para esse projeto, a necessidade de armazenar os dados recebidos, como discutido anteriormente. Existem vários tipos de bancos de dados, separados em dois grandes grupos: bancos de dados relacionais, como PostgreSQL e MySQL, e os não relacionais (NoSQL), como o MongoDB. Dentro do segundo grupo, existe uma subcategoria que engloba os bancos de dados de séries temporais (\textit{Time Series Data Bases}, TSDBs), especialmente criados para armazenar dados que remetem a evolução ao longo do tempo de alguma métrica, como medições de sensores ao longo do dia, e que são otimizados para tratar esses tipos de dados especificamente. O artigo \cite{timeseries-databases} faz um comparativo entre bancos de dados relacionais e de série temporal, mostrando o quão eficiente o segundo tipo é em lidar com dados gerados num cenário de IoT. O artigo mostra também várias opções de TSDBs, optando pelo InfluxDB, da empresa InfluxData, que possui grande suporte a integração a diferentes linguagens de programação, possui código aberto e de uso livre sob a licença MIT e apresenta um ótimo desempenho com o tratamento de dados, sendo ideal para o uso nesse projeto, no qual possuímos leituras de diferentes sensores em vários dispositivos que monitoram o estado do ambiente ao longo do tempo.
 
 %* Telegraf (necessidade + descr)
-Para que os dados recebidos pelo MQTT Broker sejam inseridos no banco de dados, utilizamos o Telegraf, da mesma desenvolvedora do InfluxDB, um programa designado para fazer a integração entre serviços, conectando fontes de dados aos destinos desejados. Esse serviço também é distribuído sob a lincença MIT, com código aberto e de uso livre, e tem a capacidade de se conectar com várias fontes de dados através de \textit{plugins} de entrada, atuando como um MQTT Client no contexto desse projeto, se increvendo nos tópicos referentes às medidas de sensores que serão recebidas pelo MQTT Broker. Ao mesmo tempo, possui diferentes \textit{plugins} de saída, que redirecionam os dados recebidos para os destinos desejados --- banco de dados InfluxDB, nesse caso. Esse sistema de \textit{plugins} para realizar as conexões entre os serviços já faz parte da solução Telegraf, bastando apenas configurá-los com as necessidades do projeto.
+Para que os dados recebidos pelo MQTT Broker sejam inseridos no banco de dados, utilizamos o Telegraf, da mesma desenvolvedora do InfluxDB, um programa designado para fazer a integração entre serviços, conectando fontes de dados aos destinos desejados. Esse serviço também é distribuído sob a licença MIT, com código aberto e de uso livre, com capacidade de se conectar com várias fontes de dados através de \textit{plugins} de entrada, atuando como um MQTT Client no contexto desse projeto, se inscrevendo nos tópicos referentes às medidas de sensores que serão recebidas pelo MQTT Broker. Ao mesmo tempo, possui diferentes \textit{plugins} de saída, que redirecionam os dados recebidos para os destinos desejados --- banco de dados InfluxDB, nesse caso. Esse sistema de \textit{plugins} para realizar as conexões entre os serviços já faz parte da solução Telegraf, bastando apenas configurá-los com as necessidades do projeto.
 
 %* Grafana (descr)
-Por último, o painel de dados utilizado para apresentar os dados coletados será implementado utilizando o Grafana, uma aplicação web que possibilita criar diferentes tipos de gráficos, tabelas e alertas e conectá-los com dados presentes em bancos de dados de maneira interativa. Esse serviço também possui código aberto sob a linceça Apache 2.0, que permite seu uso de forma livre. Ele possui integração com o InfluxDB embutida, o que possibilita acessar os nossos dados salvos através de \textit{queries} e mostrá-los visualmente nos diferentes tipos de interfaces.
+Por último, o painel de dados utilizado para apresentar os dados coletados será implementado utilizando o Grafana, uma aplicação web que possibilita criar diferentes tipos de gráficos, tabelas e alertas e conectá-los com dados presentes em bancos de dados de maneira interativa. Esse serviço também possui código aberto sob a licença Apache 2.0, que permite seu uso de forma livre. Ele possui integração com o InfluxDB embutida, o que possibilita acessar os nossos dados salvos através de \textit{queries} e mostrá-los visualmente nos diferentes tipos de interfaces.
 
 
 %* AWS (descr)
 
-Todos esses serviços citados anteriormente são suportados por diferentes sistemas operacionais e, idealmente, precisam ser executados em um mesmo ambiente, como um servidor Linux, que pode ser implementado tanto em sistemas de hardware mais simples e embarcados, como um Raspberry Pi, como em sistemas mais robustos com mais memória e capacidade de processamento, ligados a uma rede local no ambiente monitorado para o fácil acesso dos dados. Porém, visando a alta disponibilidade dos dados coletados como um dos requisitos do projetos, será utilizada uma solução de servidor em nuvem para hospedar os serviços citado, tornando possível acessá-los remotamente e de forma confiável. Existem várias empresas que oferecem soluções de servidores privados em nuvem (VPS, do inglês \textit{Virtual Private Server}), e com preços equivalentes, como a \textit{Digital Ocean}, \textit{Linode}, \textit{Google Cloud} e \textit{IBM Cloud}, porém a \textit{Amazon Web Services (AWS)} é a que oferece o maior tempo de uso grátis (1 ano contra cerca de 3 meses para os outros), tornando essa a melhor escolha para a realização desse projeto. 
+Todos esses serviços citados anteriormente são suportados por diferentes sistemas operacionais e, idealmente, precisam ser executados em um mesmo ambiente, como um servidor Linux, que pode ser implementado tanto em sistemas de hardware mais simples e embarcados, como um Raspberry Pi, quanto em sistemas mais robustos com mais memória e capacidade de processamento, ligados a uma rede local no ambiente monitorado para o fácil acesso aos dados. Porém, visando a alta disponibilidade dos dados coletados como um dos requisitos do projetos, será utilizada uma solução de servidor em nuvem para hospedar os serviços citados, tornando possível acessá-los remotamente e de forma confiável. Existem várias empresas que oferecem soluções de servidores privados em nuvem (VPS, do inglês \textit{Virtual Private Server}), e com preços equivalentes, como a \textit{Digital Ocean}, \textit{Linode}, \textit{Google Cloud} e \textit{IBM Cloud}, porém a \textit{Amazon Web Services (AWS)} é a que oferece o maior tempo de uso grátis (1 ano contra cerca de 3 meses para os outros), tornando essa a melhor escolha para a realização desse projeto. 
 
 %> Falar de nuvem no final, reforçando a ideia que foi passada nos requisitos, e linkar o geral com a imagem final
 

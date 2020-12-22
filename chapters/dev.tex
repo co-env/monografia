@@ -32,7 +32,7 @@ O DevKitC do ESP32 possui integrado um USB, através do qual é possível alimen
 
 Para o design do hardware, utilizamos o software de CAD de PCB \textit{Altium Designer 20} \cite{altium}. Foi utilizada a licença da empresa orientadora, sendo possível também conseguir uma licença gratuita para estudantes. Os arquivos estão disponíveis em \cite{git_hw}. 
 
-A partir do diagrama de blocos, foi desenvolvido o esquema elétrico
+A partir do diagrama de blocos, foi desenvolvido o esquema elétrico, ilustrado na figura \ref{fig:img2}.
 
 \begin{figure}[h]
 	\includegraphics[width=0.9\textwidth]{sch}
@@ -81,17 +81,17 @@ As placas foram fabricadas em fibra por uma fresadora CNC.
 
 \section{Firmware} \label{firmware}
 
-O desenvolvimento do firmware se deu utilizando o \textbf{ESP-IDF} (\textit{Espressif IoT Development Framework}), disponível pela Espressif\cite{esp-idf} gratuitamente (sob \textit{Apache License}). 
+O desenvolvimento do firmware foi realizado utilizando o \textbf{ESP-IDF} (\textit{Espressif IoT Development Framework}), disponibilizado pela Espressif\cite{esp-idf} gratuitamente (sob \textit{Apache License}). 
 
 O ESP-IDF é composto por API, ferramentas, componentes e fluxos de trabalho (\textit{workflows}) que permitem o desenvolvimento de aplicações utilizando o ESP32. 
 
 Além disso, utiliza o FreeRTOS, que é o principal sistema operacional de tempo real (RTOS) para microcontroladores\cite{freertos}, de código aberto (\textit{MIT open source license}), e com suporte para diversas famílias de microcontroladores.
 
-Como o ESP32 possui 2 Cores, o FreeRTOS usado no IDF é uma versão modificada do \textit{vanilla} FreeRTOS, permitindo que exista multiprocessamento simétrico (SMP, \textit{symmetric multiprocessing}).
+Como o ESP32 possui 2 núcleos de processamento, o FreeRTOS usado no IDF é uma versão modificada da padrão, permitindo que exista multiprocessamento simétrico (SMP, \textit{symmetric multiprocessing}).
 
 Outras bibliotecas, proprietárias ou disponíveis em código aberto, foram utilizadas para a integração de todos os periféricos. 
 
-A camada mais alta do software nos dispositivos, separamos em três: sensores, feedback e rede; descritas a seguir. %??
+A camada mais alta do software nos dispositivos foi separada em três grupos: sensores, feedback e rede; descritas a seguir. %??
 
 \begin{figure}[h!]
 	\centering
@@ -100,7 +100,7 @@ A camada mais alta do software nos dispositivos, separamos em três: sensores, f
 	\label{fig:fw-arch}
 \end{figure}
 
-A arquitetura completa do firmware está disposível no Anexo 2. %???
+A arquitetura completa do firmware pode ser visualizada no Anexo 2. %???
 
 \subsection{Sensores} %\label{sensores}
 
@@ -117,7 +117,7 @@ Para os sensores, desenvolvemos bibliotecas baseadas no ESP-IDF e validamos o fu
 
 O BME280 é um sensor da Bosch que realiza medições de temperatura, umidade e pressão no ambiente. Possui 3 modos de operação: \cite{bme280}
 \begin{itemize}
-	\item \textit{sleep}: baixo consumo de energia, registradores podem ser lidos mas não realiza novas operações de medição.
+	\item \textit{sleep}: baixo consumo de energia, registradores podem ser lidos, mas não realiza novas operações de medição.
 	\item \textit{forced}: realiza uma medição, salva os resultados, e volta ao modo \textit{sleep}.
 	
 	\begin{figure}[h]
@@ -132,8 +132,8 @@ O BME280 é um sensor da Bosch que realiza medições de temperatura, umidade e 
 
 O \textit{datasheet} recomenda que, para aplicações do tipo \textbf{monitoramento climático}, seja utilizado o modo \textit{forced}, com cerca de 1 medição por minuto. Assim, o sensor consumirá uma corrente de aproximadamente 0.16$\mu$A, sendo o modo de maior economia de energia. 
 
-A Bosch Sensortech disponibiliza um driver para o BME280, com código fonte em C e disponibilizado abertamente\cite{bme280-driver}, que permite sua integração ao firmware em microcontroladores de qualquer fabricante. 
-Utilizando o driver como base, desenvolvemos uma biblioteca para a utilização do BME280 no ambiente ESP-IDF, utilizando comunicação I2C, disponível
+A Bosch Sensortech disponibiliza um driver para o BME280, com código fonte em C e disponibilizado abertamente \cite{bme280-driver}, que permite sua integração ao firmware em microcontroladores de qualquer fabricante. 
+Utilizando o driver como base, desenvolvemos uma biblioteca para a utilização do BME280 no ambiente ESP-IDF, utilizando comunicação I²C, disponível em \cite{bme280-lib}.
 
 %todo: colocar estrutura da lib
 
@@ -151,13 +151,13 @@ Utilizando o driver como base, desenvolvemos uma biblioteca para a utilização 
 Para a medição de parâmetros relacionados a luminosidade, foi utilizado o sensor AS7262, da AMS, que possui filtros internos capazes de separar a luz visível de acordo com 6 comprimentos de onda: 450, 500, 550, 570, 600 e 650 nm - que correspondem às cores violeta, azul, verde, amarela, laranja e verde, respectivamente. Cada um dos filtros é lido por conversores analógico-digital de 16 bits de resolução independentes que salvam os dados em registradores internos a cada conversão realizada. Possui 4 modos de operação:
 
 \begin{itemize}
-	\item \textbf{Modo 0:} realiza medições contínuas, disponibilizando dados apenas referentes às cores violeta, azul, verde e amarela, sendo que os registradores de dados das cores vemelha e laranja ficarão com valor nulo.
+	\item \textbf{Modo 0:} realiza medições contínuas, disponibilizando dados apenas referentes às cores violeta, azul, verde e amarela, sendo que os registradores de dados das cores vermelha e laranja ficarão com valor nulo.
 	\item \textbf{Modo 1:} realiza medições contínuas, disponibilizando dados apenas referentes às cores verde, amarela, laranja e vermelha, sendo que os registradores de dados das cores violeta e azul ficarão com valor nulo.
 	\item \textbf{Modo 2:} realiza medições contínuas para todos os canais.
 	\item \textbf{Modo 3:} realiza medições para todos os canais, porém no modo \textit{One-Shot}.
 \end{itemize}
 
-A diferença entre os modos contínuos e o modo \textit{One-Shot} é que, no segundo, o usuário controla quando as medições deverão ser realizadas, enquanto que no modo contínuo as medições são realizadas automaticamente a partir da sua inicialização.
+A diferença entre os modos contínuos e o modo \textit{One-Shot} é que, no segundo, o usuário controla quando as medições deverão ser realizadas, enquanto no modo contínuo as medições são realizadas automaticamente a partir da sua inicialização.
 
 Outra configuração disponível para que o usuário escolha é o ganho que será aplicado nos canais de leitura, podendo ser escolhido dentre os valores 1x, 3.7x, 16x e 64x.
 
@@ -201,7 +201,7 @@ O endereçamento dos registradores de aplicação, como os que armazenarão os d
 	\end{itemize}
 \end{itemize}
 
-A lista com todos os endereços dos registradores virutais pode ser encontrada em seu \textit{datasheet} \cite{as7262}. Com essas rotinas de leitura e escrita implementadas, basta realizar a configuração desejada para a aplicação e depois ler os valores captados pelo sensor. 
+A lista com todos os endereços dos registradores virtuais pode ser encontrada em seu \textit{datasheet} \cite{as7262}. Com essas rotinas de leitura e escrita implementadas, basta realizar a configuração desejada para a aplicação e depois ler os valores captados pelo sensor. 
 
 \begin{figure}[h]
 	\centering
@@ -212,14 +212,14 @@ A lista com todos os endereços dos registradores virutais pode ser encontrada e
 
 A figura \ref{fig:as7262_firmware} mostra a lógica de aplicação implementada neste projeto. Primeiramente, é feita a operação de \textit{Soft Reset} no sensor para reinicializá-lo, depois é feita a verificação do registrador que indica a versão do Hardware, que deve ser igual a 0x40. Feita essa verificação, escreve-se o valor 0b10 para inicializar a captação de valores no \textbf{Modo 2}: modo contínuo, referentes a todos os canais de medição. O valor de cada canal será armazenado em 4 registradores, totalizando 32 bits de valores em notação de ponto flutuante para cada canal. A etapa final da aplicação é realizar a leitura desses 24 registradores (4 por canal, 6 canais no total) e salvá-los em um vetor de 6 posições, para que possam ser manipulados posteriormente.
 
-A bilbioteca desenvolvida para a interação com o sensor pode ser acessada em \cite{as7262-lib}.
+A biblioteca desenvolvida para a interação com o sensor pode ser acessada em \cite{as7262-lib}.
 
 %!!!!!!!!!!!!!!!! Precisa escrever sobre interpretação dos dados
 
 
 \subsubsection{SGP30}
 
-O sensor utilizado para medições dos parâmetros referentes à qualidade do ar foi o SGP30, da Sensirion. A partir de medições de concentracão de hidrogênio e etanol no ar, um algoritmo interno ao sensor consegue estimar o total de componente orgânico volátil (TVOC), em partes por bilhão (ppb), e o equivalete de $CO_{2}$, em partes por milhão (ppm), presentes no ambiente. 
+O sensor utilizado para medições dos parâmetros referentes à qualidade do ar foi o SGP30, da Sensirion. A partir de medições de concentração de hidrogênio e etanol no ar, um algoritmo interno ao sensor consegue estimar o total de componente orgânico volátil (TVOC), em partes por bilhão (ppb), e o equivalente de $CO_{2}$, em partes por milhão (ppm), presentes no ambiente. 
 
 A interface com esse sensor também é feita através do protocolo I²C, porém através de comandos pré-definidos, presentes nas páginas 9 e 10 do \textit{datasheet} \cite{sgp30}. Cada comando é identificado por um valor de 16 bits e é responsável por realizar uma ação no sistema, como inicializar, realizar medições e ler valores fixados, como número de série. 
 
@@ -263,7 +263,7 @@ bits e uma amostragem máxima de 6kHz.
 	\label{fig:feedback-arch}
 \end{figure}
 
-A task de feedback inicialmente espera por um evento do tipo timer ser colocado na queue, identificando que deve ser realizada a coleta.
+A tarefa de feedback inicialmente espera por um evento gerado por um \textit{timeout} de um \textit{timer} ser colocado na fila de eventos adequada, identificando que deve ser realizada a coleta.
 
 A rotina de coleta segue uma \textbf{máquina de estados}, que foi implementada a seguinte máquina de estados, seguindo um \textit{table-driven approach}.
 
@@ -275,20 +275,20 @@ A rotina de coleta segue uma \textbf{máquina de estados}, que foi implementada 
 	\label{fig:fsm-feedback}
 \end{figure}
 
-No início de uma coleta, é executado o estado inicial e a task volta a esperar por um novo evento, que pode ser causado por um timer ou um GPIO. Caso seja um GPIO, um novo estado é executado; caso seja um timer, e o seu ID é o de Timeout, a coleta é encerrada.
+No início de uma coleta, é executado o estado inicial e a tarefa volta a esperar por um novo evento, que pode ser causado por um \textit{timer} ou um GPIO. Caso seja um GPIO, um novo estado é executado; caso seja um \textit{timer} e o seu ID correspnder ao de \textit{Timeout}, a coleta é encerrada.
 
 A mudança entre os estados acontece quando um dos botões laterais, correspondendo a respostas 'Não' e 'Sim', é apertado. De acordo com a resposta o futuro estado é definido. 
 
-No estado INITIAL mostra-se a primeira pergunta no display, a estrutura com as respostas é zerada e um timer TIMEOUT é iniciado, a fim de desligar a tela e encerrar o feedback caso não haja resposta. 
+No estado INITIAL mostra-se a primeira pergunta na tela, a estrutura com as respostas é zerada e um \textit{timer} TIMEOUT é iniciado, a fim de desligar a tela e encerrar a rotina de \textit{feedback} caso não haja resposta. 
 
-Em cada um dos estados intermediários, a resposta dos botões é armazenada, a tela do display é atualizada para uma nova pergunta, e o timer TIMEOUT é reiniciado. 
+Em cada um dos estados intermediários, a resposta dos botões é armazenada, a tela é atualizada para uma nova pergunta, e o \textit{timer} TIMEOUT é reiniciado. 
 
-Quando ocorre um timeout, é executando o estado FINAL. 
+Quando ocorre um \textit{timeout}, é executando o estado FINAL. 
 
 %Display
-O display utiliza uma porta I2C diferente dos sensores, para ter maior independência entre as tasks.
+A interface de \textit{display} utiliza uma porta I²C diferente da utilizada pelos sensores para que não haja uma competição desse recurso entre as \textit{tasks} executadas em paralelo no sistema.
 
-Como biblioteca para o display SSD1306, utilizamos um componente desenvolvido por Tara K\cite{TaraK} baseado no ESP-IDF\cite{SSD1306}. Em \textit{display.c} desenvolvemos as telas a serem utilizadas durante a rotina de coleta de feedback. 
+Como biblioteca para o \textit{display} SSD1306, utilizamos um componente desenvolvido por Tara K \cite{TaraK} baseado no ESP-IDF\cite{SSD1306}. Em \textit{display.c} desenvolvemos as telas utilizadas durante a rotina de coleta de \textit{feedback}. 
 
 %? estrutura do código
 
@@ -305,7 +305,7 @@ O módulo que trata da parte de rede do dispositivo foi separado em 2 partes, co
 
 \subsubsection{Bluetooth} \label{dev-bluetooth-section}
 
-Como citado em seções anteriores, os dispositivos desse projeto foram interconectados em uma rede BLE Mesh para que os dados coletados por eles sejam enviados pela rede para um dispositivo com função de \textit{gateway}. Para realizar a implemenação da rede, foi utilizada a biblioteca ESP-BLE-MESH, da Espressif, sendo essa baseada na biblioteca de Bluetooth Mesh do \textit{Zephyr Project} \cite{zephyrproject}, um projeto de RTOS mantido pela \textit{Linux Foundation}, que disponibiliza toda a API necessária para a implementação de uma rede BLE Mesh customizada.
+Como citado em seções anteriores, os dispositivos desse projeto foram interconectados em uma rede BLE Mesh para que os dados coletados por eles sejam enviados pela rede para um dispositivo com função de \textit{gateway}. Para realizar a implementação da rede, foi utilizada a biblioteca ESP-BLE-MESH, da Espressif, sendo essa baseada na biblioteca de Bluetooth Mesh do \textit{Zephyr Project} \cite{zephyrproject}, um projeto de RTOS mantido pela \textit{Linux Foundation}, que disponibiliza toda a API necessária para a implementação de uma rede BLE Mesh customizada.
 
 Por se tratar de uma aplicação com vários dados de sensores para serem enviados, foi criado um Modelo customizado que engloba todos os dados dos sensores que compõem um dispositivo, chamado de \textit{\textbf{Custom Sensor Model}}, o qual foi implementado tanto o Modelo Cliente quanto o Servidor. A estrutura de dados principal que define o estado do Modelo contém as seguintes variáveis: 
 
@@ -372,7 +372,7 @@ Essa fila sincronizada é a parte principal do dispositivo central, já que nela
 
 A conexão do dispositivo gateway com a plataforma em nuvem é realizada utilizando o protocolo Wi-Fi. O ESP-IDF possui uma API pronta para ser utilizada para conectar o microcrontolador a um ponto de acesso Wi-Fi à escolha do usuário. Para isso, é necessário informar o SSID do ponto de acesso e a sua senha para conexão, armazenados em duas constantes no firmware. Definidas essas constantes, basta chamar a função de conexão fornecida pela API, que usará os valores definidos para realizar a conexão, bloqueando todo o programa até que a conexão seja estabelecida, obtendo endereços IPv4 e IPv6 (caso o ambiente de conexão seja capaz de fornecer os dois tipos de endereço para o dispositivo).
 
-Com uma conexão com a Internet estabelecida, é necessário agora inicializar o dispositivo como um cliente MQTT e conectá-lo com o \textit{MQTT Broker} hospedado remotamente. Do mesmo modo, o ESP-IDF possui uma API que implementa as funcionalidades do protocolo MQTT utilizando conexão via TCP, para o qual é necessário informar o URL do \textit{MQTT Broker} a ser conectado, além dos valores de usuário e senha para autenticação no mesmo. Esses valores são salvos em uma estrutura no firmware, utilizada por uma função para inicializar o dispositivo como um cliente e estabelecer a conexão, a qual exige que haja uma conexão com a internet previamente estabelecida, como detalhado anteriormente. Se a conexão com o \textit{MQTT Broker} for realizada com sucesso, um evento indicando essa conexão será recebido pelo dispositivo, que estará pronto para enviar e receber mensagens.
+Com uma conexão com a Internet estabelecida, é necessário agora inicializar o dispositivo como um cliente MQTT e conectá-lo com o \textit{MQTT Broker} hospedado remotamente. Do mesmo modo, o ESP-IDF possui uma API que implementa as funcionalidades do protocolo MQTT utilizando conexão via TCP, para o qual é necessário informar o URL do \textit{MQTT Broker} a ser conectado, além dos valores de usuário e senha para autenticação no mesmo. Esses valores são salvos em uma estrutura no firmware, utilizada por uma função para inicializar o dispositivo como um cliente e estabelecer a conexão, a qual exige que haja uma conexão com a Internet previamente estabelecida, como detalhado anteriormente. Se a conexão com o \textit{MQTT Broker} for realizada com sucesso, um evento indicando essa conexão será recebido pelo dispositivo, que estará pronto para enviar e receber mensagens.
 
 O dispositivo gateway publicará as mensagens em tópicos referentes a cada dispositivo da rede, ou seja, cada dispositivo terá um tópico referente aos seus dados, seguindo o formato \texttt{devices\char`/device\char`_name}, no qual \textit{device\_name} se refere ao nome do dispositivo definido na estrutura de dados do \textit{Custom Sensor Model}, descrita na seção \ref{dev-bluetooth-section}. O conteúdo das mensagens enviadas nos tópicos se refere às leituras dos diferentes sensores, tanto as recebidas via BLE Mesh quanto as leituras do próprio dispositivo gateway.
 
