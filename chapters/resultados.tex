@@ -12,7 +12,7 @@
 
 Para os sensores e o display, ao desenvolver cada uma das bibliotecas citadas na seção \ref{firmware}, também desenvolvemos exemplos para a validação de cada um individualmente. 
 
-Utilizando a biblioteca de logging do ESP-IDF\cite{log-esp}, no modo Info, pudemos analisar os dados coletados pelos sensores, assim como os cálculos realizados, através do \textbf{IDF monitor}, uma ferramenta do ESP-IDF que funciona como um terminal serial, comunicando-se com o ESP32. 
+Utilizando a biblioteca de logging do ESP-IDF \cite{log-esp}, no modo Info, pudemos analisar os dados coletados pelos sensores, assim como os cálculos realizados, através do \textbf{IDF monitor}, uma ferramenta do ESP-IDF que funciona como um terminal serial, comunicando-se com o ESP32. 
 
 Para calcular a \textbf{intensidade} total da luz no ambiente fizemos alguns testes de calibração no LME, com o auxílio do técnico Carlos Ramos. Utilizando uma célula solar padrão com resposta conhecida, pudemos medir a intensidade real de uma luz branca incidindo sobre ela. Colomos em seguida o sensor AS7262 na mesma posição da célula, incidindo a mesma luz cuja intensidade é agora conhecida. 
 
@@ -108,7 +108,7 @@ Em seguida, incluímos ao código o envio dos dados via Wi-Fi, como citado em \r
 
 Fabricamos mais dois dispositivos para criar a rede BLE-Mesh completa, com um dos dispositivos atuando como \textit{gateway}. A validação funcional de cada um deles seguiu o mesmo teste do primeiro.  
 
-Para provisionar os dispositivos na rede Mesh, utilizamos o aplicativo nRF Mesh\cite{nrf-app}, da Nordic Semiconductor. As etapas, comuns aos três dispositivos, estão mostradas na figura \ref{fig:app-nrf-mesh}.
+Para provisionar os dispositivos na rede Mesh, utilizamos o aplicativo nRF Mesh \cite{nrf-app}, da Nordic Semiconductor. As etapas, comuns aos três dispositivos, estão mostradas na figura \ref{fig:app-nrf-mesh}.
 
 \begin{figure}[h]
 	\centering

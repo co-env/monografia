@@ -81,11 +81,11 @@ As placas foram fabricadas em fibra por uma fresadora CNC.
 
 \section{Firmware} \label{firmware}
 
-O desenvolvimento do firmware foi realizado utilizando o \textbf{ESP-IDF} (\textit{Espressif IoT Development Framework}), disponibilizado pela Espressif\cite{esp-idf} gratuitamente (sob \textit{Apache License}). 
+O desenvolvimento do firmware foi realizado utilizando o \textbf{ESP-IDF} (\textit{Espressif IoT Development Framework}), disponibilizado pela Espressif \cite{esp-idf} gratuitamente (sob \textit{Apache License}). 
 
 O ESP-IDF é composto por API, ferramentas, componentes e fluxos de trabalho (\textit{workflows}) que permitem o desenvolvimento de aplicações utilizando o ESP32. 
 
-Além disso, utiliza o FreeRTOS, que é o principal sistema operacional de tempo real (RTOS) para microcontroladores\cite{freertos}, de código aberto (\textit{MIT open source license}), e com suporte para diversas famílias de microcontroladores.
+Além disso, utiliza o FreeRTOS, que é o principal sistema operacional de tempo real (RTOS) para microcontroladores \cite{freertos}, de código aberto (\textit{MIT open source license}), e com suporte para diversas famílias de microcontroladores.
 
 Como o ESP32 possui 2 núcleos de processamento, o FreeRTOS usado no IDF é uma versão modificada da padrão, permitindo que exista multiprocessamento simétrico (SMP, \textit{symmetric multiprocessing}).
 
@@ -288,7 +288,7 @@ Quando ocorre um \textit{timeout}, é executando o estado FINAL.
 %Display
 A interface de \textit{display} utiliza uma porta I²C diferente da utilizada pelos sensores para que não haja uma competição desse recurso entre as \textit{tasks} executadas em paralelo no sistema.
 
-Como biblioteca para o \textit{display} SSD1306, utilizamos um componente desenvolvido por Tara K \cite{TaraK} baseado no ESP-IDF\cite{SSD1306}. Em \textit{display.c} desenvolvemos as telas utilizadas durante a rotina de coleta de \textit{feedback}. 
+Como biblioteca para o \textit{display} SSD1306, utilizamos um componente desenvolvido por Tara K \cite{TaraK} baseado no ESP-IDF \cite{SSD1306}. Em \textit{display.c} desenvolvemos as telas utilizadas durante a rotina de coleta de \textit{feedback}. 
 
 %? estrutura do código
 
@@ -541,7 +541,7 @@ As configurações de redirecionamento são definidas por regras presentes em um
 	\label{table:nginx-config}
 \end{table}
 
-Visando adicionar uma camada maior de segurança, utilizamos o \textit{certbot}, um programa desenvolvido pela \textit{Electronic Frontier Foundation} que facilita a adoção de certificados SSL emitidos gratuitamente pela \textit{Let's Encrypt} \cite{certbot}\cite{lets-encrypt}, para adicionar um certificado no nosso servidor e permitir conexões seguras via HTTPS. 
+Visando adicionar uma camada maior de segurança, utilizamos o \textit{certbot}, um programa desenvolvido pela \textit{Electronic Frontier Foundation} que facilita a adoção de certificados SSL emitidos gratuitamente pela \textit{Let's Encrypt} \cite{certbot} \cite{lets-encrypt}, para adicionar um certificado no nosso servidor e permitir conexões seguras via HTTPS. 
 
 Portanto, temos as seguintes formas de acessar os serviços disponibilizados pelo servidor:
 
@@ -585,7 +585,7 @@ O case é composto por duas peças, uma base, onde fica fixada a placa, e uma ta
 
 \section{Custos}
 
-O software de CAD de PCB \textit{Altium Designer 20}\cite{altium}, utlizado para o design do hardware, é um software pago, que foi utilizado com uma licença estudantil no desenvolvimento desse projeto. Possui 30 dias de teste grátis, com um custo anual não divulgado pela empresa, apenas sob consulta. 
+O software de CAD de PCB \textit{Altium Designer 20} \cite{altium}, utlizado para o design do hardware, é um software pago, que foi utilizado com uma licença estudantil no desenvolvimento desse projeto. Possui 30 dias de teste grátis, com um custo anual não divulgado pela empresa, apenas sob consulta. 
 
 A tabela \ref{table:custos} mostra os custos dos componentes utilizados no hardware dos 3 dispositivos. 
 
@@ -623,7 +623,7 @@ A tabela \ref{table:custos} mostra os custos dos componentes utilizados no hardw
 
 A fabricação das PCBs foi feita no PSI, em uma fresa CNC, podendo ter um custo adicional se o processo for terceirizado. Para a montagem final dos dispositivos, foram utilizados cabos com um custo aproximado de \textbf{R\$20}. 
 
-Os cases mecânicos foram impressos em PLA por uma impressora 3D Ender 3. Utilizando o software Ultimaker Cura\cite{cura} vemos que foram utilizados cerca de 49g de filamento PLA por case, totalizando um custo aproximado de \textbf{R\$18} para os três dispositivos (considerando em média R\$120,00/kg de filamento PLA). 
+Os cases mecânicos foram impressos em PLA por uma impressora 3D Ender 3. Utilizando o software Ultimaker Cura \cite{cura} vemos que foram utilizados cerca de 49g de filamento PLA por case, totalizando um custo aproximado de \textbf{R\$18} para os três dispositivos (considerando em média R\$120,00/kg de filamento PLA). 
 
 Assim como a fresagem da PCB, o trabalho de impressão pode ter um custo adicional caso seja terceirizado. Gastos de energia elétrica não foram considerados. 
 

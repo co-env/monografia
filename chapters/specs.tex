@@ -29,9 +29,9 @@ Para cada um dos indicadores, decidimos medir as seguintes informações:
 
 \subsection{Software}
 
-Os dados coletados serão então armazenados em um banco de dados, estando assim disponíveis para análise a longo prazo. Soluções com armazenamento em nuvem são boas alternativas, pois possibilitam o acesso remotamente, além de garantir maior robustez.
+Visando a disponibilidade dos dados para análise a longo prazo, precisamos esses sejam armazenados em algum banco de dados. Soluções com armazenamento em nuvem são boas alternativas, pois possibilitam o acesso remotamente, além de garantir maior robustez.
 
-Por fim, as medições precisam ser apresentadas para que sua análise seja possível. Um painel de dados (\textit{data dashboard}) será desenvolvido com esse propósito. 
+Por fim, as medições coletadas devem ser apresentadas de forma gráfica através de um painel de dados (\textit{data dashboard}), desenvolvido exatamente com esse propósito. 
 
 
 \section{Especificação Técnica}% Como atingir os objetivos (requisitos) e apronfunda specs da descrição do problema (especificação inicial)
@@ -49,7 +49,7 @@ A partir da definição dos requisitos técnicos, chegamos a seguinte arquitetur
 \subsubsection{Sensores}
 Com o objetivo de atender aos critérios apresentados para o monitoramento, foram escolhidos os seguintes sensores: 
 \begin{itemize}
-\item \textbf{AS7262}\cite{as7262}, da AMS: 
+\item \textbf{AS7262} \cite{as7262}, da AMS: 
 
 Atende aos requisitos de medição de \textit{conforto luminoso}. 
 
@@ -99,7 +99,7 @@ Para Sistema de coleta de \textit{feedback} nos dispositivos, optamos por utiliz
 
 \subsubsection{Processador}
 
-De acordo com a mesma pesquisa da Aspencore citada anteriormente, 61\% dos projetos de sistemas embarcados usam processadores de 32-bits, e 65\% utiliza algum tipo de sistema operacional. 
+De acordo com a mesma pesquisa da Aspencore citada na seção \ref{arte:protocolos} \cite{embedded-market-study}, 61\% dos projetos de sistemas embarcados usam processadores de 32-bits, e 65\% utiliza algum tipo de sistema operacional. 
 
 A partir das especificações dadas, listamos os periféricos necessários ao microcontrolador e buscamos as principais opções existentes no mercado para atuar como processador central do dispositivo. 
 
@@ -110,18 +110,16 @@ Como a comunicação dos dispositivos é uma funcionalidade crucial, foi dada a 
 \centering
 \begin{tabular}[width=0.9\textwidth]{|c|c|c|c|c|} 
 \hline
-\textbf{Fabricante} & \textbf{CI} & \textbf{Preço} & \textbf{Placa de Desenvolvimento} & \textbf{Preço da Placa} \\
-\hline
-Nordic Semi & BMD350 & \$11.3 & BMD350-EVAL & \$89 \\ 
-Espressif Systems & ESP32 & \$3.8 & ESP32-DevKitC & \$10 \\ 
-STMicroelectronics & BlueNRG-2 & \$3.5 & BlueNRG-Tile & \$50 \\ 
-\hline
+\textbf{Fabricante} & \textbf{CI} & \textbf{\begin{tabular}[c]{@{}c@{}}Preço\\ (USD)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Placa de \\ Desenvolvimento\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Preço da \\ Placa\\ (USD)\end{tabular}} \\ \hline
+Nordic Semi         & BMD350      & \$ 11,30                                                       & BMD350-EVAL                                                                  & \$ 89,00                                                                   \\ \hline
+Espressif           & ESP32       & \$ 3,80                                                        & ESP32-DevKitC                                                                & \$ 10,00                                                                   \\ \hline
+STMicroelectronics  & BlueNRG-2   & \$ 3,50                                                        & BlueNRG-Tile                                                                 & \$ 50,00                                                                   \\ \hline
 \end{tabular}
 \caption{Tabela comparativa de processadores}
 \label{table-processor}
 \end{table}
 
-Analisando principalmente os ambientes de desenvolvimento, a documentação disponível, o preço dos CIs e de seus kits de desenvolvimento, optamos pela família \textbf{ESP32}\cite{ESP32}. 
+Analisando principalmente os ambientes de desenvolvimento, a documentação disponível, o preço dos CIs e de seus kits de desenvolvimento, optamos pela família \textbf{ESP32} \cite{ESP32}. 
 
 Além do Wi-Fi como diferencial no SoC, a Espressif possui um bom suporte e ferramentas de desenvolvimento focadas em BLE e Wi-Fi, em especial para o uso de BLE Mesh, e um dos menores preços, assim considerado o melhor custo-benefício. 
 
