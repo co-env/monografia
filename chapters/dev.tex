@@ -7,21 +7,21 @@
 
 Para o desenvolvimento do projeto, dividimos as tarefas entre 3 áreas: Hardware, Firmware e Software. 
 
-No \textbf{hardware} estará concentrado todo o desenvolvimento da eletrônica dos dispositivos que estarão nos nós da rede. 
-O \textbf{firmware} será todo o software embarcado no dispositivo, desde a comunicação com o hardware até a comunicação sem fio, entre os dispositivos da rede e do dispositivo \textit{gateway} com a plataforma. 
-O \textbf{software}, por fim, trata do desenvolvimento relacionado à plataforma onde os dados serão armazenados e apresentados. 
+No \textbf{hardware} estará concentrado todo o desenvolvimento da eletrônica dos dispositivos nós da rede. 
+O \textbf{firmware} compreende todo o software embarcado no dispositivo, desde a comunicação com o hardware até a comunicação sem fio, entre os dispositivos da rede e do dispositivo \textit{gateway} com a plataforma. 
+O \textbf{software}, por fim, trata do desenvolvimento relacionado à plataforma onde os dados são armazenados e apresentados. 
 
 Por fim, foi desenvolvido um case mecânico simples, impresso em 3D, para proteger os componentes. 
 
 \section{Hardware}
 
-A partir das especificações técnicas, foi elaborado um novo diagrama de blocos. 
+A partir das especificações técnicas, foi elaborado um novo diagrama de blocos, conforme ilutrado na figura \ref{fig:diagrama-hw}.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=12cm]{diagrama_hw_v1}
     \caption{Diagrama de Blocos de Hardware do Protótipo}
-    \label{fig:img1}
+    \label{fig:diagrama-hw}
 \end{figure}
 
 Quando possível, foram utilizados kits de desenvolvimento e módulos que nos permitisse uma validação mais rápida do hardware nessa fase inicial, permitindo avançar mais com o firmware e fazer testes em campo. 
@@ -30,7 +30,7 @@ O DevKitC do ESP32 possui integrado um USB, através do qual é possível alimen
 
 \subsection{Esquemático}
 
-Para o design do hardware, utilizamos o software de CAD de PCB \textit{Altium Designer 20} \cite{altium}. Foi utilizada a licença da empresa orientadora, sendo possível também conseguir uma licença gratuita para estudantes. Os arquivos estão disponíveis em \cite{git_hw}. 
+Para o design do hardware, utilizamos o software de CAD de PCB \textit{Altium Designer 20} \cite{altium}. Foi utilizada a licença estudantil, sendo possível também conseguir uma licença gratuita para estudantes. Os arquivos estão disponíveis em \cite{git_hw}. 
 
 A partir do diagrama de blocos, foi desenvolvido o esquema elétrico, ilustrado na figura \ref{fig:img2}.
 
@@ -81,7 +81,7 @@ As placas foram fabricadas em fibra por uma fresadora CNC.
 
 \section{Firmware} \label{firmware}
 
-O desenvolvimento do firmware foi realizado utilizando o \textbf{ESP-IDF} (\textit{Espressif IoT Development Framework}), disponibilizado pela Espressif\cite{esp-idf} gratuitamente (sob \textit{Apache License}). 
+O desenvolvimento do firmware foi realizado utilizando o \textbf{ESP-IDF} (\textit{Espressif IoT Development Framework}), disponibilizado pela Espressif \cite{esp-idf} gratuitamente (sob \textit{Apache License}). 
 
 O ESP-IDF é composto por API, ferramentas, componentes e fluxos de trabalho (\textit{workflows}) que permitem o desenvolvimento de aplicações utilizando o ESP32. 
 
@@ -91,7 +91,7 @@ Como o ESP32 possui 2 núcleos de processamento, o FreeRTOS usado no IDF é uma 
 
 Outras bibliotecas, proprietárias ou disponíveis em código aberto, foram utilizadas para a integração de todos os periféricos. 
 
-A camada mais alta do software nos dispositivos foi separada em três grupos: sensores, feedback e rede; descritas a seguir. %??
+A camada mais alta do software nos dispositivos foi separada em três grupos: sensores, feedback e rede; mostrado no diagrama da figura \ref{fig:fw-arch}. %??
 
 \begin{figure}[h!]
 	\centering
@@ -159,9 +159,9 @@ Para a medição de parâmetros relacionados a luminosidade, foi utilizado o sen
 
 A diferença entre os modos contínuos e o modo \textit{One-Shot} é que, no segundo, o usuário controla quando as medições deverão ser realizadas, enquanto no modo contínuo as medições são realizadas automaticamente a partir da sua inicialização.
 
-Outra configuração disponível para que o usuário escolha é o ganho que será aplicado nos canais de leitura, podendo ser escolhido dentre os valores 1x, 3.7x, 16x e 64x.
+Outra configuração disponível para que o usuário escolha é o ganho que é aplicado nos canais de leitura, podendo ser escolhido dentre os valores 1x, 3.7x, 16x e 64x.
 
-A interface com o sensor pode ser feita através dos protocolos I²C, utilizada nesse projeto, ou UART, através de comandos AT. Foi desenvolvida uma biblioteca na linguagem C no formato adequado para ser utilizada no ESP-IDF com a implementação das principais funções do sensor. Ao acessar o barramento I²C, só será possível visualizar 4 endereços de registradores físicos, de acordo com a tabela ~\ref{table:as7262-registers-table}.
+A interface com o sensor pode ser feita através dos protocolos I²C, utilizada nesse projeto, ou UART, através de comandos AT. Foi desenvolvida uma biblioteca na linguagem C no formato adequado para ser utilizada no ESP-IDF com a implementação das principais funções do sensor. Ao acessar o barramento I²C, só é possível visualizar 4 endereços de registradores físicos, de acordo com a tabela ~\ref{table:as7262-registers-table}.
 
 % Please add the following required packages to your document preamble:
 % \usepackage[table,xcdraw]{xcolor}
@@ -179,8 +179,9 @@ READ                                         & Registrador de Leitura I²C      
 \label{table:as7262-registers-table}
 \end{table}
 
-O endereçamento dos registradores de aplicação, como os que armazenarão os dados coletados e modos de operação se dá de modo virtual. O \textit{datasheet} descreve a lógica de leitura e escrita nesses registradores virtuais:
+O endereçamento dos registradores de aplicação, como os que armazenam os dados coletados e modos de operação se dá de modo virtual. O \textit{datasheet} descreve a lógica de leitura e escrita nesses registradores virtuais:
 
+%todo: fluxograma (sugestão Cintia), linkar as imagens ao texto
 \begin{itemize}
 \item Escrita em Registrador Virtual:
 	\begin{itemize}
@@ -210,7 +211,7 @@ A lista com todos os endereços dos registradores virtuais pode ser encontrada e
 	\label{fig:as7262_firmware}
 \end{figure}
 
-A figura \ref{fig:as7262_firmware} mostra a lógica de aplicação implementada neste projeto. Primeiramente, é feita a operação de \textit{Soft Reset} no sensor para reinicializá-lo, depois é feita a verificação do registrador que indica a versão do Hardware, que deve ser igual a 0x40. Feita essa verificação, escreve-se o valor 0b10 para inicializar a captação de valores no \textbf{Modo 2}: modo contínuo, referentes a todos os canais de medição. O valor de cada canal será armazenado em 4 registradores, totalizando 32 bits de valores em notação de ponto flutuante para cada canal. A etapa final da aplicação é realizar a leitura desses 24 registradores (4 por canal, 6 canais no total) e salvá-los em um vetor de 6 posições, para que possam ser manipulados posteriormente.
+A figura \ref{fig:as7262_firmware} mostra a lógica de aplicação implementada neste projeto. Primeiramente, é feita a operação de \textit{Soft Reset} no sensor para reinicializá-lo, depois é feita a verificação do registrador que indica a versão do Hardware, que deve ser igual a 0x40. Feita essa verificação, escreve-se o valor 0b10 para inicializar a captação de valores no \textbf{Modo 2}: modo contínuo, referentes a todos os canais de medição. O valor de cada canal é armazenado em 4 registradores, totalizando 32 bits de valores em notação de ponto flutuante para cada canal. A etapa final da aplicação é realizar a leitura desses 24 registradores (4 por canal, 6 canais no total) e salvá-los em um vetor de 6 posições, para que possam ser manipulados posteriormente.
 
 A biblioteca desenvolvida para a interação com o sensor pode ser acessada em \cite{as7262-lib}.
 
@@ -230,8 +231,8 @@ Portanto, para realizar interações com o sensor, o usuário deve realizar os s
 \begin{itemize}
 	\item Inicializar a comunicação I²C com o sensor, que possui endereço 0x58, indicando ação de escrita;
 	\item Enviar o valor referente ao comando que deseja ser executado (normalmente valores de 16 bits);
-	\item Alguns comandos realizam respostas, como o comando \textit{Measure\_air\_quality} (0x2008). Se o comando realizado for desse tipo, basta reiniciar a comunicação I²C, agora indicando uma ação de leitura para o endereço 0x58, que os dados requisitados estarão disponíveis;
-	\item Os dados de reposta virão com 8 bits de CRC ao final. O usuário pode fazer a checagem desse valor, calculando o CRC de acordo com os valores da resposta para validar os dados lidos.
+	\item Alguns comandos realizam respostas, como o comando \textit{Measure\_air\_quality} (0x2008). Se o comando realizado for desse tipo, basta reiniciar a comunicação I²C, agora indicando uma ação de leitura para o endereço 0x58, que os dados requisitados estão disponíveis;
+	\item Os dados de reposta possuem 8 bits de CRC ao final. O usuário pode fazer a checagem desse valor, calculando o CRC de acordo com os valores da resposta para validar os dados lidos.
 \end{itemize}
 
 
@@ -251,10 +252,10 @@ Os valores retornados pelo comando \textit{Measure Air Quality} são salvos em d
 Para a medição de um indicador acústico, utilizamos um módulo com microfone de eletreto e um amplificador MAX4466, com ganho ajustável, da Adafruit \cite{max4466}.
 A sua resposta é um sinal analógico entre 0 e 3,3V, correspondente ao sinal de áudio no ambiente, variando em torno do seu valor médio (1,65V). 
 
-A interface com o ESP32 deu-se através do conversor analógico digital (ADC) do próprio microcontrolador. Este ADC possui uma resolução máxima de 
-bits e uma amostragem máxima de 6kHz. 
+A interface com o ESP32 deu-se através do conversor analógico digital (ADC) do próprio microcontrolador. Este ADC possui uma resolução máxima de 12 bits e uma amostragem máxima de 6kHz. 
 
 \subsection{Feedback}
+%todo: likar imagem ao texto
 
 \begin{figure}[h]
 	\centering
@@ -275,7 +276,7 @@ A rotina de coleta segue uma \textbf{máquina de estados}, que foi implementada 
 	\label{fig:fsm-feedback}
 \end{figure}
 
-No início de uma coleta, é executado o estado inicial e a tarefa volta a esperar por um novo evento, que pode ser causado por um \textit{timer} ou um GPIO. Caso seja um GPIO, um novo estado é executado; caso seja um \textit{timer} e o seu ID correspnder ao de \textit{Timeout}, a coleta é encerrada.
+No início de uma coleta, é executado o estado inicial e a tarefa volta a esperar por um novo evento, que pode ser causado por um \textit{timer} ou um GPIO. Caso seja um GPIO, um novo estado é executado; caso seja um \textit{timer} e o seu ID corresponder ao de \textit{Timeout}, a coleta é encerrada.
 
 A mudança entre os estados acontece quando um dos botões laterais, correspondendo a respostas 'Não' e 'Sim', é apertado. De acordo com a resposta o futuro estado é definido. 
 
@@ -344,14 +345,14 @@ A definição de um Modelo também requer que sejam definidas as mensagens utili
 \begin{itemize}
 	\item \textbf{GET}: mensagem utilizada para requisitar o estado atual do Modelo. Ao receber essa mensagem, o nó deve responder a requisição com uma mensagem de STATUS. O corpo dessa mensagem pode ser enviado vazio, ou seja, apenas o endereço de destino precisa ser especificado.
 	\item \textbf{SET}: mensagem utilizada para alterar o estado atual do Modelo Servidor por um agente externo (Cliente ou outro nó Servidor). Essa mensagem foi implementada sem que haja ACK, ou seja, não é enviada uma confirmação ao dispositivo transmissor que a mensagem foi recebida. Deve ser especificado o endereço de destino, seja um endereço de um elemento único ou um endereço de grupo da rede para publicar a mensagem, e o conteúdo deve conter os valores que serão atualizados no destino, de acordo com a estrutura anterior.
-	\item \textbf{STATUS}: mensagem utilizada para notificar o estado atual do Modelo, normalmente enviada após receber uma mensagem do tipo GET. O conteúdo da mensagem será composto pela estrutura mostrada anteriormente.
+	\item \textbf{STATUS}: mensagem utilizada para notificar o estado atual do Modelo, normalmente enviada após receber uma mensagem do tipo GET. O conteúdo da mensagem é composto pela estrutura mostrada anteriormente.
 \end{itemize}
 
 Todos os dispositivos possuem as mesmas funcionalidades de coleta de dados de sensores, porém apenas um deles é responsável por também receber as medições de todos os outros, de modo que podemos separar os dispositivos em duas categorias diferentes: os dispositivos normais, chamados de \textit{Sensor Nodes}, e o dispositivo central, chamado de \textit{Gateway Node}. A composição lógica desses dois tipos de dispositivos está demonstrada na figura \ref{fig:mesh-node-architecture}, sendo compostos por apenas um Elemento cada, com o \textit{Configuration Server Model}, mandatório para esse tipo de dispositivo, já que é ele que exerce o papel de interlocutor com o dispositivo provisionador para que haja a atribuição das chaves NetKey e AppKey. Como pode ser observado na mesma imagem, os \textit{Sensor Nodes} possuem o \textit{Custom Sensor \textbf{Client} Model} e o dispositivo central possui o \textit{Custom Sensor \textbf{Server} Model}.
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[scale=0.22]{mesh-node-architecture.png}
+	\includegraphics[scale=0.1]{mesh-node-architecture.png}
 	\caption{Composição lógica dos nós da rede BLE Mesh}
 	\label{fig:mesh-node-architecture}
 \end{figure}
@@ -372,9 +373,9 @@ Essa fila sincronizada é a parte principal do dispositivo central, já que nela
 
 A conexão do dispositivo gateway com a plataforma em nuvem é realizada utilizando o protocolo Wi-Fi. O ESP-IDF possui uma API pronta para ser utilizada para conectar o microcrontolador a um ponto de acesso Wi-Fi à escolha do usuário. Para isso, é necessário informar o SSID do ponto de acesso e a sua senha para conexão, armazenados em duas constantes no firmware. Definidas essas constantes, basta chamar a função de conexão fornecida pela API, que usará os valores definidos para realizar a conexão, bloqueando todo o programa até que a conexão seja estabelecida, obtendo endereços IPv4 e IPv6 (caso o ambiente de conexão seja capaz de fornecer os dois tipos de endereço para o dispositivo).
 
-Com uma conexão com a Internet estabelecida, é necessário agora inicializar o dispositivo como um cliente MQTT e conectá-lo com o \textit{MQTT Broker} hospedado remotamente. Do mesmo modo, o ESP-IDF possui uma API que implementa as funcionalidades do protocolo MQTT utilizando conexão via TCP, para o qual é necessário informar o URL do \textit{MQTT Broker} a ser conectado, além dos valores de usuário e senha para autenticação no mesmo. Esses valores são salvos em uma estrutura no firmware, utilizada por uma função para inicializar o dispositivo como um cliente e estabelecer a conexão, a qual exige que haja uma conexão com a Internet previamente estabelecida, como detalhado anteriormente. Se a conexão com o \textit{MQTT Broker} for realizada com sucesso, um evento indicando essa conexão será recebido pelo dispositivo, que estará pronto para enviar e receber mensagens.
+Com uma conexão com a Internet estabelecida, é necessário agora inicializar o dispositivo como um cliente MQTT e conectá-lo com o \textit{MQTT Broker} hospedado remotamente. Do mesmo modo, o ESP-IDF possui uma API que implementa as funcionalidades do protocolo MQTT utilizando conexão via TCP, para o qual é necessário informar o URL do \textit{MQTT Broker} a ser conectado, além dos valores de usuário e senha para autenticação no mesmo. Esses valores são salvos em uma estrutura no firmware, utilizada por uma função para inicializar o dispositivo como um cliente e estabelecer a conexão, a qual exige que haja uma conexão com a Internet previamente estabelecida, como detalhado anteriormente. Se a conexão com o \textit{MQTT Broker} for realizada com sucesso, um evento indicando essa conexão é recebido pelo dispositivo, que estará pronto para enviar e receber mensagens.
 
-O dispositivo gateway publicará as mensagens em tópicos referentes a cada dispositivo da rede, ou seja, cada dispositivo terá um tópico referente aos seus dados, seguindo o formato \texttt{devices\char`/device\char`_name}, no qual \textit{device\_name} se refere ao nome do dispositivo definido na estrutura de dados do \textit{Custom Sensor Model}, descrita na seção \ref{dev-bluetooth-section}. O conteúdo das mensagens enviadas nos tópicos se refere às leituras dos diferentes sensores, tanto as recebidas via BLE Mesh quanto as leituras do próprio dispositivo gateway.
+O dispositivo gateway publica as mensagens em tópicos referentes a cada dispositivo da rede, ou seja, cada dispositivo terá um tópico referente aos seus dados, seguindo o formato \texttt{devices\char`/device\char`_name}, no qual \textit{device\_name} se refere ao nome do dispositivo definido na estrutura de dados do \textit{Custom Sensor Model}, descrita na seção \ref{dev-bluetooth-section}. O conteúdo das mensagens enviadas nos tópicos se refere às leituras dos diferentes sensores, tanto as recebidas via BLE Mesh quanto as leituras do próprio dispositivo gateway.
 
 Durante uma rotina de envio de dados ao servidor, o dispositivo publica cinco mensagens em seguida no mesmo tópico, sendo essas mensagens atreladas sempre ao mesmo dispositivo. Cada uma das mensagens contém dados de um dos sensores, ou seja, teremos uma mensagem com valores de temperatura e umidade do BME280, uma com valores de TVOC e $CO_{2}$ do SGP30, uma com valores das 6 cores e a intensidade da luz do ambiente do AS7262 e uma com o valor de ruído ambiente captado pelo microfone, além de uma última mensagem com as respostas de \textit{feedback} do usuário. Essa rotina de envio acontece toda vez que o dispositivo \textit{gateway} recebe dados via BLE Mesh ou quando uma medição dos seus próprios sensores é realizada. Todas essas mensagens seguem o formato a seguir, no qual \textbf{device\_name} se refere ao nome do dispositivo ao qual essa medição pertence, \textbf{sensor\_name} é o nome do sensor que realizou a medição e, por último, os valores de cada parâmetro lido:
 
@@ -486,15 +487,15 @@ Já o segundo plugin tem a função de inserir todos os dados coletados pelo Tel
 		namepass = ["esp*"]
 \end{lstlisting}
 
-O Telegraf se conecta com o InfluxDB através do endereço \texttt{http://localhost:8086}, se autenticando no banco de dados indicado na variável \textit{database} utilizando o par usuário e senha fornecidos. Utilizamos a variável \textit{namepass}, que verifica quais dados possuem a expressão \texttt{"esp"} em seu início, com o propósito filtrar os dados que serão inseridos de fato por esse plugin no banco de dados. Essa expressão estará presente nas mensagens recebidas, pois os nomes dos dispositivos (\texttt{device\char`_name}) definidos no projeto são \texttt{esp\char`_1}, \texttt{esp\char`_2} e \texttt{esp\char`_3}, já que temos apenas 3 dispositivos protótipos, que indicará também o \textit{measurement} inserido no banco de dados. 
+O Telegraf se conecta com o InfluxDB através do endereço \texttt{http://localhost:8086}, se autenticando no banco de dados indicado na variável \textit{database} utilizando o par usuário e senha fornecidos. Utilizamos a variável \textit{namepass}, que verifica quais dados possuem a expressão \texttt{"esp"} em seu início, com o propósito filtrar os dados que serão inseridos de fato por esse plugin no banco de dados. Essa expressão est,á presente nas mensagens recebidas, pois os nomes dos dispositivos (\texttt{device\char`_name}) definidos no projeto são \texttt{esp\char`_1}, \texttt{esp\char`_2} e \texttt{esp\char`_3}, já que temos apenas 3 dispositivos protótipos, que indicará também o \textit{measurement} inserido no banco de dados. 
 
-Feitas essas configurações, as mensagens publicadas pelos dispositivos nos tópicos citados serão encaminhadas para o Telegraf, que fará sua inserção no banco de dados. A partir desse ponto, os dados estarão prontos para serem acessados e analisados.
+Feitas essas configurações, as mensagens publicadas pelos dispositivos nos tópicos citados serão encaminhadas para o Telegraf, que faz sua inserção no banco de dados. A partir desse ponto, os dados estão prontos para serem acessados e analisados.
 
 \subsection{Grafana}
 
-A plataforma de visualização de dados também pode ser instalada facilmente através de poucos comandos seguindo a sua própria documentação, presente em \cite{grafana-installation}. Logo após a instalação, a aplicação será executada na porta 3000 do sistema por padrão. Ao acessá-la pela primeira vez através de um navegador web utilizando o IP da máquina e a porta 3000, o usuário é levado a uma página de \textit{login} para a definição da senha de acesso para o usuário administrador que, depois de definida, pode ser utilizada para acessar o ambiente do Grafana. 
+A plataforma de visualização de dados também pode ser instalada facilmente através de poucos comandos seguindo a sua própria documentação, presente em \cite{grafana-installation}. Logo após a instalação, a aplicação é executada na porta 3000 do sistema por padrão. Ao acessá-la pela primeira vez através de um navegador web utilizando o IP da máquina e a porta 3000, o usuário é levado a uma página de \textit{login} para a definição da senha de acesso para o usuário administrador que, depois de definida, pode ser utilizada para acessar o ambiente do Grafana. 
 
-A aplicação possui um menu lateral onde é possível acessar parâmetros de configuração geral. A primeira configuração realizada é a conexão com o banco de dados, escolhendo a opção \textit{Configuration} $\rightarrow$ \textit{Data Sources} no canto esquerdo, que levará a uma página onde pode ser escolhido o tipo da fonte de dados a ser conectado a partir de uma lista com inúmeras conexões possíveis, onde selecionamos o InfluxDB, e depois é necessário preencher as informações de conexão, análogas às que foram utilizadas pelo Telegraf, como ilustrado na figura \ref{fig:grafana-datasource}.
+A aplicação possui um menu lateral onde é possível acessar parâmetros de configuração geral. A primeira configuração realizada é a conexão com o banco de dados, escolhendo a opção \textit{Configuration} $\rightarrow$ \textit{Data Sources} no canto esquerdo, que leva a uma página onde pode ser escolhido o tipo da fonte de dados a ser conectado a partir de uma lista com inúmeras conexões possíveis, onde selecionamos o InfluxDB, e depois é necessário preencher as informações de conexão, análogas às que foram utilizadas pelo Telegraf, como ilustrado na figura \ref{fig:grafana-datasource}.
 
 \begin{figure}[h!]
 	\centering
@@ -623,7 +624,7 @@ A tabela \ref{table:custos} mostra os custos dos componentes utilizados no hardw
 
 A fabricação das PCBs foi feita no PSI, em uma fresa CNC, podendo ter um custo adicional se o processo for terceirizado. Para a montagem final dos dispositivos, foram utilizados cabos com um custo aproximado de \textbf{R\$20}. 
 
-Os cases mecânicos foram impressos em PLA por uma impressora 3D Ender 3. Utilizando o software Ultimaker Cura\cite{cura} vemos que foram utilizados cerca de 49g de filamento PLA por case, totalizando um custo aproximado de \textbf{R\$18} para os três dispositivos (considerando em média R\$120,00/kg de filamento PLA). 
+Os cases mecânicos foram impressos em PLA por uma impressora 3D Ender 3. Utilizando o software Ultimaker Cura \cite{cura} vemos que foram utilizados cerca de 49g de filamento PLA por case, totalizando um custo aproximado de \textbf{R\$18} para os três dispositivos (considerando em média R\$120,00/kg de filamento PLA). 
 
 Assim como a fresagem da PCB, o trabalho de impressão pode ter um custo adicional caso seja terceirizado. Gastos de energia elétrica não foram considerados. 
 
