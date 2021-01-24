@@ -4,6 +4,8 @@
 
 \section{Requisitos Técnicos}
 
+%todo: introdução no capítulo
+
 \subsection{Rede de Sensores}
 
 Com base na pesquisa sobre os protocolos de rede mais adequados para aplicações de redes de sensores no contexto de Internet das coisas, optamos por utilizar BLE em conjunto com Wi-Fi. 
@@ -29,10 +31,9 @@ Para cada um dos indicadores, decidimos medir as seguintes informações:
 
 \subsection{Software}
 
-Os dados coletados serão então armazenados em um banco de dados, estando assim disponíveis para análise a longo prazo. Soluções com armazenamento em nuvem são boas alternativas, pois possibilitam o acesso remotamente, além de garantir maior robustez.
+Os dados coletados são armazenados em um banco de dados,  disponíveis para análise a longo prazo. Soluções com armazenamento em nuvem são boas alternativas, pois possibilitam o acesso remotamente, além de garantir maior robustez.
 
-Por fim, as medições precisam ser apresentadas para que sua análise seja possível. Um painel de dados (\textit{data dashboard}) será desenvolvido com esse propósito. 
-
+Foi desenvolvido um painel de dados (\textit{data dashboard}) para que essas medições pudessem ser visualizadas de forma simplificada. 
 
 \section{Especificação Técnica}% Como atingir os objetivos (requisitos) e apronfunda specs da descrição do problema (especificação inicial)
 
@@ -95,22 +96,22 @@ Em conjunto com um circuito amplificador, atende aos requisitos de \textit{confo
 
 \subsubsection{Feedback}
 
+%todo: melhorar texto
 Para Sistema de coleta de \textit{feedback} nos dispositivos, optamos por utilizar um \textit{display} LCD OLED \cite{oled} SSD1306 de 128x64 pixels, com driver de comunicação I²C, e 2 botões do tipo \textit{push button}. 
 
 \subsubsection{Processador}
 
-De acordo com a mesma pesquisa da Aspencore citada anteriormente, 61\% dos projetos de sistemas embarcados usam processadores de 32-bits, e 65\% utiliza algum tipo de sistema operacional. 
+De acordo com a mesma pesquisa da Aspencore \cite{embedded-market-study} já citada anteriormente, 61\% dos projetos de sistemas embarcados usam processadores de 32-bits, e 65\% utiliza algum tipo de sistema operacional. 
 
 A partir das especificações dadas, listamos os periféricos necessários ao microcontrolador e buscamos as principais opções existentes no mercado para atuar como processador central do dispositivo. 
 
 Como a comunicação dos dispositivos é uma funcionalidade crucial, foi dada a preferência para os \textit{System-on-a-Chip} (SoCs), ou Sistema em um chip, ao invés de microcontroladores e módulos \textit{wireless} independentes. SoC é o nome dado a circuitos integrados que englobam processadores (ou microcontroladores, usualmente em dispositivos embarcados), memórias, dentre outros módulos, como circuitos para comunicação sem fio, personalizados para uma aplicação \cite{soc}. Assim, chegamos a três opções de SoCs com \textbf{bluetooth} integrado, mostradas na tabela \ref{table-processor}.
 
-
 \begin{table}[h]
 \centering
 \begin{tabular}[width=0.9\textwidth]{|c|c|c|c|c|} 
 \hline
-\textbf{Fabricante} & \textbf{CI} & \textbf{Preço} & \textbf{Placa de Desenvolvimento} & \textbf{Preço da Placa} \\
+\thead{Fabricante} & \thead{CI} & \thead{Preço} & \thead{Placa de \\ Desenvolvimento} & \thead{Preço \\ da Placa} \\
 \hline
 Nordic Semi & BMD350 & \$11.3 & BMD350-EVAL & \$89 \\ 
 Espressif Systems & ESP32 & \$3.8 & ESP32-DevKitC & \$10 \\ 
@@ -121,7 +122,7 @@ STMicroelectronics & BlueNRG-2 & \$3.5 & BlueNRG-Tile & \$50 \\
 \label{table-processor}
 \end{table}
 
-Analisando principalmente os ambientes de desenvolvimento, a documentação disponível, o preço dos CIs e de seus kits de desenvolvimento, optamos pela família \textbf{ESP32}\cite{ESP32}. 
+Analisando principalmente os ambientes de desenvolvimento, a documentação disponível, o preço dos CIs e de seus kits de desenvolvimento, optamos pela família \textbf{ESP32} \cite{ESP32}. 
 
 Além do Wi-Fi como diferencial no SoC, a Espressif possui um bom suporte e ferramentas de desenvolvimento focadas em BLE e Wi-Fi, em especial para o uso de BLE Mesh, e um dos menores preços, assim considerado o melhor custo-benefício. 
 
@@ -142,9 +143,9 @@ Com um conector USB e um circuito apropriado integrado na placa, seria possível
 
 \subsection{Protocolos de Comunicação e Arquitetura da Rede}
 
-Os dispositivos serão interconectados por meio de uma rede \textit{Bluetooth Mesh}, disponibilizando dados de medições dos sensores e \textit{feedback} ao longo do dia por toda a rede. Essa arquitetura utiliza o conceito de rede por inundação, no qual os dados de um nó são enviados para vários outros nós, que atuam como retransmissores desses dados para outros dispositivos dentro do seu alcance, o que aumenta a área de cobertura da rede e sua confiabilidade, já que se um dos dispositivos se desconectar, outras rotas estarão disponíveis para a propagação dos dados.
+Os dispositivos são interconectados por meio de uma rede \textit{Bluetooth Mesh}, disponibilizando dados de medições dos sensores e \textit{feedback} ao longo do dia por toda a rede. Essa arquitetura utiliza o conceito de rede por inundação, no qual os dados de um nó são enviados para vários outros nós, que atuam como retransmissores desses dados para outros dispositivos dentro do seu alcance, o que aumenta a área de cobertura da rede e sua confiabilidade, já que se um dos dispositivos se desconectar, outras rotas estarão disponíveis para a propagação dos dados.
 
-Apenas um dos dispositivos da rede estará conectado também à Internet via Wi-Fi, atuando como um gateway para a rede, sendo assim necessário que este também esteja conectado a uma fonte fixa de energia. Essa conexão permitirá o envio dos dados coletados pela rede para um servidor externo ao sistema, possibilitando o acesso remoto aos dados.
+Apenas um dos dispositivos da rede está conectado também à Internet via Wi-Fi, atuando como um gateway para a rede, sendo assim necessário que este também esteja conectado à uma fonte fixa de energia. Essa conexão permite o envio dos dados coletados pela rede para um servidor externo ao sistema, possibilitando o acesso remoto aos dados.
 
 O artigo \cite{analise-protocolos-iot} faz uma comparação dos protocolos mais utilizados em aplicações IoT, citados na seção \ref{protocolos-aplicacao}, de maneira prática, utilizando um \textit{testbed} muito parecido com o que utilizamos para o desenvolvimento desse projeto --- microcontrolador ESP8266 ao invés do ESP32. A partir das conclusões presentes no artigo, vemos que o protocolo MQTT se mostrou mais estável em relação ao CoAP ao utilizar esse dispositivo restrito, aguentando maior carga de dados e maior confiabilidade na entrega dos mesmos, o que o torna ideal para a aplicação desse projeto.
 
@@ -162,12 +163,12 @@ Há também, para esse projeto, a necessidade de armazenar os dados recebidos, c
 Para que os dados recebidos pelo MQTT Broker sejam inseridos no banco de dados, utilizamos o Telegraf, da mesma desenvolvedora do InfluxDB, um programa designado para fazer a integração entre serviços, conectando fontes de dados aos destinos desejados. Esse serviço também é distribuído sob a licença MIT, com código aberto e de uso livre, com capacidade de se conectar com várias fontes de dados através de \textit{plugins} de entrada, atuando como um MQTT Client no contexto desse projeto, se inscrevendo nos tópicos referentes às medidas de sensores que serão recebidas pelo MQTT Broker. Ao mesmo tempo, possui diferentes \textit{plugins} de saída, que redirecionam os dados recebidos para os destinos desejados --- banco de dados InfluxDB, nesse caso. Esse sistema de \textit{plugins} para realizar as conexões entre os serviços já faz parte da solução Telegraf, bastando apenas configurá-los com as necessidades do projeto.
 
 %* Grafana (descr)
-Por último, o painel de dados utilizado para apresentar os dados coletados será implementado utilizando o Grafana, uma aplicação web que possibilita criar diferentes tipos de gráficos, tabelas e alertas e conectá-los com dados presentes em bancos de dados de maneira interativa. Esse serviço também possui código aberto sob a licença Apache 2.0, que permite seu uso de forma livre. Ele possui integração com o InfluxDB embutida, o que possibilita acessar os nossos dados salvos através de \textit{queries} e mostrá-los visualmente nos diferentes tipos de interfaces.
+Por último, o painel de dados utilizado para apresentar os dados coletados foi implementado utilizando o Grafana, uma aplicação web que possibilita criar diferentes tipos de gráficos, tabelas e alertas e conectá-los com dados presentes em bancos de dados de maneira interativa. Esse serviço também possui código aberto sob a licença Apache 2.0, que permite seu uso de forma livre. Ele possui integração com o InfluxDB embutida, o que possibilita acessar os nossos dados salvos através de \textit{queries} e mostrá-los visualmente nos diferentes tipos de interfaces.
 
 
 %* AWS (descr)
 
-Todos esses serviços citados anteriormente são suportados por diferentes sistemas operacionais e, idealmente, precisam ser executados em um mesmo ambiente, como um servidor Linux, que pode ser implementado tanto em sistemas de hardware mais simples e embarcados, como um Raspberry Pi, quanto em sistemas mais robustos com mais memória e capacidade de processamento, ligados a uma rede local no ambiente monitorado para o fácil acesso aos dados. Porém, visando a alta disponibilidade dos dados coletados como um dos requisitos do projetos, será utilizada uma solução de servidor em nuvem para hospedar os serviços citados, tornando possível acessá-los remotamente e de forma confiável. Existem várias empresas que oferecem soluções de servidores privados em nuvem (VPS, do inglês \textit{Virtual Private Server}), e com preços equivalentes, como a \textit{Digital Ocean}, \textit{Linode}, \textit{Google Cloud} e \textit{IBM Cloud}, porém a \textit{Amazon Web Services (AWS)} é a que oferece o maior tempo de uso grátis (1 ano contra cerca de 3 meses para os outros), tornando essa a melhor escolha para a realização desse projeto. 
+Todos esses serviços citados anteriormente são suportados por diferentes sistemas operacionais e, idealmente, precisam ser executados em um mesmo ambiente, como um servidor Linux, que pode ser implementado tanto em sistemas de hardware mais simples e embarcados, como um Raspberry Pi, quanto em sistemas mais robustos com mais memória e capacidade de processamento, ligados a uma rede local no ambiente monitorado para o fácil acesso aos dados. Porém, visando a alta disponibilidade dos dados coletados como um dos requisitos do projetos, foi utilizada uma solução de servidor em nuvem para hospedar os serviços citados, tornando possível acessá-los remotamente e de forma confiável. Existem várias empresas que oferecem soluções de servidores privados em nuvem (VPS, do inglês \textit{Virtual Private Server}), e com preços equivalentes, como a \textit{Digital Ocean}, \textit{Linode}, \textit{Google Cloud} e \textit{IBM Cloud}, porém a \textit{Amazon Web Services (AWS)} é a que oferece o maior tempo de uso grátis (1 ano contra cerca de 3 meses para os outros), tornando essa a melhor escolha para a realização desse projeto. 
 
 %> Falar de nuvem no final, reforçando a ideia que foi passada nos requisitos, e linkar o geral com a imagem final
 
@@ -178,6 +179,6 @@ Todos esses serviços citados anteriormente são suportados por diferentes siste
 	\label{fig:network-architecture}
 \end{figure}
 
-
+%todo: linkar texto e figura
 
 \end{document}
