@@ -97,7 +97,7 @@ Com o firmware completo desenvolvido, fizemos testes com esse dispositivo, utili
 
 Cada sensor tem sua coleta sendo feita em uma task individual, isto é, a leitura e os cálculos de um sensor é feito em paralelo aos demais. Dessa forma, a ordem das mensagens sendo apresentadas no monitor terminal podem ocorrer em diferentes ordens a cada iteração, e com dados de dois sensores se intercalando, por exemplo. \newpage
 
-Em seguida, incluímos ao código o envio dos dados via Wi-Fi, como citado em \ref{dev-Wi-Fi}, com o dispositivo operando como \textit{gateway}. Os dados das coletas, agora salvos no banco de dados, foram apresentados no dashboard como mostra a figura \ref{fig:dashboard-graphs}.
+Em seguida, incluímos ao código o envio dos dados via Wi-Fi, como citado na seção \ref{dev-Wi-Fi}, com o dispositivo operando como \textit{gateway}. Os dados das coletas, agora salvos no banco de dados, foram apresentados no dashboard como mostra a figura \ref{fig:dashboard-graphs}.
 
 \begin{figure}[h]
 	\centering
@@ -194,7 +194,7 @@ A figura \ref{fig:dashboard-alerta} ilustra um caso em que houve o disparo de um
 		\label{fig:slack-ok}
 	\end{subfigure}
 
-	\caption{Exemplo de recbimento de notificações de alerta no serviço Slack}
+	\caption{Exemplo de recebimento de notificações de alerta no serviço Slack}
 	\label{fig:slack-notifications}
 \end{figure}
 

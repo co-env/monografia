@@ -56,7 +56,7 @@ Atende aos requisitos de medição de \textit{conforto luminoso}.
 
 \textbf{Medidas}: Intensidade e cor da luz incidente.
 
-A cor da luz, nesse sensor, é medida através de 6 canais, correspondendo aos espectros de luz vermelha (650nm), laranja (600nm), amarela (570nm), verde (550nm), azul (500nm) e violeta (450nm), ao invés de simples RGB, com resolução de 16 bits.
+A cor da luz, nesse sensor, é medida através de 6 canais, correspondendo aos espectros de luz vermelha (650 nm), laranja (600 nm), amarela (570 nm), verde (550 nm), azul (500 nm) e violeta (450 nm), ao invés de simples RGB, com resolução de 16 bits.
 
 \textbf{Comunicação}: I²C, SPI ou UART (configurável)
 
@@ -66,9 +66,9 @@ Atende aos requisitos de \textit{conforto térmico}.
 
 \textbf{Medidas}: 
     \begin{itemize}
-    \item Temperatura entre -40 e 85°C, com precisão de ±1.0°C
+    \item Temperatura entre -40 e 85 °C, com precisão de ±1.0 °C
     \item Umidade relativa com precisão de ±3\%
-    \item Pressão entre 300 e 1100hPa, com precisão ±1 hPa
+    \item Pressão entre 300 e 1100 hPa, com precisão ±1 hPa
     \end{itemize}
 
 \textbf{Comunicação}: SPI ou I²C
@@ -79,8 +79,8 @@ Sensor para medições de aplicação \textit{indoor}.
 
 \textbf{Medidas}:
     \begin{itemize}
-    \item TVOC entre 0 ppb e 60000 ppb, com resolução de 1ppb
-    \item $CO_{2}$ entre 400 ppm e 60000 ppm, com resolução de 1ppb
+    \item TVOC entre 0 ppb e 60000 ppb, com resolução de 1 ppb
+    \item $CO_{2}$ entre 400 ppm e 60000 ppm, com resolução de 1 ppb
     \end{itemize}
 
 \textbf{Comunicação}: I²C
@@ -113,12 +113,12 @@ Como a comunicação dos dispositivos é uma funcionalidade crucial, foi dada a 
 \hline
 \thead{Fabricante} & \thead{CI} & \thead{Preço} & \thead{Placa de \\ Desenvolvimento} & \thead{Preço \\ da Placa} \\
 \hline
-Nordic Semi & BMD350 & \$11.3 & BMD350-EVAL & \$89 \\ 
-Espressif Systems & ESP32 & \$3.8 & ESP32-DevKitC & \$10 \\ 
-STMicroelectronics & BlueNRG-2 & \$3.5 & BlueNRG-Tile & \$50 \\ 
+Nordic Semi & BMD350 & \$11,30 & BMD350-EVAL & \$89,00 \\ 
+Espressif Systems & ESP32 & \$3,80 & ESP32-DevKitC & \$10,00 \\ 
+STMicroelectronics & BlueNRG-2 & \$3,50 & BlueNRG-Tile & \$50,00 \\ 
 \hline
 \end{tabular}
-\caption{Tabela comparativa de processadores}
+\caption{Comparação de processadores, preços em dólar. Elaborado pelos autores.}
 \label{table-processor}
 \end{table}
 
@@ -143,7 +143,7 @@ Com um conector USB e um circuito apropriado integrado na placa, seria possível
 
 \subsection{Protocolos de Comunicação e Arquitetura da Rede}
 
-Os dispositivos são interconectados por meio de uma rede \textit{Bluetooth Mesh}, disponibilizando dados de medições dos sensores e \textit{feedback} ao longo do dia por toda a rede. Essa arquitetura utiliza o conceito de rede por inundação, no qual os dados de um nó são enviados para vários outros nós, que atuam como retransmissores desses dados para outros dispositivos dentro do seu alcance, o que aumenta a área de cobertura da rede e sua confiabilidade, já que se um dos dispositivos se desconectar, outras rotas estarão disponíveis para a propagação dos dados.
+Os dispositivos são interconectados por meio de uma rede \textit{Bluetooth Mesh}, disponibilizando dados de medições dos sensores e \textit{feedback} ao longo do dia por toda a rede. Essa arquitetura utiliza o conceito de rede por inundação, no qual os dados de um nó são enviados para vários outros nós, que atuam como retransmissores desses dados para outros dispositivos dentro do seu alcance, o que aumenta a área de cobertura da rede e sua confiabilidade, já que se um dos dispositivos se desconectar, outras rotas estão disponíveis para a propagação dos dados.
 
 Apenas um dos dispositivos da rede está conectado também à Internet via Wi-Fi, atuando como um gateway para a rede, sendo assim necessário que este também esteja conectado à uma fonte fixa de energia. Essa conexão permite o envio dos dados coletados pela rede para um servidor externo ao sistema, possibilitando o acesso remoto aos dados.
 

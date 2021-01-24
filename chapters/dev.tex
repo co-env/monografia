@@ -30,7 +30,7 @@ O DevKitC do ESP32 possui integrado um USB, através do qual é possível alimen
 
 \subsection{Esquemático}
 
-Para o design do hardware, utilizamos o software de CAD de PCB \textit{Altium Designer 20} \cite{altium}. Foi utilizada a licença estudantil, sendo possível também conseguir uma licença gratuita para estudantes. Os arquivos estão disponíveis em \cite{git_hw}. 
+Para o design do hardware, utilizamos o software de CAD de PCB \textit{Altium Designer 20} \cite{altium}, através da licença estudantil. Os arquivos estão disponíveis em \cite{git_hw}. 
 
 A partir do diagrama de blocos, foi desenvolvido o esquema elétrico, ilustrado na figura \ref{fig:img2}.
 
@@ -40,9 +40,9 @@ A partir do diagrama de blocos, foi desenvolvido o esquema elétrico, ilustrado 
 	\label{fig:img2}
 \end{figure}
 
-\subsection{PCB \textit{Printed Circuit Board}}
+\subsection{\textit{Printed Circuit Board}} (PCB)
 
-A partir do esquema elétrico foi feito um desenho de PCB (\textit{Printed Circuit Board}, ou Placa de Circuito Impresso), \textit{Single Layer}, e dimensões finais 60x70mm. 
+A partir do esquema elétrico foi feito um desenho de PCB (\textit{Printed Circuit Board}, ou Placa de Circuito Impresso), \textit{Single Layer}, e dimensões finais 60x70 mm. 
 
 \begin{figure}[ht]
 	\centering
@@ -91,20 +91,20 @@ Como o ESP32 possui 2 núcleos de processamento, o FreeRTOS usado no IDF é uma 
 
 Outras bibliotecas, proprietárias ou disponíveis em código aberto, foram utilizadas para a integração de todos os periféricos. 
 
-A camada mais alta do software nos dispositivos foi separada em três grupos: sensores, feedback e rede; mostrado no diagrama da figura \ref{fig:fw-arch}. %??
+A camada mais alta do software nos dispositivos foi separada em três grupos: sensores, feedback e rede; mostrado no diagrama da figura \ref{fig:fw-arch-1}. %??
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=0.8]{fw-arch-1}
 	\caption{Camada alto nível do firmware dos dispositivos}
-	\label{fig:fw-arch}
+	\label{fig:fw-arch-1}
 \end{figure}
 
 A arquitetura completa do firmware pode ser visualizada no Anexo 2. %???
 
 \subsection{Sensores} %\label{sensores}
 
-Para os sensores, desenvolvemos bibliotecas baseadas no ESP-IDF e validamos o funcionamento dos mesmos individualmente realizando algumas coletas de dados do ambiente. 
+Para os sensores, desenvolvemos bibliotecas baseadas no ESP-IDF e validamos o funcionamento dos mesmos individualmente realizando algumas coletas de dados do ambiente. O módulo de firmware para esta parte está separado conforme a figura \ref{fig:sensors-arch}, em que cada sensor possui a sua própria biblioteca, além de uma estrutura independente que controla o acesso ao barramento físico I²C e uma última responsável pela sincronização da execução do programa através de \textit{timers}.
 
 \begin{figure}[h]
 	\centering
@@ -118,21 +118,21 @@ Para os sensores, desenvolvemos bibliotecas baseadas no ESP-IDF e validamos o fu
 O BME280 é um sensor da Bosch que realiza medições de temperatura, umidade e pressão no ambiente. Possui 3 modos de operação: \cite{bme280}
 \begin{itemize}
 	\item \textit{sleep}: baixo consumo de energia, registradores podem ser lidos, mas não realiza novas operações de medição.
-	\item \textit{forced}: realiza uma medição, salva os resultados, e volta ao modo \textit{sleep}.
-	
-	\begin{figure}[h]
-		\centering
-		\includegraphics[width=12cm]{timing_bme280}
-		\caption{Diagrama de tempos do modo \textit{forced}}
-		\label{fig:time_bme280}
-	\end{figure}
+	\item \textit{forced}: realiza uma medição, salva os resultados, e volta ao modo \textit{sleep}, como mostrado no diagrama da figura \ref{fig:time_bme280}.
 
 	\item normal: realiza medições periodicamente. O consumo durante o \textit{standby} entre medições é maior que o consumo no modo \textit{sleep}. 
 \end{itemize}
 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{timing_bme280}
+	\caption{Diagrama de tempos do modo \textit{forced}. Retirado de \cite{bme280}}
+	\label{fig:time_bme280}
+\end{figure}
+
 O \textit{datasheet} recomenda que, para aplicações do tipo \textbf{monitoramento climático}, seja utilizado o modo \textit{forced}, com cerca de 1 medição por minuto. Assim, o sensor consumirá uma corrente de aproximadamente 0.16$\mu$A, sendo o modo de maior economia de energia. 
 
-A Bosch Sensortech disponibiliza um driver para o BME280, com código fonte em C e disponibilizado abertamente \cite{bme280-driver}, que permite sua integração ao firmware em microcontroladores de qualquer fabricante. 
+A Bosch Sensortech possui um driver para o BME280, com código fonte em C e disponibilizado abertamente \cite{bme280-driver}, que permite sua integração ao firmware em microcontroladores de qualquer fabricante. 
 Utilizando o driver como base, desenvolvemos uma biblioteca para a utilização do BME280 no ambiente ESP-IDF, utilizando comunicação I²C, disponível em \cite{bme280-lib}.
 
 %todo: colocar estrutura da lib
@@ -161,23 +161,24 @@ A diferença entre os modos contínuos e o modo \textit{One-Shot} é que, no seg
 
 Outra configuração disponível para que o usuário escolha é o ganho que é aplicado nos canais de leitura, podendo ser escolhido dentre os valores 1x, 3.7x, 16x e 64x.
 
-A interface com o sensor pode ser feita através dos protocolos I²C, utilizada nesse projeto, ou UART, através de comandos AT. Foi desenvolvida uma biblioteca na linguagem C no formato adequado para ser utilizada no ESP-IDF com a implementação das principais funções do sensor. Ao acessar o barramento I²C, só é possível visualizar 4 endereços de registradores físicos, de acordo com a tabela ~\ref{table:as7262-registers-table}.
-
 % Please add the following required packages to your document preamble:
 % \usepackage[table,xcdraw]{xcolor}
 % If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
-\begin{table}[htp]
-\begin{tabular}{|c|c|l|ll}
-\cline{1-3}
-\cellcolor[HTML]{C0C0C0}\textbf{Registrador} & \cellcolor[HTML]{C0C0C0}\textbf{Descrição} & \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}\textbf{Nota}}                                                                         &  &  \\ \cline{1-3}
-\textit{Device Slave Address}                & Endereço I²C de 8 bits                     & \begin{tabular}[c]{@{}l@{}}Endereço = 1001001x (0x49), onde\\   x = 1 representa leitura\\   x = 0 representa escrita\end{tabular} &  &  \\ \cline{1-3}
-STATUS                                       & Registrador de STATUS                      & \begin{tabular}[c]{@{}l@{}}Endereço 0x00\\ Sinaliza se os registradores de Leitura\\ e Escrita estão disponíveis\end{tabular}      &  &  \\ \cline{1-3}
-WRITE                                        & Registrador de Escrita I²C                 & \begin{tabular}[c]{@{}l@{}}Endereço 0x01\\ \\ Valor de 8 bits a ser escrito pelo Mestre\end{tabular}                               &  &  \\ \cline{1-3}
-READ                                         & Registrador de Leitura I²C                 & \begin{tabular}[c]{@{}l@{}}Endereço 0x02\\ \\ Valor de 8 bits a ser lido pelo Mestre\end{tabular}                                  &  &  \\ \cline{1-3}
-\end{tabular}
-\caption{Registradores físicos do sensor AS7262}
-\label{table:as7262-registers-table}
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{|c|c|l|}
+		\hline
+		\textbf{Registrador}                                                    & \textbf{Descrição}         & \multicolumn{1}{c|}{\textbf{Nota}}                                                                                               \\ \hline
+		\textit{\begin{tabular}[c]{@{}c@{}}Device Slave\\ Address\end{tabular}} & Endereço I²C de 8 bits     & \begin{tabular}[c]{@{}l@{}}Endereço = 1001001x (0x49),\\ onde x = 1 representa leitura e\\ x = 0 representa escrita\end{tabular} \\ \hline
+		STATUS                                                                  & Registrador de STATUS      & \begin{tabular}[c]{@{}l@{}}Endereço 0x00.\\ Sinaliza se os registradores de \\ Leitura e Escrita estão disponíveis\end{tabular}  \\ \hline
+		WRITE                                                                   & Registrador de Escrita I²C & \begin{tabular}[c]{@{}l@{}}Endereço 0x01.\\ Valor de 8 bits a ser escrito pelo\\ Mestre\end{tabular}                             \\ \hline
+		READ                                                                    & Registrador de Leitura I²C & \begin{tabular}[c]{@{}l@{}}Endereço 0x02\\ Valor de 8 bits a ser lido pelo \\ Mestre\end{tabular}                                \\ \hline
+	\end{tabular}
+	\caption{Registradores físicos do sensor AS7262. Retirado de \cite{as7262} (traduzido).}
+	\label{table:as7262-registers-table}
 \end{table}
+
+A interface com o sensor pode ser feita através dos protocolos I²C, utilizada nesse projeto, ou UART, através de comandos AT. Foi desenvolvida uma biblioteca na linguagem C no formato adequado para ser utilizada no ESP-IDF com a implementação das principais funções do sensor. Ao acessar o barramento I²C, só é possível visualizar 4 endereços de registradores físicos, de acordo com a tabela \ref{table:as7262-registers-table}.
 
 O endereçamento dos registradores de aplicação, como os que armazenam os dados coletados e modos de operação se dá de modo virtual. O \textit{datasheet} descreve a lógica de leitura e escrita nesses registradores virtuais:
 
@@ -235,15 +236,14 @@ Portanto, para realizar interações com o sensor, o usuário deve realizar os s
 	\item Os dados de reposta possuem 8 bits de CRC ao final. O usuário pode fazer a checagem desse valor, calculando o CRC de acordo com os valores da resposta para validar os dados lidos.
 \end{itemize}
 
-
-Para realizar a interação com esse sensor e obter os dados necessários para esse projeto, também desenvolvemos uma biblioteca nos mesmos moldes do ESP-IDF, em linguagem C, disponível em \cite{sgp30-lib}. A rotina principal de coleta de dados é exemplificada na figura \ref{fig:sgp30_firmware}. O \textit{datasheet} indica que, para a correta inicialização do algoritmo que calcula as estimativas de $eCO_{2}$ e TVOC, é necessário que o usuário realize 14 medições espaçadas de 1 segundo, nas quais o sensor retornará valores fixos de $TVOC = 0$ e $eCO_{2} = 400 ppm$. Após esse período, o sensor começará a responder com valores válidos referentes ao ambiente em questão.
-
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.2]{sgp30_firmware.png}
 	\caption{Lógica de execução de firmware para coleta de dados do sensor SGP30}
 	\label{fig:sgp30_firmware}
 \end{figure}
+
+Para realizar a interação com esse sensor e obter os dados necessários para esse projeto, também desenvolvemos uma biblioteca nos mesmos moldes do ESP-IDF, em linguagem C, disponível em \cite{sgp30-lib}. A rotina principal de coleta de dados é exemplificada na figura \ref{fig:sgp30_firmware}. O \textit{datasheet} indica que, para a correta inicialização do algoritmo que calcula as estimativas de $eCO_{2}$ e TVOC, é necessário que o usuário realize 14 medições espaçadas de 1 segundo, nas quais o sensor retornará valores fixos de $TVOC = 0$ e $eCO_{2} = 400 ppm$. Após esse período, o sensor começará a responder com valores válidos referentes ao ambiente em questão.
 
 Os valores retornados pelo comando \textit{Measure Air Quality} são salvos em duas variáveis de 16 bits, a serem manipulados posteriormente.
 
@@ -352,16 +352,16 @@ Todos os dispositivos possuem as mesmas funcionalidades de coleta de dados de se
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[scale=0.1]{mesh-node-architecture.png}
+	\includegraphics[scale=0.13]{mesh-node-architecture.png}
 	\caption{Composição lógica dos nós da rede BLE Mesh}
 	\label{fig:mesh-node-architecture}
 \end{figure}
 
-Os dispositivos foram organizados de acordo com o modelo \textit{Publish/Subscribe}, no qual os \textit{Sensor Nodes}, que possuem o Modelo Cliente, publicam mensagens do tipo SET sempre no mesmo grupo, de endereço 0xC100, em que o \textit{Gateway Node}, com o Modelo Servidor, está inscrito e recebe esses dados publicados, alterando seu estado. O conteúdo das mensagens enviadas é referente às medições dos sensores e, eventualmente, o resultado das perguntas da rotina de \textit{feedback}, realizados por cada nó da rede. Ao receber uma mensagem nova, o dispositivo central atualiza seu estado e coloca essa mensagem numa fila sincronizada, que será lida e processada por outra parte do programa principal do dispositivo. 
+Os dispositivos foram organizados de acordo com o modelo \textit{Publish/Subscribe}, exemplificado na figura \ref{fig:mesh-network-architecture}, no qual os \textit{Sensor Nodes}, que possuem o Modelo Cliente, publicam mensagens do tipo SET sempre no mesmo grupo, de endereço 0xC100, em que o \textit{Gateway Node}, com o Modelo Servidor, está inscrito e recebe esses dados publicados, alterando seu estado. O conteúdo das mensagens enviadas é referente às medições dos sensores e, eventualmente, o resultado das perguntas da rotina de \textit{feedback}, realizados por cada nó da rede. Ao receber uma mensagem nova, o dispositivo central atualiza seu estado e coloca essa mensagem numa fila sincronizada, que será lida e processada por outra parte do programa principal do dispositivo. 
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[scale=0.22]{ble-mesh-architecture.png}
+	\includegraphics[scale=0.20]{ble-mesh-architecture.png}
 	\caption{Arquitetura lógica da rede BLE Mesh}
 	\label{fig:mesh-network-architecture}
 \end{figure}
@@ -373,15 +373,15 @@ Essa fila sincronizada é a parte principal do dispositivo central, já que nela
 
 A conexão do dispositivo gateway com a plataforma em nuvem é realizada utilizando o protocolo Wi-Fi. O ESP-IDF possui uma API pronta para ser utilizada para conectar o microcrontolador a um ponto de acesso Wi-Fi à escolha do usuário. Para isso, é necessário informar o SSID do ponto de acesso e a sua senha para conexão, armazenados em duas constantes no firmware. Definidas essas constantes, basta chamar a função de conexão fornecida pela API, que usará os valores definidos para realizar a conexão, bloqueando todo o programa até que a conexão seja estabelecida, obtendo endereços IPv4 e IPv6 (caso o ambiente de conexão seja capaz de fornecer os dois tipos de endereço para o dispositivo).
 
-Com uma conexão com a Internet estabelecida, é necessário agora inicializar o dispositivo como um cliente MQTT e conectá-lo com o \textit{MQTT Broker} hospedado remotamente. Do mesmo modo, o ESP-IDF possui uma API que implementa as funcionalidades do protocolo MQTT utilizando conexão via TCP, para o qual é necessário informar o URL do \textit{MQTT Broker} a ser conectado, além dos valores de usuário e senha para autenticação no mesmo. Esses valores são salvos em uma estrutura no firmware, utilizada por uma função para inicializar o dispositivo como um cliente e estabelecer a conexão, a qual exige que haja uma conexão com a Internet previamente estabelecida, como detalhado anteriormente. Se a conexão com o \textit{MQTT Broker} for realizada com sucesso, um evento indicando essa conexão é recebido pelo dispositivo, que estará pronto para enviar e receber mensagens.
+Com uma conexão com a Internet estabelecida, é necessário agora inicializar o dispositivo como um cliente MQTT e conectá-lo com o \textit{MQTT Broker} hospedado remotamente. Do mesmo modo, o ESP-IDF possui uma API que implementa as funcionalidades do protocolo MQTT utilizando conexão via TCP, para o qual é necessário informar o URL do \textit{MQTT Broker} a ser conectado, além dos valores de usuário e senha para autenticação no mesmo. Esses valores são salvos em uma estrutura no firmware, utilizada por uma função para inicializar o dispositivo como um cliente e estabelecer a conexão, a qual exige que haja uma conexão com a Internet previamente estabelecida, como detalhado anteriormente. Se a conexão com o \textit{MQTT Broker} for realizada com sucesso, um evento indicando essa conexão é recebido pelo dispositivo, estando pronto para enviar e receber mensagens.
 
-O dispositivo gateway publica as mensagens em tópicos referentes a cada dispositivo da rede, ou seja, cada dispositivo terá um tópico referente aos seus dados, seguindo o formato \texttt{devices\char`/device\char`_name}, no qual \textit{device\_name} se refere ao nome do dispositivo definido na estrutura de dados do \textit{Custom Sensor Model}, descrita na seção \ref{dev-bluetooth-section}. O conteúdo das mensagens enviadas nos tópicos se refere às leituras dos diferentes sensores, tanto as recebidas via BLE Mesh quanto as leituras do próprio dispositivo gateway.
+O dispositivo gateway publica as mensagens em tópicos referentes a cada dispositivo da rede, ou seja, cada dispositivo possui um tópico referente aos seus dados, seguindo o formato \texttt{devices\char`/device\char`_name}, no qual \textit{device\_name} se refere ao nome do dispositivo definido na estrutura de dados do \textit{Custom Sensor Model}, descrita na seção \ref{dev-bluetooth-section}. O conteúdo das mensagens enviadas nos tópicos se refere às leituras dos diferentes sensores, tanto as recebidas via BLE Mesh quanto as leituras do próprio dispositivo gateway.
 
 Durante uma rotina de envio de dados ao servidor, o dispositivo publica cinco mensagens em seguida no mesmo tópico, sendo essas mensagens atreladas sempre ao mesmo dispositivo. Cada uma das mensagens contém dados de um dos sensores, ou seja, teremos uma mensagem com valores de temperatura e umidade do BME280, uma com valores de TVOC e $CO_{2}$ do SGP30, uma com valores das 6 cores e a intensidade da luz do ambiente do AS7262 e uma com o valor de ruído ambiente captado pelo microfone, além de uma última mensagem com as respostas de \textit{feedback} do usuário. Essa rotina de envio acontece toda vez que o dispositivo \textit{gateway} recebe dados via BLE Mesh ou quando uma medição dos seus próprios sensores é realizada. Todas essas mensagens seguem o formato a seguir, no qual \textbf{device\_name} se refere ao nome do dispositivo ao qual essa medição pertence, \textbf{sensor\_name} é o nome do sensor que realizou a medição e, por último, os valores de cada parâmetro lido:
 
-\begin{align}
-	\boldsymbol{device\_name},sensor="\boldsymbol{sensor\_name}", value1=v1,value2=v2 ... 
-\end{align}
+\begin{center}
+	\textit{ \textbf{device\_name},sensor=``\textbf{sensor\_name}", value1=v1,value2=v2 ... }
+\end{center}
 
 Este é o mesmo formato utilizado para inserir dados no InfluxDB, portanto enviá-los desta maneira para a plataforma facilita o seu tratamento posteriormente.
 
@@ -405,7 +405,7 @@ $ sudo apt install mosquitto
 
 Após a instalação, o serviço é inicializado automaticamente, executado na porta TCP 1883 do sistema. Inicialmente, o \textit{broker} não possui nenhuma configuração de segurança, de modo que qualquer cliente que saiba o endereço de IP público da máquina consegue publicar mensagens. Para adicionar uma camada de segurança, é necessário criar um arquivo de texto em que cada linha segue o formato \texttt{usuário:senha} que serão aceitos pelo \textit{broker} como valores válidos para autenticação. Esse arquivo pode ser criptografado através do comando \texttt{mosquitto\char`_passwd -U arquivo\char`_de\char`_autenticacao} para que as senhas não fiquem salvas em texto puro. O caminho para esse arquivo de autenticação deve ser informado no arquivo de configuração geral do serviço, presente em \texttt{\char`/etc\char`/mosquitto\char`/conf.d\char`/config.conf}. Feito isso, os clientes precisam informar o par \textit{usuário:senha} para que consigam se conectar a esse \textit{broker}.
 
-A comunicação é feita sobre o protocolo TCP sem nenhuma criptografia nas mensagens trocadas entre os dispositivos, de forma que as credenciais citadas anteriormente sejam transmitidas em texto e possam ser interceptadas e lidas por terceiros. Uma forma de melhorar ainda mais a segurança da conexão seria adicionar uma forma de criptografia na camada de transporte com o uso de SSL.
+A comunicação é feita sobre o protocolo TCP sem nenhuma criptografia nas mensagens trocadas entre os dispositivos, de forma que as credenciais citadas anteriormente sejam transmitidas em texto e possam ser interceptadas e lidas por terceiros. Uma forma de melhorar ainda mais a segurança da conexão seria adicionar uma forma de criptografia na camada de transporte com o uso de SSL, que pode ser utilizada em algum projeto futuro.
 
 \subsection{InfluxDB}
 
@@ -487,9 +487,9 @@ Já o segundo plugin tem a função de inserir todos os dados coletados pelo Tel
 		namepass = ["esp*"]
 \end{lstlisting}
 
-O Telegraf se conecta com o InfluxDB através do endereço \texttt{http://localhost:8086}, se autenticando no banco de dados indicado na variável \textit{database} utilizando o par usuário e senha fornecidos. Utilizamos a variável \textit{namepass}, que verifica quais dados possuem a expressão \texttt{"esp"} em seu início, com o propósito filtrar os dados que serão inseridos de fato por esse plugin no banco de dados. Essa expressão est,á presente nas mensagens recebidas, pois os nomes dos dispositivos (\texttt{device\char`_name}) definidos no projeto são \texttt{esp\char`_1}, \texttt{esp\char`_2} e \texttt{esp\char`_3}, já que temos apenas 3 dispositivos protótipos, que indicará também o \textit{measurement} inserido no banco de dados. 
+O Telegraf se conecta com o InfluxDB através do endereço \texttt{http://localhost:8086}, se autenticando no banco de dados indicado na variável \textit{database} utilizando o par usuário e senha fornecidos. Utilizamos a variável \textit{namepass}, que verifica quais dados possuem a expressão \texttt{"esp"} em seu início, com o propósito filtrar os dados que serão inseridos de fato por esse plugin no banco de dados. Essa expressão está presente nas mensagens recebidas, pois os nomes dos dispositivos (\texttt{device\char`_name}) definidos no projeto são \texttt{esp\char`_1}, \texttt{esp\char`_2} e \texttt{esp\char`_3}, já que temos apenas 3 dispositivos protótipos, que indicará também o \textit{measurement} inserido no banco de dados. 
 
-Feitas essas configurações, as mensagens publicadas pelos dispositivos nos tópicos citados serão encaminhadas para o Telegraf, que faz sua inserção no banco de dados. A partir desse ponto, os dados estão prontos para serem acessados e analisados.
+Feitas essas configurações, as mensagens publicadas pelos dispositivos nos tópicos citados são encaminhadas para o Telegraf, que faz sua inserção no banco de dados. A partir desse ponto, os dados estão prontos para serem acessados e analisados.
 
 \subsection{Grafana}
 
@@ -523,7 +523,7 @@ Os valores de limiar foram definidos com base nos níveis recomendados para cada
 
 \subsection{Servidor}
 
-Com objetivo de facilitar o acesso à plataforma de visualização, registramos o domínio \underline{coent.tech} gratuitamente por 1 ano através do programa dedicado a estudantes \textit{GitHub Education} \cite{github-education}. Como serviço de DNS, foi utilizado o \textit{Cloudflare} \cite{cloudflare}, redirecionando acessos ao domínio adquirido ao IP público da máquina virtual fornecido pela AWS.
+Com objetivo de facilitar o acesso à plataforma de visualização, registramos o domínio \underline{coenv.tech} gratuitamente por 1 ano através do programa dedicado a estudantes \textit{GitHub Education} \cite{github-education}. Como serviço de DNS, foi utilizado o \textit{Cloudflare} \cite{cloudflare}, redirecionando acessos ao domínio adquirido ao IP público da máquina virtual fornecido pela AWS.
 
 Cada aplicação citada até aqui roda em um porta diferente no sistema, porém acessá-las externamente através dessas portas não é seguro nem prático. Dado isso, utilizamos o NGINX, uma aplicação que atua como \textit{reverse proxy}, ou seja, todas as requisições feitas ao nosso sistema passarão por essa aplicação, a qual redireciona as requisições para os serviços adequados. Deste modo, podemos deixar apenas as portas 80 (HTTP), 443 (HTTPS) e 1883 (MQTT/TCP) liberadas para aceitarem conexões externas e que serão monitoradas pelo NGINX.
 
@@ -552,6 +552,7 @@ Portanto, temos as seguintes formas de acessar os serviços disponibilizados pel
 	\item Acesso à página web com informações sobre o projeto: \underline{https://coenv.tech/}
 \end{itemize}
 
+A figura \ref{fig:cloud-server-architecture} mostra o funcionamento do servidor recebendo as diferentes requisições e reecaminhando o tráfego para as aplicações correspondentes.
 
 \begin{figure}[h!]
 	\centering
@@ -562,9 +563,9 @@ Portanto, temos as seguintes formas de acessar os serviços disponibilizados pel
 
 \section{Mecânica}
 
-Foi projetado um case mecânico para proteger a eletrônica dos dispositivos, a ser impresso em 3D. 
+Foi projetado um invólucro mecânico para proteger a eletrônica dos dispositivos, modelado conforme a figura \ref{fig:mecanicas} e impresso em 3D. 
 
-O case é composto por duas peças, uma base, onde fica fixada a placa, e uma tampa onde ficam fixados o display OLED e os botões. As laterais abertas permitem que sejam feitos ajustes dos módulos com sensores sem afetar o funcionamento destes. 
+Ele é composto por duas peças, uma base, onde fica fixada a placa, e uma tampa onde ficam fixados a tela OLED e os botões. As laterais abertas permitem que sejam feitos ajustes dos módulos com sensores sem afetar o funcionamento destes. 
 
 \begin{figure}[h]
 \centering
