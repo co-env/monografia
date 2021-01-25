@@ -76,7 +76,7 @@ As placas foram fabricadas em fibra por uma fresadora CNC.
 		\includegraphics[width=1.1\textwidth]{pcb-montada}
 	\end{subfigure}
 	\caption{PCB}
-	\label{fig:mecanicas}
+	\label{fig:pcbs}
 \end{figure}
 
 
@@ -256,19 +256,56 @@ A sua resposta é um sinal analógico entre 0 e 3,3V, correspondente ao sinal de
 A interface com o ESP32 deu-se através do conversor analógico digital (ADC) do próprio microcontrolador. Este ADC possui uma resolução máxima de 12 bits e uma amostragem máxima de 6kHz. 
 
 \subsection{Feedback}
-%todo: likar imagem ao texto
+
+Para a iteração com os usuários que fornecerão ao dispositivo seu feedback sobre o ambiente, foi elaborado um firmware cuja arquitetura é mostrada na figura \ref{fig:feedback-arch}. 
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.8]{feedback-arch}
-	\caption{Arquitetura do Feedback}
+	\caption{Arquitetura do Firmware de Coleta de Feedback}
 	\label{fig:feedback-arch}
 \end{figure}
 
-A tarefa de feedback inicialmente espera por um evento gerado por um \textit{timeout} de um \textit{timer} ser colocado na fila de eventos adequada, identificando que deve ser realizada a coleta.
+O firmware de feedback utiliza um \textit{Timer} para controlar quando deve ocorrer uma coleta de feedback, a API de GPIO para controle dos botões e uma biblioteca para controle do display. 
 
-A rotina de coleta segue uma \textbf{máquina de estados}, que foi implementada a seguinte máquina de estados, seguindo um \textit{table-driven approach}.
+%Display
+Como biblioteca para o \textit{display} SSD1306, utilizamos um componente desenvolvido por Tara K \cite{TaraK} baseado no ESP-IDF \cite{SSD1306}. Este utiliza uma porta I²C diferente da utilizada pelos sensores para que não haja uma competição desse recurso entre as \textit{tasks} executadas em paralelo no sistema. Em \textit{display.c} desenvolvemos as telas utilizadas durante a rotina de coleta de \textit{feedback}, mostradas na figura \ref{fig:telas-feedback}.
 
+%Perguntas - feedback
+\begin{figure}[h]
+	\centering
+	\begin{subfigure}{0.3\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{pergunta-temp.jpeg}
+	\end{subfigure}%
+	\hfill
+	\begin{subfigure}{0.3\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{pergunta-temp2.jpeg}
+	\end{subfigure}%
+	\hfill
+	\begin{subfigure}{0.3\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{pergunta-som.jpeg}
+	\end{subfigure}%
+	\hfill
+	\begin{subfigure}{0.3\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{pergunta-luz.jpeg}
+	\end{subfigure}
+	\hspace{0.05\textwidth}
+	\begin{subfigure}{0.3\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{pergunta-luz2.jpeg}
+	\end{subfigure}
+	\caption{Telas com as perguntas do feedback}
+	\label{fig:telas-feedback}
+\end{figure}
+\newpage
+
+A tarefa de feedback inicialmente espera por um evento gerado por um \textit{timer} ser colocado na fila de eventos adequada, identificando que deve ser realizada a coleta. A rotina de coleta segue, então, uma \textbf{máquina de estados} que foi implementada seguindo um \textit{table-driven approach}, mostrada na figura \ref{fig:fsm-feedback}. 
+
+\hfill
 %Máquina de Estados
 \begin{figure}[h]
 	\centering
@@ -277,20 +314,15 @@ A rotina de coleta segue uma \textbf{máquina de estados}, que foi implementada 
 	\label{fig:fsm-feedback}
 \end{figure}
 
-No início de uma coleta, é executado o estado inicial e a tarefa volta a esperar por um novo evento, que pode ser causado por um \textit{timer} ou um GPIO. Caso seja um GPIO, um novo estado é executado; caso seja um \textit{timer} e o seu ID corresponder ao de \textit{Timeout}, a coleta é encerrada.
+No início de uma coleta, é executado o estado inicial e a tarefa volta a esperar por um novo evento, que pode ser causado por um \textit{timeout} ou um GPIO. Caso seja um GPIO, um novo estado é executado; caso seja um \textit{timer} e o seu ID corresponder ao de \textit{Timeout}, a coleta é encerrada. Como essa coleta é iniciada periodicamente, a fim de economizar energia quando o usuário não estiver próximo ao dispositivo, ou não queira responder no momento, após 1 minuto sem resposta a coleta é encerrada automaticamente. 
 
 A mudança entre os estados acontece quando um dos botões laterais, correspondendo a respostas 'Não' e 'Sim', é apertado. De acordo com a resposta o futuro estado é definido. 
 
 No estado INITIAL mostra-se a primeira pergunta na tela, a estrutura com as respostas é zerada e um \textit{timer} TIMEOUT é iniciado, a fim de desligar a tela e encerrar a rotina de \textit{feedback} caso não haja resposta. 
 
-Em cada um dos estados intermediários, a resposta dos botões é armazenada, a tela é atualizada para uma nova pergunta, e o \textit{timer} TIMEOUT é reiniciado. 
+Em cada um dos estados intermediários, a resposta dos botões é armazenada, a tela é atualizada para uma nova pergunta, e o \textit{timer} TIMEOUT é reiniciado.
 
 Quando ocorre um \textit{timeout}, é executando o estado FINAL. 
-
-%Display
-A interface de \textit{display} utiliza uma porta I²C diferente da utilizada pelos sensores para que não haja uma competição desse recurso entre as \textit{tasks} executadas em paralelo no sistema.
-
-Como biblioteca para o \textit{display} SSD1306, utilizamos um componente desenvolvido por Tara K \cite{TaraK} baseado no ESP-IDF \cite{SSD1306}. Em \textit{display.c} desenvolvemos as telas utilizadas durante a rotina de coleta de \textit{feedback}. 
 
 %? estrutura do código
 
