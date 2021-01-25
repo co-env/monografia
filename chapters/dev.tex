@@ -35,12 +35,13 @@ Para o design do hardware, utilizamos o software de CAD de PCB \textit{Altium De
 A partir do diagrama de blocos, foi desenvolvido o esquema elétrico, ilustrado na figura \ref{fig:img2}.
 
 \begin{figure}[h]
+	\centering
 	\includegraphics[width=0.9\textwidth]{sch}
 	\caption{Esquemático do Protótipo}
 	\label{fig:img2}
 \end{figure}
 
-\subsection{\textit{Printed Circuit Board}} (PCB)
+\subsection{\textit{Printed Circuit Board} (PCB)} 
 
 A partir do esquema elétrico foi feito um desenho de PCB (\textit{Printed Circuit Board}, ou Placa de Circuito Impresso), \textit{Single Layer}, e dimensões finais 60x70 mm. 
 
@@ -308,37 +309,44 @@ O módulo que trata da parte de rede do dispositivo foi separado em 2 partes, co
 
 Como citado em seções anteriores, os dispositivos desse projeto foram interconectados em uma rede BLE Mesh para que os dados coletados por eles sejam enviados pela rede para um dispositivo com função de \textit{gateway}. Para realizar a implementação da rede, foi utilizada a biblioteca ESP-BLE-MESH, da Espressif, sendo essa baseada na biblioteca de Bluetooth Mesh do \textit{Zephyr Project} \cite{zephyrproject}, um projeto de RTOS mantido pela \textit{Linux Foundation}, que disponibiliza toda a API necessária para a implementação de uma rede BLE Mesh customizada.
 
-Por se tratar de uma aplicação com vários dados de sensores para serem enviados, foi criado um Modelo customizado que engloba todos os dados dos sensores que compõem um dispositivo, chamado de \textit{\textbf{Custom Sensor Model}}, o qual foi implementado tanto o Modelo Cliente quanto o Servidor. A estrutura de dados principal que define o estado do Modelo contém as seguintes variáveis: 
+Por se tratar de uma aplicação com vários dados de sensores para serem enviados, foi criado um Modelo customizado que engloba todos os dados dos sensores que compõem um dispositivo, chamado de \textit{\textbf{Custom Sensor Model}}, o qual foi implementado tanto o Modelo Cliente quanto o Servidor. A estrutura de dados principal que define o estado do Modelo contém as variáveis listadas na figura \ref{fig:ble-mesh-code-struct}.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.3]{ble-mesh-code-struct.png}
+	\caption{Estrutura de dados principal utilizada pelos modelos da rede BLE Mesh}
+	\label{fig:ble-mesh-code-struct}
+\end{figure}
 
 % !!!!!!!!!!!!!!!!! COLOCAR A ESTRUTURA DE DADOS DO BLE MESH AQUI !!!!!!!!!!!!!!!!
-\begin{lstlisting}[basicstyle=\tiny,language=C,]
-	typedef struct __attribute__((packed)) {
-		char device_name[6];
+% \begin{lstlisting}[basicstyle=\tiny,language=C,]
+% 	typedef struct __attribute__((packed)) {
+% 		char device_name[6];
 		
-		/**< BME280 Data */
-		float temperature;      /*!< BME260 calibrated temperature */
-		float pressure;         /*!< BME260 calibrated pressure */
-		float humidity;         /*!< BME260 calibrated humidity */
+% 		/**< BME280 Data */
+% 		float temperature;      /*!< BME260 calibrated temperature */
+% 		float pressure;         /*!< BME260 calibrated pressure */
+% 		float humidity;         /*!< BME260 calibrated humidity */
 	
-		/**< SGP30 Data */
-		uint16_t tVOC;          /*!< SGP30 total volatile organic compound */
-		uint16_t eCO2;          /*!< SGP30 equivalent CO2 */
+% 		/**< SGP30 Data */
+% 		uint16_t tVOC;          /*!< SGP30 total volatile organic compound */
+% 		uint16_t eCO2;          /*!< SGP30 equivalent CO2 */
 	
-		/**< Mic Noise */
-		uint16_t noise_level;   /*!< Analog microphone noise level */
+% 		/**< Mic Noise */
+% 		uint16_t noise_level;   /*!< Analog microphone noise level */
 	
-		/**< AS7262 data */
-		float red;              /*!< AS7262 calibrated red */
-		float orange;           /*!< AS7262 calibrated orange */
-		float yellow;           /*!< AS7262 calibrated yellow */
-		float green;            /*!< AS7262 calibrated green */
-		float blue;             /*!< AS7262 calibrated blue */
-		float violet;           /*!< AS7262 calibrated violet */
+% 		/**< AS7262 data */
+% 		float red;              /*!< AS7262 calibrated red */
+% 		float orange;           /*!< AS7262 calibrated orange */
+% 		float yellow;           /*!< AS7262 calibrated yellow */
+% 		float green;            /*!< AS7262 calibrated green */
+% 		float blue;             /*!< AS7262 calibrated blue */
+% 		float violet;           /*!< AS7262 calibrated violet */
 	
-		/**< Feedback answers */
-		uint8_t feedback;       /*!< Each bit corresponds to an answer */
-	} model_sensor_data_t; 
-\end{lstlisting}
+% 		/**< Feedback answers */
+% 		uint8_t feedback;       /*!< Each bit corresponds to an answer */
+% 	} model_sensor_data_t; 
+% \end{lstlisting}
 
 A definição de um Modelo também requer que sejam definidas as mensagens utilizadas para interação, sendo elas:
 
