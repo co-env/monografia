@@ -43,7 +43,7 @@ A partir do diagrama de blocos, foi desenvolvido o esquema elétrico, ilustrado 
 
 \subsection{\textit{Printed Circuit Board} (PCB)} 
 
-A partir do esquema elétrico foi feito um desenho de PCB (\textit{Printed Circuit Board}, ou Placa de Circuito Impresso), \textit{Single Layer}, e dimensões finais 60x70 mm. 
+A partir do esquema elétrico foi feito um desenho de PCB (\textit{Printed Circuit Board}, ou Placa de Circuito Impresso), \textit{Single Layer}, e dimensões finais 60x70 mm. As visões 2D e 3D da placa são mostradas na figura \ref{fig:pcb-altium}.
 
 \begin{figure}[ht]
 	\centering
@@ -59,11 +59,12 @@ A partir do esquema elétrico foi feito um desenho de PCB (\textit{Printed Circu
 	  \caption{Vista 3D}
 	  \label{fig:sub2}
 	\end{subfigure}
-	\caption{Design da PCB}
-	\label{fig:test}
+	\caption{Design da PCB no Altium Designer}
+	\label{fig:pcb-altium}
 \end{figure}
 
-As placas foram fabricadas em fibra por uma fresadora CNC.
+\newpage
+A placa mostrada na figura \ref{fig:pcbs} foi fabricada em fibra por uma fresadora CNC e montada usando barras de pinos. O procedimento foi o mesmo para as placas dos demais dispositivos da rede. 
 
 \begin{figure}[h]
 	\centering
@@ -75,7 +76,7 @@ As placas foram fabricadas em fibra por uma fresadora CNC.
 		\centering
 		\includegraphics[width=1.1\textwidth]{pcb-montada}
 	\end{subfigure}
-	\caption{PCB}
+	\caption{Placa fabricada e montada}
 	\label{fig:pcbs}
 \end{figure}
 
@@ -292,39 +293,51 @@ O firmware de feedback utiliza um \textit{Timer} para controlar quando deve ocor
 %Display
 Como biblioteca para o \textit{display} SSD1306, utilizamos um componente desenvolvido por Tara K \cite{TaraK} baseado no ESP-IDF \cite{SSD1306}. Este utiliza uma porta I²C diferente da utilizada pelos sensores para que não haja uma competição desse recurso entre as \textit{tasks} executadas em paralelo no sistema. Em \textit{display.c} desenvolvemos as telas utilizadas durante a rotina de coleta de \textit{feedback}, mostradas na figura \ref{fig:telas-feedback}.
 
+\hfill
 %Perguntas - feedback
 \begin{figure}[h]
 	\centering
 	\begin{subfigure}{0.3\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{pergunta-temp.jpeg}
+		\caption{Conforto térmico}
 	\end{subfigure}%
 	\hfill
 	\begin{subfigure}{0.3\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{pergunta-temp2.jpeg}
+		\caption{Detalhes sensação térmica}
 	\end{subfigure}%
 	\hfill
 	\begin{subfigure}{0.3\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{pergunta-som.jpeg}
+		\caption{Conforto acústico}
 	\end{subfigure}%
 	\hfill
 	\begin{subfigure}{0.3\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{pergunta-luz.jpeg}
+		\caption{Conforto luminoso}
 	\end{subfigure}
 	\hspace{0.05\textwidth}
 	\begin{subfigure}{0.3\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{pergunta-luz2.jpeg}
+		\caption{Detalhes sobre desconforto luminoso}
 	\end{subfigure}
 	\caption{Telas com as perguntas do feedback}
 	\label{fig:telas-feedback}
 \end{figure}
-\newpage
+% \newpage
 
-A tarefa de feedback inicialmente espera por um evento gerado por um \textit{timer} ser colocado na fila de eventos adequada, identificando que deve ser realizada a coleta. A rotina de coleta segue, então, uma \textbf{máquina de estados} que foi implementada seguindo um \textit{table-driven approach}, mostrada na figura \ref{fig:fsm-feedback}. 
+A primeira pergunta apresentada é "Está confortável com a temperatura?", caso a resposta seja 'Não', é perguntado mais informações sobre o desconforto, "Muito quente?", para saber se a sensação térmica é de frio ou de calor. Esses dados são, na plataforma, associados à medição de temperatura. 
+
+Para o caso do som, apenas a pergunta "Está confortável com o ruído?" é feita, uma vez que o desconforto só poderia estar associado a uma alta intensidade. 
+
+Por fim, as perguntas associadas às medições da luz são "Está confortável com a luz?", e caso a resposta seja 'Não', "Muito claro?" para saber se o desconforto está relacionado a uma alta ou baixa intensidade da luz. 
+
+A tarefa de feedback inicialmente espera por um evento gerado por um \textit{timer} ser colocado na fila de eventos adequada, identificando que deve ser realizada a coleta. A rotina de coleta segue, então, uma \textbf{máquina de estados} que foi implementada seguindo um \textit{table-driven approach}, mostrada na figura \ref{fig:fsm-feedback}. Os estados são determinados de acordo com as respostas às perguntas de conforto mostradas anteriormente na figura \ref{fig:telas-feedback}. 
 
 \hfill
 %Máquina de Estados
@@ -341,9 +354,7 @@ A mudança entre os estados acontece quando um dos botões laterais, corresponde
 
 No estado INITIAL mostra-se a primeira pergunta na tela, a estrutura com as respostas é zerada e um \textit{timer} TIMEOUT é iniciado, a fim de desligar a tela e encerrar a rotina de \textit{feedback} caso não haja resposta. 
 
-Em cada um dos estados intermediários, a resposta dos botões é armazenada, a tela é atualizada para uma nova pergunta, e o \textit{timer} TIMEOUT é reiniciado.
-
-Quando ocorre um \textit{timeout}, é executando o estado FINAL. 
+Em cada um dos estados intermediários, a resposta dos botões é armazenada, a tela é atualizada para uma nova pergunta, e o \textit{timer} TIMEOUT é reiniciado. Quando ocorre um \textit{timeout}, é executando o estado FINAL. 
 
 %? estrutura do código
 
