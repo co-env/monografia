@@ -181,28 +181,42 @@ Outra configuração disponível para que o usuário escolha é o ganho que é a
 
 A interface com o sensor pode ser feita através dos protocolos I²C, utilizada nesse projeto, ou UART, através de comandos AT. Foi desenvolvida uma biblioteca na linguagem C no formato adequado para ser utilizada no ESP-IDF com a implementação das principais funções do sensor. Ao acessar o barramento I²C, só é possível visualizar 4 endereços de registradores físicos, de acordo com a tabela \ref{table:as7262-registers-table}.
 
-O endereçamento dos registradores de aplicação, como os que armazenam os dados coletados e modos de operação se dá de modo virtual. O \textit{datasheet} descreve a lógica de leitura e escrita nesses registradores virtuais:
+O endereçamento dos registradores de aplicação, como os que armazenam os dados coletados e modos de operação se dá de modo virtual. O \textit{datasheet} descreve a lógica de escrita e leitura nesses registradores virtuais, demonstradas nas figuras \ref{fig:as7262_rotina_escrita} e \ref{fig:as7262_rotina_leitura}, respectivamente.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.2]{as7262_rotina_escrita.png}
+	\caption{Fluxograma da rotina de escrita em um registrador virtual do sensor AS7262}
+	\label{fig:as7262_rotina_escrita}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.2]{as7262_rotina_leitura.png}
+	\caption{Fluxograma da rotina de leitura de um registrador virtual do sensor AS7262}
+	\label{fig:as7262_rotina_leitura}
+\end{figure}
 
 %todo: fluxograma (sugestão Cintia), linkar as imagens ao texto
-\begin{itemize}
-\item Escrita em Registrador Virtual:
-	\begin{itemize}
-		\item Primeiramente, ler o valor do registrador STATUS;
-		\item Se o bit 1 desse registrador for igual a 0, significa que a escrita pode ser realizada;
-		\item Escrever o endereço do registrador virtual no registrador WRITE (0x01) com o \textbf{MSB igual a 1} para indicar que será realizada uma escrita nele;
-		\item Ler novamente o valor do registrador STATUS e verificar se o bit 1 é igual a 0;
-		\item Finalmente, escrever o valor desejado para o registrador virtual no registrador WRITE.
-	\end{itemize}
+% \begin{itemize}
+% \item Escrita em Registrador Virtual:
+% 	\begin{itemize}
+% 		\item Primeiramente, ler o valor do registrador STATUS;
+% 		\item Se o bit 1 desse registrador for igual a 0, significa que a escrita pode ser realizada;
+% 		\item Escrever o endereço do registrador virtual no registrador WRITE (0x01) com o \textbf{MSB igual a 1} para indicar que será realizada uma escrita nele;
+% 		\item Ler novamente o valor do registrador STATUS e verificar se o bit 1 é igual a 0;
+% 		\item Finalmente, escrever o valor desejado para o registrador virtual no registrador WRITE.
+% 	\end{itemize}
 	
-\item Leitura em Registrador Virtual:
-	\begin{itemize}
-		\item Primeiramente, ler o valor do registrador STATUS;
-		\item Se o bit 1 desse registrador for igual a 0, significa que a escrita pode ser realizada;
-		\item Escrever o endereço do registrador virtual no registrador WRITE (0x01) com o \textbf{MSB igual a 0} para indicar que será realizada uma leitura de seu valor;
-		\item Ler o valor do registrador STATUS e verificar se o bit 0 é igual a 1, indicando que os dados estão prontos para serem lidos;
-		\item Finalmente, ler o registrador READ (0x02), que estará com os dados requisitados.
-	\end{itemize}
-\end{itemize}
+% \item Leitura em Registrador Virtual:
+% 	\begin{itemize}
+% 		\item Primeiramente, ler o valor do registrador STATUS;
+% 		\item Se o bit 1 desse registrador for igual a 0, significa que a escrita pode ser realizada;
+% 		\item Escrever o endereço do registrador virtual no registrador WRITE (0x01) com o \textbf{MSB igual a 0} para indicar que será realizada uma leitura de seu valor;
+% 		\item Ler o valor do registrador STATUS e verificar se o bit 0 é igual a 1, indicando que os dados estão prontos para serem lidos;
+% 		\item Finalmente, ler o registrador READ (0x02), que estará com os dados requisitados.
+% 	\end{itemize}
+% \end{itemize}
 
 A lista com todos os endereços dos registradores virtuais pode ser encontrada em seu \textit{datasheet} \cite{as7262}. Com essas rotinas de leitura e escrita implementadas, basta realizar a configuração desejada para a aplicação e depois ler os valores captados pelo sensor. 
 
@@ -228,14 +242,21 @@ A interface com esse sensor também é feita através do protocolo I²C, porém 
 
 Todos os dados enviados e recebidos pelo sensor contém ao final, além dos valores padrão, 8 bits de valores para verificação cíclica de redundância (do inglês \textit{Cyclic Redundancy Check}, CRC), com a finalidade de validar os dados sendo transmitidos, utilizando o método de \textit{checksum}, calculado com o seguinte polinômio: $CRC = 0h31 (x_{8} + x_{5} + x_{4} + 1)$ - em que $x_{i}$ corresponde ao i-ésimo bit do valor utilizado para o cálculo. Os comandos de 16 bits tabelados já incluem os campos do CRC em sua composição, não sendo necessário calculá-los.
 
-Portanto, para realizar interações com o sensor, o usuário deve realizar os seguintes passos:
+Portanto, para realizar interações com o sensor, o usuário deve realizar os passos ilustrados na figura \ref{fig:sgp30-read-write}, utilizando o comando desejado.
 
-\begin{itemize}
-	\item Inicializar a comunicação I²C com o sensor, que possui endereço 0x58, indicando ação de escrita;
-	\item Enviar o valor referente ao comando que deseja ser executado (normalmente valores de 16 bits);
-	\item Alguns comandos realizam respostas, como o comando \textit{Measure\_air\_quality} (0x2008). Se o comando realizado for desse tipo, basta reiniciar a comunicação I²C, agora indicando uma ação de leitura para o endereço 0x58, que os dados requisitados estão disponíveis;
-	\item Os dados de reposta possuem 8 bits de CRC ao final. O usuário pode fazer a checagem desse valor, calculando o CRC de acordo com os valores da resposta para validar os dados lidos.
-\end{itemize}
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.2]{sgp30_read_write.png}
+	\caption{Fluxograma da rotina de execução de um comando para interface com o sensor SGP30}
+	\label{fig:sgp30-read-write}
+\end{figure}
+
+% \begin{itemize}
+% 	\item Inicializar a comunicação I²C com o sensor, que possui endereço 0x58, indicando ação de escrita;
+% 	\item Enviar o valor referente ao comando que deseja ser executado (normalmente valores de 16 bits);
+% 	\item Alguns comandos realizam respostas, como o comando \textit{Measure\_air\_quality} (0x2008). Se o comando realizado for desse tipo, basta reiniciar a comunicação I²C, agora indicando uma ação de leitura para o endereço 0x58, que os dados requisitados estão disponíveis;
+% 	\item Os dados de reposta possuem 8 bits de CRC ao final. O usuário pode fazer a checagem desse valor, calculando o CRC de acordo com os valores da resposta para validar os dados lidos.
+% \end{itemize}
 
 \begin{figure}[h]
 	\centering
@@ -244,7 +265,7 @@ Portanto, para realizar interações com o sensor, o usuário deve realizar os s
 	\label{fig:sgp30_firmware}
 \end{figure}
 
-Para realizar a interação com esse sensor e obter os dados necessários para esse projeto, também desenvolvemos uma biblioteca nos mesmos moldes do ESP-IDF, em linguagem C, disponível em \cite{sgp30-lib}. A rotina principal de coleta de dados é exemplificada na figura \ref{fig:sgp30_firmware}. O \textit{datasheet} indica que, para a correta inicialização do algoritmo que calcula as estimativas de $eCO_{2}$ e TVOC, é necessário que o usuário realize 14 medições espaçadas de 1 segundo, nas quais o sensor retornará valores fixos de $TVOC = 0$ e $eCO_{2} = 400 ppm$. Após esse período, o sensor começará a responder com valores válidos referentes ao ambiente em questão.
+Para realizar a interação com esse sensor e obter os dados necessários para esse projeto, também desenvolvemos uma biblioteca nos mesmos moldes do ESP-IDF, em linguagem C, disponível em \cite{sgp30-lib}. A rotina principal de coleta de dados é exemplificada na figura \ref{fig:sgp30_firmware}. O \textit{datasheet} indica que, para a correta inicialização do algoritmo que calcula as estimativas de $eCO_{2}$ e TVOC, é necessário que o usuário realize 14 medições espaçadas de 1 segundo, nas quais o sensor retorna valores fixos de $TVOC = 0$ e $eCO_{2} = 400 ppm$. Após esse período, o sensor começa a responder com valores válidos referentes ao ambiente em questão.
 
 Os valores retornados pelo comando \textit{Measure Air Quality} são salvos em duas variáveis de 16 bits, a serem manipulados posteriormente.
 
@@ -417,7 +438,14 @@ Com uma conexão com a Internet estabelecida, é necessário agora inicializar o
 
 O dispositivo gateway publica as mensagens em tópicos referentes a cada dispositivo da rede, ou seja, cada dispositivo possui um tópico referente aos seus dados, seguindo o formato \texttt{devices\char`/device\char`_name}, no qual \textit{device\_name} se refere ao nome do dispositivo definido na estrutura de dados do \textit{Custom Sensor Model}, descrita na seção \ref{dev-bluetooth-section}. O conteúdo das mensagens enviadas nos tópicos se refere às leituras dos diferentes sensores, tanto as recebidas via BLE Mesh quanto as leituras do próprio dispositivo gateway.
 
-Durante uma rotina de envio de dados ao servidor, o dispositivo publica cinco mensagens em seguida no mesmo tópico, sendo essas mensagens atreladas sempre ao mesmo dispositivo. Cada uma das mensagens contém dados de um dos sensores, ou seja, teremos uma mensagem com valores de temperatura e umidade do BME280, uma com valores de TVOC e $CO_{2}$ do SGP30, uma com valores das 6 cores e a intensidade da luz do ambiente do AS7262 e uma com o valor de ruído ambiente captado pelo microfone, além de uma última mensagem com as respostas de \textit{feedback} do usuário. Essa rotina de envio acontece toda vez que o dispositivo \textit{gateway} recebe dados via BLE Mesh ou quando uma medição dos seus próprios sensores é realizada. Todas essas mensagens seguem o formato a seguir, no qual \textbf{device\_name} se refere ao nome do dispositivo ao qual essa medição pertence, \textbf{sensor\_name} é o nome do sensor que realizou a medição e, por último, os valores de cada parâmetro lido:
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.2]{exemplo-envio-mqtt.png}
+	\caption{Exemplo de envio de um bloco de dados ao servidor}
+	\label{fig:exemplo-envio-mqtt}
+\end{figure}
+
+Durante uma rotina de envio de dados ao servidor, o dispositivo publica cinco mensagens em seguida no mesmo tópico, sendo essas mensagens atreladas sempre ao mesmo dispositivo. Cada uma das mensagens contém dados de um dos sensores, ou seja, teremos uma mensagem com valores de temperatura e umidade do BME280, uma com valores de TVOC e $CO_{2}$ do SGP30, uma com valores das 6 cores e a intensidade da luz do ambiente do AS7262 e uma com o valor de ruído ambiente captado pelo microfone, além de uma última mensagem com as respostas de \textit{feedback} do usuário, exemplificados na figura \ref{fig:exemplo-envio-mqtt}. Essa rotina de envio acontece toda vez que o dispositivo \textit{gateway} recebe dados via BLE Mesh ou quando uma medição dos seus próprios sensores é realizada. Todas essas mensagens seguem o formato a seguir, no qual \textbf{device\_name} se refere ao nome do dispositivo ao qual essa medição pertence, \textbf{sensor\_name} é o nome do sensor que realizou a medição e, por último, os valores de cada parâmetro lido:
 
 \begin{center}
 	\textit{ \textbf{device\_name},sensor=``\textbf{sensor\_name}", value1=v1,value2=v2 ... }
