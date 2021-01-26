@@ -2,17 +2,26 @@
 
 \begin{document}
 
-\section{Requisitos Técnicos}
-
 %todo: introdução no capítulo
+Neste capítulo, será discutida a solução proposta para o problema apresentado no capítulo \ref{cap:introducao}, desenvolvida com bases nos requisitos técnicos definidos nas seções a seguir e nas pesquisas mostradas no capítulo \ref{cap:arte}. Em termos gerais, a arquitetura da solução, ilustrada na figura \ref{fig:arquitetura-geral}, é composta por uma rede de dispositivos sensoreados que se comunicam com um servidor em nuvem, sendo este reponsável por armazenar os dados medidos em um banco de dados e, por fim, mostrá-los através de uma aplicação web com gráficos e tabelas, de forma que todos os dados sejam concentrados para facilitar sua análise. Ao final deste capítulo, revisitamos essa arquitetura, apresentando-a de forma mais detalhada com as tecnologias escolhidas para a realização do projeto.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[scale=0.18]{arq_geral_rede.png}
+    \caption{Arquitetura geral da solução proposta}
+    \label{fig:arquitetura-geral}
+\end{figure}
+
+
+\section{Requisitos Técnicos} \label{specs:requisitos}
 
 \subsection{Rede de Sensores}
 
-Com base na pesquisa sobre os protocolos de rede mais adequados para aplicações de redes de sensores no contexto de Internet das coisas, optamos por utilizar BLE em conjunto com Wi-Fi. 
+Com base na pesquisa sobre os protocolos de rede mais adequados para aplicações de redes de sensores no contexto de Internet das coisas, optamos por utilizar a tecnologia \textit{Bluetooth Low Energy} (BLE) em conjunto com Wi-Fi. 
 
-A fim de disponibilizar os dados coletados pelos diferentes sensores acerca do ambiente para posterior análise, se faz necessária uma conexão à Internet dos dispositivos desenvolvidos. Essa conexão será feita através do protocolo Wi-Fi, conectando o dispositivo em si a um ponto de acesso presente no ambiente analisado.
+A fim de disponibilizar os dados coletados pelos diferentes sensores acerca do ambiente para posterior análise, se faz necessária uma conexão à Internet dos dispositivos desenvolvidos. Essa conexão é realizada através do protocolo Wi-Fi, conectando o dispositivo em si a um ponto de acesso presente no ambiente analisado.
 
-Como os dispositivos ficarão em escritórios, não seria ideal que todos eles ficassem conectados à rede Wi-Fi do local. Como mostrado na seção \ref{topologias-rede}, o protocolo Wi-Fi possui alto consumo energético, outro ponto negativo já que visamos alimentar os dispositivos com baterias. Dessa forma, o protocolo BLE será utilizado para interconectar os dispositivos, dado seu baixo consumo de energia, alta escalabilidade e alta taxa de transmissão de dados, quando comparado com as outras tecnologias apresentadas.
+Já que o objetivo é instalar os dispositivos em escritórios, não seria ideal que todos eles ficassem conectados à rede Wi-Fi do local. Como mostrado na seção \ref{topologias-rede}, o protocolo Wi-Fi possui alto consumo energético, outro ponto negativo já que visamos alimentar os dispositivos com baterias. Dessa forma, o protocolo BLE será utilizado para interconectar os dispositivos, dado seu baixo consumo de energia, alta escalabilidade e alta taxa de transmissão de dados, quando comparado com as outras tecnologias apresentadas.
 
 \subsection{Parâmetros de Medição} \label{specs-parametros}
 
@@ -36,6 +45,8 @@ Visando a disponibilidade dos dados para análise a longo prazo, precisamos que 
 Por fim, as medições coletadas devem ser apresentadas de forma gráfica através de um painel de dados (\textit{data dashboard}), para que possam ser visualizadas de forma simplificada. 
 
 \section{Especificação Técnica}% Como atingir os objetivos (requisitos) e apronfunda specs da descrição do problema (especificação inicial)
+
+Dados os requisitos apresentados na seção \ref{specs:requisitos}, definimos aqui as tecnologias utilizadas para a implementação dos três grandes blocos do projeto: o dispositivo sensoreado em si, os protocolos de comunicação para o compartilhamento dos dados coletados e a estrutura do servidor que recebe esses dados e os apresenta para o usuário final.
 
 \subsection{Arquitetura do Dispositivo} 
 A partir da definição dos requisitos técnicos, chegamos a seguinte arquitetura do dispositivo:
@@ -174,13 +185,15 @@ Todos esses serviços citados anteriormente são suportados por diferentes siste
 
 %> Falar de nuvem no final, reforçando a ideia que foi passada nos requisitos, e linkar o geral com a imagem final
 
+\section{Considerações da proposta apresentada}
+
 \begin{figure}[h!]
 	\centering
-	\includegraphics[scale=0.18]{network-architecture.png}
+	\includegraphics[scale=0.15]{network-architecture.png}
 	\caption{Arquitetura da rede implementada}
 	\label{fig:network-architecture}
 \end{figure}
 
-%todo: linkar texto e figura
+A arquitetura da rede, então, tem a forma apresentada na figura \ref{fig:network-architecture}, na qual a rede de dispositivos, interconetados através do protocolo BLE Mesh, envia os dados coletados pelos diferentes sensores e as respostas de \textit{feedback} do usuário para o servidor via Wi-Fi, utilizando-se do protocolo MQTT, implementados no dispositivo \textit{gateway}. O servidor, por sua vez, possui o Eclipse Mosquitto como \textit{MQTT Broker}, o qual recebe os dados publicados pela rede, o Telegraf, responsável pela ponte entre o \textit{MQTT Broker} e o banco de dados InfluxDB. Por fim, os dados são apresentados através de uma plataforma robusta de visualização, o Grafana, altamente configurável e que facilita a interpretação dos parâmetros coletados.
 
 \end{document}
