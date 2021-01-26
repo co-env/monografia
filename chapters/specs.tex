@@ -97,7 +97,9 @@ Em conjunto com um circuito amplificador, atende aos requisitos de \textit{confo
 \subsubsection{Feedback}
 
 %? melhorar texto
-Para interação com os usuários, foi implementado um sistema de coleta de \textit{feedback} nos dispositivos, utilizando um \textit{display} LCD OLED SSD1306 \cite{oled} de 128x64 pixels, com driver de comunicação I²C, e 2 botões do tipo \textit{push button}. 
+Para interação com os usuários, foi implementado um sistema de coleta de \textit{feedback} nos dispositivos, utilizando um \textit{display} LCD OLED SSD1306 \cite{oled} de 128x64 pixels, com driver de comunicação I²C, e 2 botões do tipo \textit{push button}. Perguntas acerca do estado atual do ambiente serão mostradas nesta tela junto às opções de resposta para cada uma e os usuários utilizam os botões para selecionar a resposta desejada.
+
+O objetivo é que a inteface seja simples, apenas peguntando se o usuário está confortável em relação aos quatro indicadores de conforto, como ``Está confortável com a temperatura?" no caso de conforto térmico, e com respostas de ``Sim" ou ``Não", para que a coleta do \textit{feedback} não consuma muito tempo.
 
 \subsubsection{Processador}
 
