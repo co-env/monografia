@@ -14,10 +14,10 @@ Para os sensores e o display, ao desenvolver cada uma das bibliotecas citadas na
 
 Utilizando a biblioteca de logging do ESP-IDF \cite{log-esp}, no modo Info, pudemos analisar os dados coletados pelos sensores, assim como os cálculos realizados, através do \textbf{IDF monitor}, uma ferramenta do ESP-IDF que funciona como um terminal serial, comunicando-se com o ESP32. 
 
-Para calcular a \textbf{intensidade} total da luz no ambiente fizemos alguns testes de calibração no LME, com o auxílio do técnico Carlos Ramos. Utilizando uma célula solar padrão com resposta conhecida, pudemos medir a intensidade real de uma luz branca incidindo sobre ela. Colomos em seguida o sensor AS7262 na mesma posição da célula, incidindo a mesma luz cuja intensidade é agora conhecida. 
+Para calcular a \textbf{intensidade} total da luz no ambiente fizemos alguns testes de calibração no LME, com o auxílio do técnico Carlos Ramos. Utilizando uma célula solar padrão com resposta conhecida, pudemos medir a intensidade real de uma luz branca incidindo sobre ela. Colocando em seguida o sensor AS7262, na mesma posição da célula, e incidindo a mesma luz cuja intensidade é agora conhecida, pudemos realizar medições mais precisas. 
 
 Com leituras para diferentes intensidades, somamos os dados lidos pelo sensor para cada espectro, uma vez que o sensor tem como resposta 6 valores proporcionais à energia por unidade de área da luz incidente em cada um de seus filtros internos. 
-Dividimos esse valor pelo tempo de integração configurado, explicado na seção \ref{as7262}, obtendo assim um valor proporcional à intensidade da luz. 	
+Dividimos esse valor pelo tempo de integração configurado, cujo funcionamento foi explicado na seção \ref{as7262}, obtendo assim um valor proporcional à intensidade da luz. 	
 
 Com esses dados, mostrados na tabela \ref{table:tabela-luz}, foi possível encontrar uma constante calibrada $\alpha$  para a conversão da leitura. \newpage
 
@@ -63,7 +63,7 @@ Encontramos a relação entre a soma lida pelo sensor e a intensidade da luz inc
 
 % \subsubsection{Montagem Final}
 
-Com todos os subsistemas citados anteriormente validados, fabricamos uma PCB em uma fresa CNC e um case utilizando uma impressora 3D. Com isso, fizemos a montagem de um primeiro protótipo, como mostrado na figura \ref{fig:montagem-final}. 
+Foi fabricado um case mecânico em PLA utilizando uma impressora 3D e feita a montagem de um primeiro protótipo, como mostrado na figura \ref{fig:montagem-final}, realizando os ajustes necessários no projeto para o encaixe de todas as peças. 
 
 \begin{figure}[h]
 	\centering
@@ -106,7 +106,9 @@ Em seguida, incluímos ao código o envio dos dados via Wi-Fi, como citado na se
 	\label{fig:dashboard-graphs}
 \end{figure}
 
-Fabricamos mais dois dispositivos para criar a rede BLE-Mesh completa, com um dos dispositivos atuando como \textit{gateway}. A validação funcional de cada um deles seguiu o mesmo teste do primeiro.  
+Fabricamos outros dois dispositivos para criar a rede BLE-Mesh completa, inicialmente com um dos três dispositivos atuando como "\textit{gateway}". A validação funcional de cada um deles seguiu o mesmo teste do primeiro, coletando dados do ambiente com os sensores e enviando para a plataforma via Wi-Fi. 
+
+Com os nós da rede validados, realizando a coleta e o envio das medições do ambiente, foram feitos os testes dos mesmos nós agora utilizando a arquitetura final proposta, com Bluetooth Mesh. 
 
 Para provisionar os dispositivos na rede Mesh, utilizamos o aplicativo nRF Mesh \cite{nrf-app}, da Nordic Semiconductor. As etapas, comuns aos três dispositivos, estão mostradas na figura \ref{fig:app-nrf-mesh}.
 
@@ -140,7 +142,8 @@ Para provisionar os dispositivos na rede Mesh, utilizamos o aplicativo nRF Mesh 
 	\label{fig:app-nrf-mesh}
 \end{figure}
 
-Além dessas etapas, o dispositivo que atuar como gateway precisa também se inscrever (subscribe) em um grupo, nesse caso com endereço 0xC100. 
+\newpage
+Além dessas etapas, o dispositivo que atuar como gateway - nesse caso o dispositivo 1 - precisa também se inscrever (subscribe) em um grupo, esse procedimento é msotrado na figura \ref{mesh-subscribe}. Criamos um grupo com endereço 0xC100 para os testes da rede. 
 
 \begin{figure}[h]
 	\centering
@@ -159,7 +162,7 @@ No dashboard foi possível visualizarmos os dados dos 3 dispositivos em gráfico
 \end{figure}
 
 \newpage
-O dispositivo periodicamente inicia uma coleta de feedback do usuário, junto com uma medição dos indicadores do ambiente. As últimas respostas são mostradas como na figura \ref{fig:dashboard-feedback}. 
+O dispositivo periodicamente inicia uma coleta de feedback do usuário, junto com uma medição dos indicadores do ambiente. As últimas respostas são apresentadas para o usuário como mostra a figura \ref{fig:dashboard-feedback}. 
 
 \begin{figure}[h]
 	\centering
