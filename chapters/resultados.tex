@@ -14,6 +14,8 @@ Para os sensores e o display, ao desenvolver cada uma das bibliotecas citadas na
 
 Utilizando a biblioteca de logging do ESP-IDF \cite{log-esp}, no modo Info, pudemos analisar os dados coletados pelos sensores, assim como os cálculos realizados, através do \textbf{IDF monitor}, uma ferramenta do ESP-IDF que funciona como um terminal serial, comunicando-se com o ESP32. 
 
+\subsection{Intensidade da Luz - AS7262}
+
 Para calcular a \textbf{intensidade} total da luz no ambiente fizemos alguns testes de calibração no LME, com o auxílio do técnico Carlos Ramos. Utilizando uma célula solar padrão com resposta conhecida, pudemos medir a intensidade real de uma luz branca incidindo sobre ela. Colocando em seguida o sensor AS7262, na mesma posição da célula, e incidindo a mesma luz cuja intensidade é agora conhecida, pudemos realizar medições mais precisas. 
 
 Com leituras para diferentes intensidades, somamos os dados lidos pelo sensor para cada espectro, uma vez que o sensor tem como resposta 6 valores proporcionais à energia por unidade de área da luz incidente em cada um de seus filtros internos. 
@@ -53,15 +55,93 @@ Com esses dados, mostrados na tabela \ref{table:tabela-luz}, foi possível encon
 \caption{Tabela de dados coletados na calibração do sensor AS7262}
 \label{table:tabela-luz}
 \end{table}
-\hfill \break
+% \hfill \break
 
 Encontramos a relação entre a soma lida pelo sensor e a intensidade da luz incidente como a constante $\alpha = \frac{Soma}{\Delta t * I} \approx 41,67$. Assim, podemos calcular os valores da intensidade lida no ambinete $I[\mu W/cm^2]=\frac{Soma}{\Delta t * \alpha}$. Como 1 lux equivale a $1,46*10^-7 W/cm^2$, temos: 
 
-\[I[lux]= 0,146*\frac{Soma}{\Delta t * \alpha}\] \newpage
+\[I[lux]= 0,146*\frac{Soma}{\Delta t * \alpha}\] %\newpage
+% \hfill \break
+
+Com esses valores de calibração, fizemos um teste mudando a luz incidente sob o sensor para validar a biblioteca completa. No dashboard é possível ver um aumento da intensidade da luz quando um abajur é ligado, em torno das 21h22, como mostra a figura \ref{fig:teste-luz}. 
+
+\begin{figure}[h]
+\centering
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{teste-luz.png}
+		\caption{Arranjo do teste de luz}
+		\label{fig:arranjo-luz}
+	\end{subfigure}%
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{dashboard-luz}
+		\caption{Gráfico temporal das leituras}
+		\label{fig:dash-luz}
+	\end{subfigure}
+	\caption{Testes de intensidade da luz}
+	\label{fig:teste-luz}
+\end{figure}
+\newpage
+
+\subsection{Qualidade do Ar - SGP30}
+
+Para verificar o funcionamento do sensor de qualidade do ar, fizemos dois testes, monitorando os valores coletados pelo sensor através do gráfico temporal do dashboard. 
+
+O primeiro teste foi substância em suspensão no ar. Após a calibração do sensor e uma estabilização das leituras, espirramos um ar logo acima do sensor SGP30 um odorizante de ambiente, como o mostrado na figura \ref{fig:teste-sgp30}. No dashboard em 21h07 é possível ver o aumento na concentração de TVOC e de eCO2. Esse aumento é esperado pois o odorizante é composto de substâncias orgânicas voláteis e alguns gases comprimidos que geram CO2. 
+Em seguida foi ligado um ventilador de mesa ao lado do sensor. Com uma maior circulação do ar, vimos uma diminuição da concentração de TVOC e eCO2 no ambiente. 
+
+\begin{figure}[h]
+\centering
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{teste-ar}
+		\caption{Arranjo do teste de suspensão}
+		\label{fig:glade}
+	\end{subfigure}%
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{teste-ventilador}
+		\caption{Arranjo do teste com ventilador}
+		\label{fig:ventilador}
+	\end{subfigure}%
+	\hfill
+	\begin{subfigure}{0.6\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{dashboard-ar}
+		\caption{Gráfico temporal das leituras}
+		\label{fig:dash-ar}
+	\end{subfigure}
+	\caption{Testes de qualidade do ar}
+	\label{fig:teste-sgp30}
+\end{figure}
+% \hfill \break
+
+\subsection{Temperatura e Umidade - BME280}
+
+Com um secador de cabelo, jogamos ar quente e seco sobre o sensor BME280. Pelo dashboard foi possível visualizar um aumento gradativo da temperatura e uma redução da umidade relativa do ar, após 21h15.
+
+Com o mesmo teste feito com o ventilador \ref{fig:ventilador}, em torno de 21h10, foi possível ver que o fluxo de ar influencia também na temperatura.
+
+\begin{figure}[h]
+\centering
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{teste-secador}
+		\caption{Arranjo do teste}
+		\label{fig:arranjo-luz}
+	\end{subfigure}%
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{dashboard-temperatura}
+		\caption{Gráfico temporal das leituras}
+		\label{fig:dash-luz}
+	\end{subfigure}
+	\caption{Testes de temperatura e umidade}
+	\label{fig:teste-sgp30}
+\end{figure}
+% \hfill \break
 
 \section{Validação do Dispositivo} %? Teste Completo
-
-% \subsubsection{Montagem Final}
 
 Foi fabricado um case mecânico em PLA utilizando uma impressora 3D e feita a montagem de um primeiro protótipo, como mostrado na figura \ref{fig:montagem-final}, realizando os ajustes necessários no projeto para o encaixe de todas as peças. 
 
@@ -87,7 +167,6 @@ Para validação de cada subcircuito presente na PCB, utilizamos os mesmos exemp
 
 Com o firmware completo desenvolvido, fizemos testes com esse dispositivo, utilizando a mesma biblioteca de Log e o IDF monitor para visualizar as leituras. Os dados dos quatro sensores operando em paralelo podem ser vistos na figura \ref{fig:monitor-sensors}.
 
-%! monitor com dados sensores
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.6\textwidth]{monitor-sensors}
@@ -182,8 +261,7 @@ Para cada parâmetro monitorado, foram definidos valores limiares segundo os ní
 
 A figura \ref{fig:dashboard-alerta} ilustra um caso em que houve o disparo de uma notificação de alerta: às 18:30, o sistema percebeu que os valores presentes nas séries de cor roxa e azul estavam acima do limiar de 31 °C, que foram monitorados até às 18:34, quando ocorreu o disparo de uma notificação de alerta, ilustrada na figura \ref{fig:slack-alerta}. Finalmente, podemos visualizar que os valores retornaram a níveis abaixo do limiar às 18:39, sendo enviada uma nova notificação para informar essa volta à normalidade, como visto na figura \ref{fig:slack-ok}.
 
-
-\begin{figure}[h!]
+\begin{figure}[h]
 	\centering
 	\begin{subfigure}[b]{0.7\textwidth}
 		\includegraphics[width=\textwidth]{grafana-slack-alert.png}
@@ -200,7 +278,5 @@ A figura \ref{fig:dashboard-alerta} ilustra um caso em que houve o disparo de um
 	\caption{Exemplo de recebimento de notificações de alerta no serviço Slack}
 	\label{fig:slack-notifications}
 \end{figure}
-
-
 
 \end{document}
